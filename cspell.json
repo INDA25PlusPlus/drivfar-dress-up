@@ -9,6 +9,7 @@
         "dkms",
         "Mkfile",
         "ovve",
+        "Savela",
         "SFML"
     ],
     "ignoreWords": [],
