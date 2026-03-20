@@ -7,10 +7,12 @@
         "commitmeddelanden",
         "CSFML",
         "dkms",
+        "IWYU",
         "Mkfile",
         "ovve",
         "Savela",
-        "SFML"
+        "SFML",
+        "treefmt"
     ],
     "ignoreWords": [],
     "import": []
