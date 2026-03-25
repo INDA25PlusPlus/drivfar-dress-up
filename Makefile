@@ -1,5 +1,6 @@
 CC = gcc
-# CFLAGS  
+# CFLAGS 
+LDFLAGS := -lcsfml-graphics  -lcsfml-window -lcsfml-system
 
 TARGET_EXEC := program
 
@@ -20,7 +21,7 @@ check-deps:
 
 $(TARGET_EXEC): $(OBJS)
 	@echo "Linking $(TARGET_EXEC)..."
-	@$(CC) $^ -o $@
+	@$(CC) $^ $(LDFLAGS) -o $@ -l 
 	@test -f $@ && echo "Build successful"
 
 $(BUILD_DIR)/%.o: $(SRC_DIRS)/%.c
