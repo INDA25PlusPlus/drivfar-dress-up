@@ -1,5 +1,5 @@
 CC = gcc
-# CFLAGS = 
+# CFLAGS  
 
 TARGET_EXEC := program
 
@@ -12,7 +12,11 @@ SRCS := $(shell find $(SRC_DIRS) -name '*.c')
 # create corresponding build paths
 OBJS := $(SRCS:$(SRC_DIRS)/%.c=$(BUILD_DIR)/%.o)
 
-all: $(TARGET_EXEC)
+all: check-deps $(TARGET_EXEC)
+
+check-deps: 
+	@pkg-config --exists csfml-graphics csfml-window csfml-system || \
+		(echo "Error: CSFML not installed"; exit 1)
 
 $(TARGET_EXEC): $(OBJS)
 	@echo "Linking $(TARGET_EXEC)..."
@@ -23,10 +27,10 @@ $(BUILD_DIR)/%.o: $(SRC_DIRS)/%.c
 	@mkdir -p $(dir $@)
 	@$(CC) -c $< -o $@
 
-
-.PHONY: clean
 clean:
 	@echo "Cleaning..."
 	@rm -rf $(BUILD_DIR) $(TARGET_EXEC)
 	@test ! -f $(BUILD_DIR) $(TARGET) && echo "Done cleaning"
 	
+
+.PHONY: all clean check-deps
