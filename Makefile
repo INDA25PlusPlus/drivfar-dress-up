@@ -13,15 +13,12 @@ SRCS := $(shell find $(SRC_DIRS) -name '*.c')
 # create corresponding build paths
 OBJS := $(SRCS:$(SRC_DIRS)/%.c=$(BUILD_DIR)/%.o)
 
-all: check-deps $(TARGET_EXEC)
+all: $(TARGET_EXEC)
 
-check-deps: 
-	@pkg-config --exists csfml-graphics csfml-window csfml-system || \
-		(echo "Error: CSFML not installed"; exit 1)
 
 $(TARGET_EXEC): $(OBJS)
 	@echo "Linking $(TARGET_EXEC)..."
-	@$(CC) $^ $(LDFLAGS) -o $@ -l 
+	@$(CC) $^ -o $@
 	@test -f $@ && echo "Build successful"
 
 $(BUILD_DIR)/%.o: $(SRC_DIRS)/%.c
