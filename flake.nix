@@ -22,6 +22,7 @@
         devShells.default = pkgs.mkShell {
           packages = [
             pkgs.csfml
+            pkgs.pkg-config
           ];
         };
 

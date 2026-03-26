@@ -1,6 +1,9 @@
 CC = gcc
-# CFLAGS 
-LDFLAGS := -lcsfml-graphics  -lcsfml-window -lcsfml-system
+PKG_CONFIG ?= pkg-config
+CSFML_PKGS := csfml-graphics csfml-window csfml-system
+
+CFLAGS += $(shell $(PKG_CONFIG) --cflags $(CSFML_PKGS))
+LDLIBS += $(shell $(PKG_CONFIG) --libs $(CSFML_PKGS))
 
 TARGET_EXEC := program
 
@@ -18,12 +21,12 @@ all: $(TARGET_EXEC)
 
 $(TARGET_EXEC): $(OBJS)
 	@echo "Linking $(TARGET_EXEC)..."
-	@$(CC) $^ -o $@
+	@$(CC) $^ $(LDLIBS) -o $@
 	@test -f $@ && echo "Build successful"
 
 $(BUILD_DIR)/%.o: $(SRC_DIRS)/%.c
 	@mkdir -p $(dir $@)
-	@$(CC) -c $< -o $@
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
 	@echo "Cleaning..."

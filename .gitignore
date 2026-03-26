@@ -1,3 +1,7 @@
+# Build files
+/program
+/build
+
 # Prerequisites
 *.d
 

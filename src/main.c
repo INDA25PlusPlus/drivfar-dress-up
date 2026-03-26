@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include "CSFML/Graphics.h"
 
 int main()
 {
