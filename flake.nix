@@ -23,6 +23,8 @@
           packages = [
             pkgs.csfml
             pkgs.pkg-config
+            # For clang-format
+            pkgs.clang-tools
           ];
         };
 

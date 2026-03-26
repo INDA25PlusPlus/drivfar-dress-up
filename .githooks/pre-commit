@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -e
+
+if ! make check-fmt; then
+    echo "Formatting issue found, please run 'make fmt' before committing."
+    exit 1
+fi
+
+
