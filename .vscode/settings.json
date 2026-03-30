@@ -1,4 +1,15 @@
 {
     "makefile.configureOnOpen": true,
-    "nixEnvSelector.suggestion": false
+    "nixEnvSelector.suggestion": false,
+    "configurations": [
+    {
+      "name": "WSL",
+      "includePath": [
+        "/usr/include",
+        "/usr/include/SFML"
+      ],
+      "compilerPath": "/usr/bin/gcc",
+      "intelliSenseMode": "linux-gcc-x64"
+    }
+  ]
 }
