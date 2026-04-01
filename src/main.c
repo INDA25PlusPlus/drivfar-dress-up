@@ -1,6 +1,6 @@
 #include <stdio.h>
-#include <SFML/Audio.h>
-#include <SFML/Graphics.h>
+#include <CSFML/Audio.h>
+#include <CSFML/Graphics.h>
 #include <stdbool.h>
 
 typedef enum { PAGE_DRESS_UP, PAGE_GRADING } Page;
@@ -9,15 +9,17 @@ static bool isMouseOverText(sfText *text, sfRenderWindow *window)
 {
 	sfFloatRect bounds = sfText_getGlobalBounds(text);
 	sfVector2i mousePos = sfMouse_getPositionRenderWindow(window);
-	return sfFloatRect_contains(&bounds, (float)mousePos.x,
-				    (float)mousePos.y);
+
+	return sfFloatRect_contains(&bounds, (sfVector2f){ (float)mousePos.x,
+							   (float)mousePos.y });
 }
 
 int main(void)
 {
 	sfVideoMode mode = { 800, 600, 32 };
-	sfRenderWindow *window = sfRenderWindow_create(
-		mode, "Dress Up Skeleton", sfResize | sfClose, NULL);
+	sfRenderWindow *window =
+		sfRenderWindow_create(mode, "Dress Up Skeleton",
+				      sfResize | sfClose, sfWindowed, NULL);
 	if (!window)
 		return 1;
 
@@ -29,13 +31,13 @@ int main(void)
 		return 1;
 	}
 
-	sfSprite *backgroundSprite = sfSprite_create();
+	sfSprite *backgroundSprite = sfSprite_create(backgroundTexture);
 	if (!backgroundSprite) {
 		sfTexture_destroy(backgroundTexture);
 		sfRenderWindow_destroy(window);
 		return 1;
 	}
-	sfSprite_setTexture(backgroundSprite, backgroundTexture, sfTrue);
+	sfSprite_setTexture(backgroundSprite, backgroundTexture, true);
 
 	/* Scale background to fit window */
 	sfVector2u textureSize = sfTexture_getSize(backgroundTexture);
@@ -64,25 +66,25 @@ int main(void)
 		sfRenderWindow_destroy(window);
 		return 1;
 	}
-	sfMusic_setLoop(music, sfTrue);
+	sfMusic_setLooping(music, true);
 	sfMusic_play(music);
 
 	/* Main title */
-	sfText *titleText = sfText_create();
+	sfText *titleText = sfText_create(font);
 	sfText_setFont(titleText, font);
 	sfText_setCharacterSize(titleText, 42);
 	sfText_setPosition(titleText, (sfVector2f){ 40.f, 30.f });
 	sfText_setFillColor(titleText, sfBlack);
 
 	/* Body text */
-	sfText *bodyText = sfText_create();
+	sfText *bodyText = sfText_create(font);
 	sfText_setFont(bodyText, font);
 	sfText_setCharacterSize(bodyText, 28);
 	sfText_setPosition(bodyText, (sfVector2f){ 40.f, 120.f });
 	sfText_setFillColor(bodyText, sfBlack);
 
 	/* Right arrow */
-	sfText *arrowText = sfText_create();
+	sfText *arrowText = sfText_create(font);
 	sfText_setFont(arrowText, font);
 	sfText_setString(arrowText, ">");
 	sfText_setCharacterSize(arrowText, 60);
@@ -90,7 +92,7 @@ int main(void)
 	sfText_setFillColor(arrowText, sfBlack);
 
 	/* Left arrow */
-	sfText *backArrowText = sfText_create();
+	sfText *backArrowText = sfText_create(font);
 	sfText_setFont(backArrowText, font);
 	sfText_setString(backArrowText, "<");
 	sfText_setCharacterSize(backArrowText, 60);
