@@ -1,6 +1,6 @@
 CC = gcc
 PKG_CONFIG ?= pkg-config
-CSFML_PKGS := csfml-graphics csfml-window csfml-system
+CSFML_PKGS := csfml-graphics csfml-window csfml-system csfml-audio
 
 CFLAGS += $(shell $(PKG_CONFIG) --cflags $(CSFML_PKGS))
 LDLIBS += $(shell $(PKG_CONFIG) --libs $(CSFML_PKGS))
