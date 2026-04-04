@@ -2,6 +2,7 @@
 #include <CSFML/Audio.h>
 #include <CSFML/Graphics.h>
 #include <stdbool.h>
+#include "garment.h"
 
 typedef enum { PAGE_DRESS_UP, PAGE_GRADING } Page;
 
@@ -16,6 +17,10 @@ static bool isMouseOverText(sfText *text, sfRenderWindow *window)
 
 int main(void)
 {
+	if (!load_garments()) {
+		return 1;
+	}
+
 	sfVideoMode mode = { 800, 600, 32 };
 	sfRenderWindow *window =
 		sfRenderWindow_create(mode, "Dress Up Skeleton",
@@ -46,6 +51,48 @@ int main(void)
 				  (sfVector2f){ 800.f / (float)textureSize.x,
 						600.f / (float)textureSize.y });
 	}
+
+	sfSprite *shirt_colored_sprite =
+		sfSprite_create(garments[GARMENT_TEST_A].colored_texture);
+	if (!shirt_colored_sprite) {
+		sfTexture_destroy(backgroundTexture);
+		sfSprite_destroy(backgroundSprite);
+		sfRenderWindow_destroy(window);
+		return 1;
+	}
+	sfSprite_setColor(shirt_colored_sprite,
+			  (sfColor){ 0xe8, 0x3d, 0x84, 0xff });
+	sfSprite_setPosition(shirt_colored_sprite,
+			     (sfVector2f){ 490.f, 120.f });
+	sfVector2u colored_texture_size =
+		sfTexture_getSize(garments[GARMENT_TEST_A].colored_texture);
+	sfSprite_setScale(
+		shirt_colored_sprite,
+		(sfVector2f){
+			300.f / (float)sfTexture_getSize(
+					garments[GARMENT_TEST_A].colored_texture)
+					.x,
+			300.f / (float)sfTexture_getSize(
+					garments[GARMENT_TEST_A].colored_texture)
+					.y });
+
+	sfSprite *shirt_details_sprite =
+		sfSprite_create(garments[GARMENT_TEST_A].details_texture);
+	if (!shirt_details_sprite) {
+		sfTexture_destroy(backgroundTexture);
+		sfSprite_destroy(backgroundSprite);
+		sfSprite_destroy(shirt_colored_sprite);
+		sfRenderWindow_destroy(window);
+		return 1;
+	}
+	sfSprite_setPosition(shirt_details_sprite,
+			     (sfVector2f){ 490.f, 120.f });
+	sfVector2u details_texture_size =
+		sfTexture_getSize(garments[GARMENT_TEST_A].details_texture);
+	sfSprite_setScale(
+		shirt_details_sprite,
+		(sfVector2f){ 300.f / (float)details_texture_size.x,
+			      300.f / (float)details_texture_size.y });
 
 	/* Font */
 	sfFont *font = sfFont_createFromFile("arial.ttf");
@@ -151,6 +198,9 @@ int main(void)
 			sfRenderWindow_drawText(window, arrowText, NULL);
 		else
 			sfRenderWindow_drawText(window, backArrowText, NULL);
+
+		sfRenderWindow_drawSprite(window, shirt_colored_sprite, NULL);
+		sfRenderWindow_drawSprite(window, shirt_details_sprite, NULL);
 
 		sfRenderWindow_display(window);
 	}

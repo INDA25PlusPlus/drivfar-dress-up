@@ -16,27 +16,12 @@ typedef enum {
 // Hard coded list of garments, the order decides which order they are rendered
 // in, with later items placed on top of earlier ones.
 typedef enum {
+	// The names should be prefixed by `GARMENT_`.
 	GARMENT_TEST_A,
 	GARMENT_TEST_B,
 } garment_id_t;
 
 // Represents a piece of clothing or accessory.
-typedef struct {
-	garment_id_t id;
-	garment_type_t type;
-	// The user-facing name of the garment.
-	const char *name;
-	// Path to the image file containing the parts of the garment which
-	// should be tinted by the selected color. This image's base color
-	// should be white.
-	const char *colored_path;
-	// Path to the image file containing any details which shouldn't be
-	// affected by the selected color (e.g. outlines).
-	const char *details_path;
-	// TODO: We will probably need more properties to control where the
-	//   asset is placed.
-} garment_definition_t;
-
 typedef struct {
 	garment_id_t id;
 	garment_type_t type;
@@ -62,5 +47,13 @@ typedef struct {
 	garment_id_t id;
 	color_t color;
 } garment_t;
+
+// The list of loaded garment assets. Is indexed using `garment_id_t`.
+//
+// Must not be accessed before `load_garments` has been called.
+extern garment_asset_t garments[];
+
+// Load garnet assets. Returns false if error is encountered.
+bool load_garments();
 
 #endif
