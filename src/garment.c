@@ -1,6 +1,19 @@
 #include <CSFML/Graphics.h>
 #include "garment.h"
 
+sfColor color_to_sf_color(color_t color)
+{
+	switch (color) {
+	case COLOR_RED:
+		return (sfColor){ 0xe8, 0x3d, 0x40, 0xff };
+	case COLOR_CERISE:
+		return (sfColor){ 0xe8, 0x3d, 0x84, 0xff };
+	}
+}
+
+// Version defining a garment asset used for the hard-coded
+// `garment_definitions` array. This stores the graphics as paths, in contrast
+// to `garment_asset_t`, which contains the loaded textures objects.
 typedef struct {
 	garment_id_t id;
 	garment_type_t type;
@@ -13,10 +26,12 @@ typedef struct {
 	// Path to the image file containing any details which shouldn't be
 	// affected by the selected color (e.g. outlines).
 	const char *details_path;
-	// TODO: We will probably need more properties to control where the
-	//   asset is placed.
+	// TODO: We will probably need more members to control where the asset
+	//   is placed.
 } garment_definition_t;
 
+// If you want to add a new garment asset: create a new enum member in
+// `garnet_id_t`, and add a new entry in this array with that ID.
 static garment_definition_t garment_definitions[] = {
 	[GARMENT_TEST_A] =
 		(garment_definition_t){

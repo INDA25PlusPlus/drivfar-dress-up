@@ -34,15 +34,20 @@ typedef struct {
 	// be affected by the selected color. Is never destroyed. Is drawn on
 	// top of the colored layer.
 	const sfTexture *details_texture;
-	// TODO: We will probably need more properties to control where the
-	//   asset is placed.
+	// TODO: We will probably need more members to control where the asset
+	//   is placed.
 } garment_asset_t;
 
+// The palette colors which the user can select for a garment.
 typedef enum {
 	COLOR_RED,
 	COLOR_CERISE,
 } color_t;
 
+// Returns the color of one of the palette colors.
+sfColor color_to_sf_color(color_t color);
+
+// A garment which has a configured color.
 typedef struct {
 	garment_id_t id;
 	color_t color;
