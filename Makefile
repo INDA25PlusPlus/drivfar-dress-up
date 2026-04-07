@@ -5,7 +5,7 @@ CSFML_PKGS := csfml-graphics csfml-window csfml-system csfml-audio
 CFLAGS += $(shell $(PKG_CONFIG) --cflags $(CSFML_PKGS))
 LDLIBS += $(shell $(PKG_CONFIG) --libs $(CSFML_PKGS))
 
-CFLAGS += -Isrc
+CFLAGS += -Isrc -Wall
 
 TARGET_EXEC := program
 # The test runner executable.
