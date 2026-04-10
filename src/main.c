@@ -16,7 +16,7 @@ static bool isMouseOverText(sfText *text, sfRenderWindow *window)
 
 int main(void)
 {
-	sfVideoMode mode = { 800, 600, 32 };
+	sfVideoMode mode = { { 800, 600 }, 32 };
 	sfRenderWindow *window =
 		sfRenderWindow_create(mode, "Dress Up Skeleton",
 				      sfResize | sfClose, sfWindowed, NULL);

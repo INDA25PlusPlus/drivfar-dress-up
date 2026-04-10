@@ -12,7 +12,8 @@
         "ovve",
         "Savela",
         "SFML",
-        "treefmt"
+        "treefmt",
+        "utest"
     ],
     "ignoreWords": [],
     "import": []

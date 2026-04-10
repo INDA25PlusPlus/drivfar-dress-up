@@ -25,6 +25,7 @@
             pkgs.pkg-config
             # For clang-format
             pkgs.clang-tools
+            pkgs.just
           ];
         };
 
