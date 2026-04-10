@@ -11,5 +11,7 @@
       "compilerPath": "/usr/bin/gcc",
       "intelliSenseMode": "linux-gcc-x64"
     }
-  ]
+  ],
+  "editor.tabSize": 8,
+  "editor.insertSpaces": false
 }
