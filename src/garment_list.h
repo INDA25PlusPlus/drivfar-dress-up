@@ -7,19 +7,19 @@
 #include "assert.h"
 
 typedef struct {
-	size_t len;
-	size_t capacity;
-	garment_t *items;
-} garment_list_t;
+    size_t len;
+    size_t capacity;
+    Garment *items;
+} GarmentList;
 
-garment_list_t *garment_list_create();
+GarmentList *garmentListCreate();
 
-void garment_list_destroy(garment_list_t *list);
+void garmentListDestroy(GarmentList *list);
 
-void garment_list_push(garment_list_t *list, garment_t garment);
+void garmentListPush(GarmentList *list, Garment garment);
 
 // Removes the specified index from the list, shifting the other elements after
 // it one index down.
-void garment_list_remove_index(garment_list_t *list, size_t index);
+void garmentListRemoveIndex(GarmentList *list, size_t index);
 
 #endif

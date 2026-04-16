@@ -115,9 +115,9 @@ options. This required changing the implementation of `UiFrame`.
 - Enkla enhetstester kan implementeras där det är lämpligt (framförallt för logik, t.ex. betygssystemet)
 
 Identifierarnamn skrivs på följande vis:
-- Funktionsnamn: snake case (t.ex. `super_cool_function`)
-- Variabelnamn: snake case (samma som funktioner)
-- Typnamn: snake case med en `_t` suffix (t.ex. `super_cool_type_t`)
+- Funktionsnamn: camel case (t.ex. `superCoolFunction`)
+- Variabelnamn: camel case (samma som funktioner)
+- Typnamn: camel case med stor första bokstav (t.ex. `SuperCoolType`)
 - Makronamn: title case (t.ex.`SUPER_COOL_MACRO`)
 
 Ett exempel som visar alla sorter:
@@ -128,16 +128,16 @@ Ett exempel som visar alla sorter:
 typedef struct {
     int id;
     char *name;
-} object_t;
+} Object;
 
 // A global variable
-static object_t global_object;
+static Object globalObject;
 
 // A macro
 #define ADD_NUMBERS(a, b) ((a) + (b))
 
 // A function
-static uint64_t do_calculation(uint64_t a, uint64_t b) {
+static uint64_t doCalculation(uint64_t a, uint64_t b) {
     // A local variable
     uint64_t result = ADD_NUMBERS(a, b) * 2;
     return result;
