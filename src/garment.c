@@ -6,9 +6,33 @@ sfColor colorToSfColor(PaletteColor color)
     switch (color) {
     case COLOR_RED:
         return (sfColor){ 0xe8, 0x3d, 0x40, 0xff };
+    case COLOR_RED_ORANGE:
+        return (sfColor){ 0xeb, 0x64, 0x32, 0xff };
+    case COLOR_ORANGE:
+        return (sfColor){ 0xf2, 0x8c, 0x28, 0xff };
+    case COLOR_YELLOW_ORANGE:
+        return (sfColor){ 0xf0, 0xb8, 0x2e, 0xff };
+    case COLOR_YELLOW:
+        return (sfColor){ 0xf2, 0xd2, 0x30, 0xff };
+    case COLOR_YELLOW_GREEN:
+        return (sfColor){ 0xa8, 0xc9, 0x3a, 0xff };
+    case COLOR_GREEN:
+        return (sfColor){ 0x4c, 0xb9, 0x63, 0xff };
+    case COLOR_BLUE_GREEN:
+        return (sfColor){ 0x36, 0xb0, 0xa1, 0xff };
+    case COLOR_BLUE:
+        return (sfColor){ 0x3d, 0x7e, 0xe8, 0xff };
+    case COLOR_BLUE_VIOLET:
+        return (sfColor){ 0x5f, 0x55, 0xd9, 0xff };
+    case COLOR_VIOLET:
+        return (sfColor){ 0x8b, 0x4c, 0xd6, 0xff };
+    case COLOR_RED_VIOLET:
+        return (sfColor){ 0xc2, 0x43, 0xb5, 0xff };
     case COLOR_CERISE:
         return (sfColor){ 0xe8, 0x3d, 0x84, 0xff };
     }
+
+    return sfWhite;
 }
 
 // Version defining a garment asset used for the hard-coded
