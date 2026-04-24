@@ -1,3 +1,8 @@
+# Uses:
+# `make clean` to clean the build artifacts.
+# `make` or `make all` to build the program.
+# `make fmt` to format the source code using clang-format.
+
 CC = gcc
 PKG_CONFIG ?= pkg-config
 CSFML_PKGS := csfml-graphics csfml-window csfml-system csfml-audio
