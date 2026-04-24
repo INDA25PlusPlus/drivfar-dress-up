@@ -7,8 +7,20 @@ CC = gcc
 PKG_CONFIG ?= pkg-config
 CSFML_PKGS := csfml-graphics csfml-window csfml-system csfml-audio
 
-CFLAGS += $(shell $(PKG_CONFIG) --cflags $(CSFML_PKGS))
-LDLIBS += $(shell $(PKG_CONFIG) --libs $(CSFML_PKGS))
+# Use pkg-config if available and the packages exist.
+HAVE_CSFML_PC := $(shell command -v $(PKG_CONFIG) >/dev/null 2>&1 && \
+    $(PKG_CONFIG) --exists $(CSFML_PKGS) && echo yes)
+
+ifeq ($(HAVE_CSFML_PC),yes)
+  CFLAGS += $(shell $(PKG_CONFIG) --cflags $(CSFML_PKGS))
+  LDFLAGS += $(shell $(PKG_CONFIG) --libs $(CSFML_PKGS))
+else
+  # TODO: Maybe don't assume homebrew is used?
+  # Can be overriden by adding an environment variable
+  CSFML_PREFIX ?= /opt/homebrew
+  CFLAGS += -I$(CSFML_PREFIX)/include
+  LDFLAGS += -L$(CSFML_PREFIX)/lib $(addprefix -l,$(CSFML_PKGS))
+endif
 
 CFLAGS += -Isrc -Wall
 
@@ -32,7 +44,7 @@ all: $(TARGET_EXEC)
 
 $(TARGET_EXEC): $(OBJS)
 	@echo "Linking $(TARGET_EXEC)..."
-	$(CC) $^ $(LDLIBS) -o $@
+	$(CC) $^ $(LDFLAGS) -o $@
 	@test -f $@ && echo "Build successful"
 
 # TODO: They currently don't depend on any *.h files.
@@ -46,7 +58,7 @@ $(BUILD_DIR)/%.o: $(SRC_DIRS)/%.c
 TEST_OBJS := $(foreach src,$(shell find $(TESTS_DIR) -name '*.c'),$(src:$(TESTS_DIR)/%.c=$(BUILD_DIR)/tests/%.o))
 
 $(TESTER_EXEC): $(TEST_OBJS) $(OBJS_NOT_MAIN)
-	$(CC) $^ $(LDLIBS) -o $@
+	$(CC) $^ $(LDFLAGS) -o $@
 
 # TODO: They currently don't depend on any *.h files.
 $(BUILD_DIR)/tests/%.o: $(TESTS_DIR)/%.c
