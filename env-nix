@@ -1,0 +1,105 @@
+SHELL=/nix/store/0550j0i8bmzxbcnzrg1g51zigj7y12ih-bash-interactive-5.3p9/bin/bash
+NIX_BUILD_CORES=12
+NIX_GCROOT=/nix/store/4crf0klni1vs3yf4dcgrq0drk6hs3l9k-nix-shell-env
+WSL2_GUI_APPS_ENABLED=1
+configureFlags=
+WSL_DISTRO_NAME=Ubuntu
+mesonFlags=
+PKG_CONFIG_PATH=/nix/store/6cps82m63w3vd1d5px3md2kcdjq9nsdz-csfml-3.0.0/lib/pkgconfig
+shell=/nix/store/2hjsch59amjs3nbgh7ahcfzm2bfwl8zi-bash-5.3p9/bin/bash
+depsHostHost=
+STRINGS=strings
+depsTargetTarget=
+stdenv=/nix/store/zkiy4zv8wz3v95bj6fdmkqwql8x1vnhb-stdenv-linux
+builder=/nix/store/2hjsch59amjs3nbgh7ahcfzm2bfwl8zi-bash-5.3p9/bin/bash
+__ETC_PROFILE_NIX_SOURCED=1
+shellHook=
+phases=buildPhase
+NAME=DESKTOP-QHSCD1M
+PWD=/mnt/c/GitHub/drivfar-dress-up
+NIX_PROFILES=/nix/var/nix/profiles/default /home/niko/.nix-profile
+SOURCE_DATE_EPOCH=315532800
+LOGNAME=niko
+NIX_ENFORCE_NO_NATIVE=1
+CXX=g++
+TEMPDIR=/tmp/nix-shell.4yUKUg
+system=x86_64-linux
+HOST_PATH=/nix/store/hlxw2q9qansq7bn52xvlb5badw3z1v8s-coreutils-9.10/bin:/nix/store/b3rx5wac9hhfxn9120xkcvdwj51mc9z2-findutils-4.10.0/bin:/nix/store/icrrz26xbyp293kagrlkab1bhc6gra0r-diffutils-3.12/bin:/nix/store/wv7qq5yb8plyhxji9x3r5gpkyfm2kf29-gnused-4.9/bin:/nix/store/8laf6k81j9ckylrigj3xsk76j69knhvl-gnugrep-3.12/bin:/nix/store/gf7b4yz4vhd0y2hnnrimhh875ghwzzzj-gawk-5.3.2/bin:/nix/store/isva9q9zx3frx6hh6cnpihh1kd2bx6bk-gnutar-1.35/bin:/nix/store/w1n7yp2vnldr395hbwbcaw9sflh413bm-gzip-1.14/bin:/nix/store/x8l7qzpab2gpdrp89g48mxlrsiz4f0gm-bzip2-1.0.8-bin/bin:/nix/store/0xw6y53ijaqwfd9c99wyaqiinychzv1f-gnumake-4.4.1/bin:/nix/store/2hjsch59amjs3nbgh7ahcfzm2bfwl8zi-bash-5.3p9/bin:/nix/store/8y5jm97n4lyw80gh71yihghbhqc11fdz-patch-2.8/bin:/nix/store/27fx8p4k6098wan3zahdbyj79ndcn03z-xz-5.8.2-bin/bin:/nix/store/p3j7lphwlci13f9w2v4rav6rbvpi80li-file-5.45/bin
+IN_NIX_SHELL=impure
+doInstallCheck=
+HOME=/home/niko
+NIX_BINTOOLS=/nix/store/4yi6jj75bb5hhdzpzlxfyf69d35wsf2x-binutils-wrapper-2.44
+LANG=C.UTF-8
+WSL_INTEROP=/run/WSL/6029_interop
+LS_COLORS=rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=00:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.avif=01;35:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:*~=00;90:*#=00;90:*.bak=00;90:*.crdownload=00;90:*.dpkg-dist=00;90:*.dpkg-new=00;90:*.dpkg-old=00;90:*.dpkg-tmp=00;90:*.old=00;90:*.orig=00;90:*.part=00;90:*.rej=00;90:*.rpmnew=00;90:*.rpmorig=00;90:*.rpmsave=00;90:*.swp=00;90:*.tmp=00;90:*.ucf-dist=00;90:*.ucf-new=00;90:*.ucf-old=00;90:
+depsTargetTargetPropagated=
+WAYLAND_DISPLAY=wayland-0
+cmakeFlags=
+NIX_SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt
+outputs=out
+NIX_STORE=/nix/store
+TMPDIR=/tmp/nix-shell.4yUKUg
+LD=ld
+buildPhase={ echo "------------------------------------------------------------";
+  echo " WARNING: the existence of this path is not guaranteed.";
+  echo " It is an internal implementation detail for pkgs.mkShell.";
+  echo "------------------------------------------------------------";
+  echo;
+  # Record all build inputs as runtime dependencies
+  export;
+} >> "$out"
+
+READELF=readelf
+doCheck=
+depsBuildBuild=
+LESSCLOSE=/usr/bin/lesspipe %s %s
+TERM=xterm-256color
+SIZE=size
+propagatedNativeBuildInputs=
+LESSOPEN=| /usr/bin/lesspipe %s
+strictDeps=
+USER=niko
+AR=ar
+AS=as
+TEMP=/tmp/nix-shell.4yUKUg
+NIX_BINTOOLS_WRAPPER_TARGET_HOST_x86_64_unknown_linux_gnu=1
+DISPLAY=:0
+SHLVL=2
+NIX_BUILD_TOP=/tmp/nix-shell.4yUKUg
+NM=nm
+NIX_CFLAGS_COMPILE= -frandom-seed=4crf0klni1 -isystem /nix/store/6cps82m63w3vd1d5px3md2kcdjq9nsdz-csfml-3.0.0/include -isystem /nix/store/6cps82m63w3vd1d5px3md2kcdjq9nsdz-csfml-3.0.0/include
+patches=
+buildInputs=
+preferLocalBuild=1
+XDG_RUNTIME_DIR=/run/user/1000/
+NIX_PKG_CONFIG_WRAPPER_TARGET_HOST_x86_64_unknown_linux_gnu=1
+depsBuildTarget=
+OBJCOPY=objcopy
+out=/mnt/c/GitHub/drivfar-dress-up/outputs/out
+WSLENV=
+STRIP=strip
+XDG_DATA_DIRS=/nix/store/6cps82m63w3vd1d5px3md2kcdjq9nsdz-csfml-3.0.0/share:/nix/store/1nv3i8mpypy3d516f4pd95m0w72r73jy-pkg-config-wrapper-0.29.2/share:/nix/store/590yx3aynyhs48jyk8ip37fk1mjqfhkb-patchelf-0.15.2/share:/usr/local/share:/usr/share:/home/niko/.nix-profile/share:/nix/var/nix/profiles/default/share:/var/lib/snapd/desktop
+TMP=/tmp/nix-shell.4yUKUg
+OBJDUMP=objdump
+PATH=/nix/store/0550j0i8bmzxbcnzrg1g51zigj7y12ih-bash-interactive-5.3p9/bin:/nix/store/1nv3i8mpypy3d516f4pd95m0w72r73jy-pkg-config-wrapper-0.29.2/bin:/nix/store/kggymrkys7zixc07ll86jg7bb97h1rrb-clang-tools-21.1.8/bin:/nix/store/590yx3aynyhs48jyk8ip37fk1mjqfhkb-patchelf-0.15.2/bin:/nix/store/kbw2j1vag664b3sj3rjwz9v53cqx87sb-gcc-wrapper-15.2.0/bin:/nix/store/sca0pf46jmxva40qahkcwys5c1lvk6n2-gcc-15.2.0/bin:/nix/store/2c48s343k15i0cmwb9cp1vi6randmzcw-glibc-2.42-51-bin/bin:/nix/store/hlxw2q9qansq7bn52xvlb5badw3z1v8s-coreutils-9.10/bin:/nix/store/4yi6jj75bb5hhdzpzlxfyf69d35wsf2x-binutils-wrapper-2.44/bin:/nix/store/9nmzd62x45ayp4vmswvn6z45h6bzrsla-binutils-2.44/bin:/nix/store/hlxw2q9qansq7bn52xvlb5badw3z1v8s-coreutils-9.10/bin:/nix/store/b3rx5wac9hhfxn9120xkcvdwj51mc9z2-findutils-4.10.0/bin:/nix/store/icrrz26xbyp293kagrlkab1bhc6gra0r-diffutils-3.12/bin:/nix/store/wv7qq5yb8plyhxji9x3r5gpkyfm2kf29-gnused-4.9/bin:/nix/store/8laf6k81j9ckylrigj3xsk76j69knhvl-gnugrep-3.12/bin:/nix/store/gf7b4yz4vhd0y2hnnrimhh875ghwzzzj-gawk-5.3.2/bin:/nix/store/isva9q9zx3frx6hh6cnpihh1kd2bx6bk-gnutar-1.35/bin:/nix/store/w1n7yp2vnldr395hbwbcaw9sflh413bm-gzip-1.14/bin:/nix/store/x8l7qzpab2gpdrp89g48mxlrsiz4f0gm-bzip2-1.0.8-bin/bin:/nix/store/0xw6y53ijaqwfd9c99wyaqiinychzv1f-gnumake-4.4.1/bin:/nix/store/2hjsch59amjs3nbgh7ahcfzm2bfwl8zi-bash-5.3p9/bin:/nix/store/8y5jm97n4lyw80gh71yihghbhqc11fdz-patch-2.8/bin:/nix/store/27fx8p4k6098wan3zahdbyj79ndcn03z-xz-5.8.2-bin/bin:/nix/store/p3j7lphwlci13f9w2v4rav6rbvpi80li-file-5.45/bin:/home/niko/.cargo/bin:/home/niko/.nix-profile/bin:/nix/var/nix/profiles/default/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/mnt/c/Users/theev/AppData/Roaming/Code/User/globalStorage/github.copilot-chat/debugCommand:/mnt/c/Users/theev/AppData/Roaming/Code/User/globalStorage/github.copilot-chat/copilotCli:/mnt/c/Users/theev/AppData/Local/Programs/Microsoft VS Code:/mnt/c/Program Files/Common Files/Oracle/Java/javapath:/mnt/c/Program Files/Eclipse Adoptium/jdk-17.0.16.8-hotspot/bin:/mnt/c/WINDOWS/system32:/mnt/c/WINDOWS:/mnt/c/WINDOWS/System32/Wbem:/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/:/mnt/c/WINDOWS/System32/OpenSSH/:/mnt/c/Program Files/Mullvad VPN/resources:/mnt/c/Program Files/dotnet/:/mnt/c/Program Files/Git/cmd:/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common:/mnt/c/Users/theev/AppData/Local/Programs/Python/Python313/Scripts:/mnt/c/Program Files/Go/bin:/mnt/c/Program Files (x86)/ZeroTier/One/:/mnt/c/Users/theev/.cargo/bin:/mnt/c/Users/theev/AppData/Local/Programs/Python/Launcher/:/mnt/c/Users/theev/AppData/Local/Microsoft/WindowsApps:/mnt/c/Users/theev/AppData/Local/Programs/Ollama:/mnt/c/Users/theev/AppData/Local/GitHubDesktop/bin:/mnt/c/Users/theev/AppData/Local/Programs/Microsoft VS Code/bin:/mnt/c/Users/theev/AppData/Local/Programs/Python/Python313/Scripts:/mnt/c/Programming/Flutter/flutter/bin:/mnt/c/Users/theev/go/bin:/mnt/c/Users/theev/.dotnet/tools:/snap/bin
+propagatedBuildInputs=
+dontAddDisableDepTrack=1
+CC=gcc
+NIX_CC=/nix/store/kbw2j1vag664b3sj3rjwz9v53cqx87sb-gcc-wrapper-15.2.0
+DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus
+depsBuildTargetPropagated=
+depsBuildBuildPropagated=
+NIX_CC_WRAPPER_TARGET_HOST_x86_64_unknown_linux_gnu=1
+HOSTTYPE=x86_64
+PULSE_SERVER=unix:/mnt/wslg/PulseServer
+CONFIG_SHELL=/nix/store/2hjsch59amjs3nbgh7ahcfzm2bfwl8zi-bash-5.3p9/bin/bash
+__structuredAttrs=
+RANLIB=ranlib
+NIX_HARDENING_ENABLE=bindnow format fortify fortify3 libcxxhardeningextensive libcxxhardeningfast pic relro stackclashprotection stackprotector strictoverflow zerocallusedregs
+OLDPWD=
+NIX_LDFLAGS=-rpath /mnt/c/GitHub/drivfar-dress-up/outputs/out/lib  -L/nix/store/6cps82m63w3vd1d5px3md2kcdjq9nsdz-csfml-3.0.0/lib -L/nix/store/kggymrkys7zixc07ll86jg7bb97h1rrb-clang-tools-21.1.8/lib -L/nix/store/6cps82m63w3vd1d5px3md2kcdjq9nsdz-csfml-3.0.0/lib -L/nix/store/kggymrkys7zixc07ll86jg7bb97h1rrb-clang-tools-21.1.8/lib
+nativeBuildInputs=/nix/store/6cps82m63w3vd1d5px3md2kcdjq9nsdz-csfml-3.0.0 /nix/store/1nv3i8mpypy3d516f4pd95m0w72r73jy-pkg-config-wrapper-0.29.2 /nix/store/kggymrkys7zixc07ll86jg7bb97h1rrb-clang-tools-21.1.8
+name=nix-shell-env
+PKG_CONFIG=pkg-config
+depsHostHostPropagated=
+_=/nix/store/hlxw2q9qansq7bn52xvlb5badw3z1v8s-coreutils-9.10/bin/env
