@@ -41,6 +41,22 @@ static GarmentDefinition garmentDefinitions[] = {
             .coloredPath = "assets/garment/test_a/colored.png",
             .detailsPath = "assets/garment/test_a/details.png",
         },
+    [GARMENT_PANTS_A] =
+        (GarmentDefinition){
+            .id = GARMENT_PANTS_A,
+            .type = GARMENT_TYPE_BOTTOM,
+            .name = "Pants A",
+            .coloredPath = "assets/garment/pants_a/colored.png",
+            .detailsPath = "assets/garment/pants_a/details.png",
+        },
+    [GARMENT_SKIRT_A] =
+        (GarmentDefinition){
+            .id = GARMENT_SKIRT_A,
+            .type = GARMENT_TYPE_BOTTOM,
+            .name = "Skirt A",
+            .coloredPath = "assets/garment/skirt_a/colored.png",
+            .detailsPath = "assets/garment/skirt_a/details.png",
+        },
 };
 
 #define GARMENT_COUNT (sizeof(garmentDefinitions) / sizeof(GarmentDefinition))
