@@ -5,6 +5,7 @@
 #include "font.h"
 #include "garment.h"
 #include "ui/ui.h"
+#include "texture.h"
 
 typedef enum { PAGE_DRESS_UP, PAGE_GRADING } Page;
 
@@ -14,6 +15,9 @@ int main(void)
         return 1;
     }
     if (!loadFonts()) {
+        return 1;
+    }
+    if (!loadTextures()) {
         return 1;
     }
     sfVideoMode mode = { { 800, 600 }, 32 };

@@ -26,6 +26,8 @@ bool loadFonts()
 
         fonts[i] = font;
     }
+
+    return true;
 }
 
 void destroyFonts()
