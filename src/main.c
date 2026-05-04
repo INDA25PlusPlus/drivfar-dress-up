@@ -6,6 +6,7 @@
 #include "garment.h"
 #include "ui/ui.h"
 #include "texture.h"
+#include "doll.h"
 
 typedef enum { PAGE_DRESS_UP, PAGE_GRADING } Page;
 
@@ -26,6 +27,7 @@ int main(void)
     if (!window)
         return 1;
 
+    g_doll = dollCreate((sfVector2f){ 300, 50 });
     start_ui(window);
 
     sfRenderWindow_destroy(window);
