@@ -22,7 +22,7 @@ else
   LDFLAGS += -L$(CSFML_PREFIX)/lib $(addprefix -l,$(CSFML_PKGS))
 endif
 
-CFLAGS += -Isrc -Wall -Itests
+CFLAGS += -Isrc -Wall
 
 TARGET_EXEC := program
 # The test runner executable.
@@ -59,9 +59,6 @@ TEST_OBJS := $(foreach src,$(shell find $(TESTS_DIR) -name '*.c'),$(src:$(TESTS_
 
 $(TESTER_EXEC): $(TEST_OBJS) $(OBJS_NOT_MAIN)
 	$(CC) $^ $(LDFLAGS) -o $@
-
-test: $(TESTER_EXEC)
-	./$(TESTER_EXEC)
 
 # TODO: They currently don't depend on any *.h files.
 $(BUILD_DIR)/tests/%.o: $(TESTS_DIR)/%.c
