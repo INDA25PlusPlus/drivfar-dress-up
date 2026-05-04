@@ -47,6 +47,8 @@ sfColor colorToSfColor(PaletteColor color)
     case COLOR_PURPLE_LIGHT:
         return (sfColor){ 0xec, 0xdf, 0xf4, 0xff };
     }
+
+    return sfWhite;
 }
 
 // Version defining a garment asset used for the hard-coded
@@ -78,6 +80,22 @@ static GarmentDefinition garmentDefinitions[] = {
             .name = "Test A",
             .coloredPath = "assets/garment/test_a/colored.png",
             .detailsPath = "assets/garment/test_a/details.png",
+        },
+    [GARMENT_PANTS_A] =
+        (GarmentDefinition){
+            .id = GARMENT_PANTS_A,
+            .type = GARMENT_TYPE_BOTTOM,
+            .name = "Pants A",
+            .coloredPath = "assets/garment/pants_a/colored.png",
+            .detailsPath = "assets/garment/pants_a/details.png",
+        },
+    [GARMENT_SKIRT_A] =
+        (GarmentDefinition){
+            .id = GARMENT_SKIRT_A,
+            .type = GARMENT_TYPE_BOTTOM,
+            .name = "Skirt A",
+            .coloredPath = "assets/garment/skirt_a/colored.png",
+            .detailsPath = "assets/garment/skirt_a/details.png",
         },
 };
 

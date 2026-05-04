@@ -18,7 +18,8 @@ typedef enum {
 typedef enum {
     // The names should be prefixed by `GARMENT_`.
     GARMENT_TEST_A,
-    GARMENT_TEST_B,
+    GARMENT_PANTS_A,
+    GARMENT_SKIRT_A,
 } GarmentId;
 
 // Represents a piece of clothing or accessory.

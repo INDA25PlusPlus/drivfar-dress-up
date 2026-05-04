@@ -6,24 +6,25 @@
 
 CC = gcc
 PKG_CONFIG ?= pkg-config
-CSFML_PKGS := csfml-graphics csfml-window csfml-system csfml-audio
+PKGS := csfml-graphics csfml-window csfml-system csfml-audio
 
 # Use pkg-config if available and the packages exist.
 HAVE_CSFML_PC := $(shell command -v $(PKG_CONFIG) >/dev/null 2>&1 && \
-    $(PKG_CONFIG) --exists $(CSFML_PKGS) && echo yes)
+    $(PKG_CONFIG) --exists $(PKGS) && echo yes)
 
 ifeq ($(HAVE_CSFML_PC),yes)
-  CFLAGS += $(shell $(PKG_CONFIG) --cflags $(CSFML_PKGS))
-  LDFLAGS += $(shell $(PKG_CONFIG) --libs $(CSFML_PKGS))
+  CFLAGS += $(shell $(PKG_CONFIG) --cflags $(PKGS))
+  LDFLAGS += $(shell $(PKG_CONFIG) --libs $(PKGS))
 else
   # TODO: Maybe don't assume homebrew is used?
   # Can be overriden by adding an environment variable
   CSFML_PREFIX ?= /opt/homebrew
   CFLAGS += -I$(CSFML_PREFIX)/include
-  LDFLAGS += -L$(CSFML_PREFIX)/lib $(addprefix -l,$(CSFML_PKGS))
+  LDFLAGS += -L$(CSFML_PREFIX)/lib $(addprefix -l,$(PKGS))
 endif
 
-CFLAGS += -Isrc -Wall
+CFLAGS += -Isrc -Wall -std=c23 --debug
+LDFLAGS += "-lm"
 
 TARGET_EXEC := program
 # The test runner executable.
@@ -79,4 +80,4 @@ fmt:
 check-fmt:
 	clang-format --dry-run --Werror -i $(SRCS) $(HEADERS)
 
-.PHONY: all clean check-deps fmt check-fmt
+.PHONY: all clean check-deps fmt check-fmt test
