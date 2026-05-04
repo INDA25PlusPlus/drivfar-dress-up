@@ -13,7 +13,7 @@ UTEST(colorLogic, returnsNoneForSingleColor)
 UTEST(colorLogic, detectsComplementaryScheme)
 {
     PaletteColor colors[] = {
-        COLOR_CERISE_STRONG, // position 11
+        COLOR_CERISE_STRONG, // position 0
         COLOR_GREEN_STRONG,  // position 6
     };
 
@@ -42,6 +42,7 @@ UTEST(colorLogic, detectsTriadicScheme)
     EXPECT_EQ(COLOR_SCHEME_TRIADIC, judgeColorScheme(colors, 3));
 }
 
+// doesnt work with new palette (maybe can hardcode)
 /* UTEST(colorLogic, detectsSplitComplementaryScheme)
 {
     PaletteColor colors[] = {

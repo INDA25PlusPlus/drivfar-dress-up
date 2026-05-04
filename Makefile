@@ -79,4 +79,4 @@ fmt:
 check-fmt:
 	clang-format --dry-run --Werror -i $(SRCS) $(HEADERS)
 
-.PHONY: all clean check-deps fmt check-fmt test
+.PHONY: all clean check-deps fmt check-fmt
