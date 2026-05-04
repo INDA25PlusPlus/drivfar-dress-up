@@ -1,3 +1,9 @@
+# Uses:
+# `make clean` to clean the build artifacts.
+# `make` or `make all` to build the program.
+# `make fmt` to format the source code using clang-format.
+# use `just test` to run the tests.
+
 CC = gcc
 PKG_CONFIG ?= pkg-config
 PKGS := csfml-graphics csfml-window csfml-system csfml-audio
@@ -74,4 +80,4 @@ fmt:
 check-fmt:
 	clang-format --dry-run --Werror -i $(SRCS) $(HEADERS)
 
-.PHONY: all clean check-deps fmt check-fmt
+.PHONY: all clean check-deps fmt check-fmt test

@@ -42,6 +42,17 @@ typedef struct {
 // The palette colors which the user can select for a garment.
 typedef enum {
     COLOR_RED,
+    COLOR_RED_ORANGE,
+    COLOR_ORANGE,
+    COLOR_YELLOW_ORANGE,
+    COLOR_YELLOW,
+    COLOR_YELLOW_GREEN,
+    COLOR_GREEN,
+    COLOR_BLUE_GREEN,
+    COLOR_BLUE,
+    COLOR_BLUE_VIOLET,
+    COLOR_VIOLET,
+    COLOR_RED_VIOLET,
     COLOR_CERISE,
 } PaletteColor;
 
