@@ -11,7 +11,7 @@ UTEST(garmentColorHelper, extractsColorsFromGarments)
             .color = COLOR_CERISE_STRONG,
         },
         {
-            .id = GARMENT_TEST_B,
+            .id = GARMENT_PANTS_A,
             .color = COLOR_GREEN_STRONG,
         },
     };
@@ -38,7 +38,7 @@ UTEST(garmentColorHelper, passesExtractedColorsToJudgeColorScheme)
             .color = COLOR_CERISE_STRONG,
         },
         {
-            .id = GARMENT_TEST_B,
+            .id = GARMENT_PANTS_A,
             .color = COLOR_GREEN_STRONG,
         },
     };
