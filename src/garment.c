@@ -4,35 +4,49 @@
 sfColor colorToSfColor(PaletteColor color)
 {
     switch (color) {
-    case COLOR_RED:
-        return (sfColor){ 0xe8, 0x3d, 0x40, 0xff };
-    case COLOR_RED_ORANGE:
-        return (sfColor){ 0xeb, 0x64, 0x32, 0xff };
-    case COLOR_ORANGE:
-        return (sfColor){ 0xf2, 0x8c, 0x28, 0xff };
-    case COLOR_YELLOW_ORANGE:
-        return (sfColor){ 0xf0, 0xb8, 0x2e, 0xff };
-    case COLOR_YELLOW:
-        return (sfColor){ 0xf2, 0xd2, 0x30, 0xff };
-    case COLOR_YELLOW_GREEN:
-        return (sfColor){ 0xa8, 0xc9, 0x3a, 0xff };
-    case COLOR_GREEN:
-        return (sfColor){ 0x4c, 0xb9, 0x63, 0xff };
-    case COLOR_BLUE_GREEN:
-        return (sfColor){ 0x36, 0xb0, 0xa1, 0xff };
-    case COLOR_BLUE:
-        return (sfColor){ 0x3d, 0x7e, 0xe8, 0xff };
-    case COLOR_BLUE_VIOLET:
-        return (sfColor){ 0x5f, 0x55, 0xd9, 0xff };
-    case COLOR_VIOLET:
-        return (sfColor){ 0x8b, 0x4c, 0xd6, 0xff };
-    case COLOR_RED_VIOLET:
-        return (sfColor){ 0xc2, 0x43, 0xb5, 0xff };
-    case COLOR_CERISE:
-        return (sfColor){ 0xe8, 0x3d, 0x84, 0xff };
+    case COLOR_WHITE:
+        return (sfColor){ 0xff, 0xff, 0xff, 0xff };
+    case COLOR_GRAY:
+        return (sfColor){ 0x99, 0x99, 0x99, 0xff };
+    case COLOR_BLACK:
+        return (sfColor){ 0x00, 0x00, 0x00, 0xff };
+    case COLOR_CERISE_STRONG:
+        return (sfColor){ 0xff, 0x39, 0x7e, 0xff };
+    case COLOR_CERISE_MEDIUM:
+        return (sfColor){ 0xee, 0x88, 0x96, 0xff };
+    case COLOR_CERISE_LIGHT:
+        return (sfColor){ 0xf9, 0xdc, 0xdf, 0xff };
+    case COLOR_ORANGE_STRONG:
+        return (sfColor){ 0xd6, 0x7b, 0x00, 0xff };
+    case COLOR_ORANGE_MEDIUM:
+        return (sfColor){ 0xdb, 0x9d, 0x48, 0xff };
+    case COLOR_ORANGE_LIGHT:
+        return (sfColor){ 0xf2, 0xe2, 0xce, 0xff };
+    case COLOR_GREEN_STRONG:
+        return (sfColor){ 0x6e, 0xa9, 0x00, 0xff };
+    case COLOR_GREEN_MEDIUM:
+        return (sfColor){ 0x8d, 0xbb, 0x66, 0xff };
+    case COLOR_GREEN_LIGHT:
+        return (sfColor){ 0xdd, 0xe9, 0xd4, 0xff };
+    case COLOR_CYAN_STRONG:
+        return (sfColor){ 0x00, 0xad, 0xa6, 0xff };
+    case COLOR_CYAN_MEDIUM:
+        return (sfColor){ 0x14, 0xc3, 0xbf, 0xff };
+    case COLOR_CYAN_LIGHT:
+        return (sfColor){ 0xcd, 0xec, 0xea, 0xff };
+    case COLOR_BLUE_STRONG:
+        return (sfColor){ 0x00, 0x95, 0xff, 0xff };
+    case COLOR_BLUE_MEDIUM:
+        return (sfColor){ 0x6e, 0xaf, 0xf7, 0xff };
+    case COLOR_BLUE_LIGHT:
+        return (sfColor){ 0xd6, 0xe6, 0xfa, 0xff };
+    case COLOR_PURPLE_STRONG:
+        return (sfColor){ 0xc3, 0x5b, 0xf9, 0xff };
+    case COLOR_PURPLE_MEDIUM:
+        return (sfColor){ 0xc5, 0x93, 0xe4, 0xff };
+    case COLOR_PURPLE_LIGHT:
+        return (sfColor){ 0xec, 0xdf, 0xf4, 0xff };
     }
-
-    return sfWhite;
 }
 
 // Version defining a garment asset used for the hard-coded
