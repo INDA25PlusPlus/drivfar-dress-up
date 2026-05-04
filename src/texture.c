@@ -17,7 +17,7 @@ bool loadTextures()
         sfTexture *texture = sfTexture_createFromFile(path, NULL);
         if (texture == NULL) {
             // Destroy existing textures.
-            for (size_t j = 0; i < j; j++) {
+            for (size_t j = 0; j < i; j++) {
                 sfTexture_destroy(textures[j]);
             }
 

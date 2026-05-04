@@ -16,6 +16,9 @@
 #include "color_ui.h"
 #include "clay_render_sfml.h"
 #include "font.h"
+#include "ui.h"
+
+Doll *g_doll = NULL;
 
 static void handle_clay_errors(Clay_ErrorData error_data)
 {
@@ -214,6 +217,8 @@ void start_ui(sfRenderWindow *window)
         sfRenderWindow_clear(window, sfBlack);
 
         Clay_Sfml_RenderClayCommands(&renderData, &renderCommands);
+
+        renderDoll(window, g_doll);
 
         sfRenderWindow_display(window);
     }
