@@ -37,6 +37,7 @@ typedef struct {
     const sfTexture *detailsTexture;
     // TODO: We will probably need more members to control where the asset
     //   is placed.
+    sfVector2f position;
 } GarmentAsset;
 
 // The palette colors which the user can select for a garment.
