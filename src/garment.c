@@ -67,9 +67,10 @@ typedef struct {
     // Path to the image file containing any details which shouldn't be
     // affected by the selected color (e.g. outlines).
     const char *detailsPath;
-    // TODO: We will probably need more members to control where the asset
-    //   is placed.
+    // Position relative to doll
     sfVector2f position;
+    // Scale the garmet image
+    sfVector2f scale;
 } GarmentDefinition;
 
 // If you want to add a new garment asset: create a new enum member in
@@ -83,6 +84,7 @@ static GarmentDefinition garmentDefinitions[] = {
             .coloredPath = "assets/garment/test_a/colored.png",
             .detailsPath = "assets/garment/test_a/details.png",
             .position = { 100, 100 },
+            .scale = { 0.5f, 0.5f },
         },
     [GARMENT_PANTS_A] =
         (GarmentDefinition){
@@ -91,6 +93,8 @@ static GarmentDefinition garmentDefinitions[] = {
             .name = "Pants A",
             .coloredPath = "assets/garment/pants_a/colored.png",
             .detailsPath = "assets/garment/pants_a/details.png",
+            .position = { 100, 100 },
+            .scale = { 0.5f, 0.5f },
         },
     [GARMENT_SKIRT_A] =
         (GarmentDefinition){
@@ -99,6 +103,8 @@ static GarmentDefinition garmentDefinitions[] = {
             .name = "Skirt A",
             .coloredPath = "assets/garment/skirt_a/colored.png",
             .detailsPath = "assets/garment/skirt_a/details.png",
+            .position = { 100, 100 },
+            .scale = { 0.5f, 0.5f },
         },
 };
 
@@ -147,6 +153,8 @@ bool loadGarments()
             .name = definition.name,
             .coloredTexture = coloredTexture,
             .detailsTexture = detailsTexture,
+            .position = definition.position,
+            .scale = definition.scale,
         };
     }
     return true;

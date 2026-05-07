@@ -34,6 +34,16 @@ int main(void)
         return 1;
 
     g_doll = dollCreate((sfVector2f){ 400, 20 });
+    // Test adding garments
+    // garmentListPush(g_doll->garments, (Garment){
+    //     .id = GARMENT_TEST_A,
+    //     .color = COLOR_RED
+    // });
+
+    // garmentListPush(g_doll->garments, (Garment){
+    //     .id = GARMENT_PANTS_A,
+    //     .color = COLOR_CERISE
+    // });
     start_ui(window);
 
     sfRenderWindow_destroy(window);
