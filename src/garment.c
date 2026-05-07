@@ -52,6 +52,7 @@ typedef struct {
     const char *detailsPath;
     // TODO: We will probably need more members to control where the asset
     //   is placed.
+    sfVector2f position;
 } GarmentDefinition;
 
 // If you want to add a new garment asset: create a new enum member in
@@ -64,6 +65,7 @@ static GarmentDefinition garmentDefinitions[] = {
             .name = "Test A",
             .coloredPath = "assets/garment/test_a/colored.png",
             .detailsPath = "assets/garment/test_a/details.png",
+            .position = { 100, 100 },
         },
     [GARMENT_PANTS_A] =
         (GarmentDefinition){
