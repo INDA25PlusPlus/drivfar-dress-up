@@ -33,7 +33,7 @@ int main(void)
     if (!window)
         return 1;
 
-    g_doll = dollCreate((sfVector2f){ 300, 50 });
+    g_doll = dollCreate((sfVector2f){ 400, 20 });
     start_ui(window);
 
     sfRenderWindow_destroy(window);

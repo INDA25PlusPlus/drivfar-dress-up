@@ -19,7 +19,7 @@ Doll *dollCreate(sfVector2f position)
     assert(doll->sprite);
 
     // scale image of doll
-    sfSprite_setScale(doll->sprite, (sfVector2f){ 0.4f, 0.4f });
+    sfSprite_setScale(doll->sprite, (sfVector2f){ 0.8f, 0.8f });
 
     // create garment list
     doll->garments = garmentListCreate();
