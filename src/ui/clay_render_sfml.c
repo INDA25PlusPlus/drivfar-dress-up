@@ -1,5 +1,3 @@
-// TODO: Fix me!!
-//   Rename RendererData to RenderData
 #include <err.h>
 #include "clay.h"
 #include <CSFML/Graphics.h>
@@ -9,13 +7,48 @@
 #include <string.h>
 
 #include "clay_render_sfml.h"
+#include "dpi_scale.h"
+#include "error_utilities.h"
 
-static sfColor clayColorToSfColor(Clay_Color color)
+sfColor clayColorToSfColor(Clay_Color color)
 {
     return (sfColor){ .r = (uint8_t)color.r,
                       .g = (uint8_t)color.g,
                       .b = (uint8_t)color.b,
                       .a = (uint8_t)color.a };
+}
+
+Clay_Color sfColorToClayColor(sfColor color)
+{
+    return (Clay_Color){ .r = (float)color.r,
+                         .g = (float)color.g,
+                         .b = (float)color.b,
+                         .a = (float)color.a };
+}
+
+void *clayArenaAllocate(Clay_Arena *arena, size_t count, size_t elementSize)
+{
+    size_t totalSizeBytes = (uintptr_t)(count * elementSize);
+    uintptr_t nextAllocOffset =
+        arena->nextAllocation + ((64 - (arena->nextAllocation % 64)) & 63);
+
+    if (nextAllocOffset + totalSizeBytes <= arena->capacity) {
+        arena->nextAllocation = nextAllocOffset + totalSizeBytes + 56;
+        void *allocation =
+            (void *)((uintptr_t)arena->memory + (uintptr_t)nextAllocOffset);
+        memset(allocation, 0, totalSizeBytes);
+        return allocation;
+    } else {
+        err(101,
+            "Ran out of capacity when attempting to allocate memory in arena");
+    }
+}
+
+static sfTransform getUiScaleTransform()
+{
+    sfTransform transform = sfTransform_Identity;
+    sfTransform_scale(&transform, (sfVector2f){ uiScale, uiScale });
+    return transform;
 }
 
 // Global for convenience. Even in 4K this is enough for smooth curves (low
@@ -47,7 +80,7 @@ typedef enum {
     CORNER_BOTTOM_LEFT,
 } Corner;
 
-static void Clay_Sfml_RenderFillRect(Clay_SfmlRenderData *rendererData,
+static void Clay_Sfml_RenderFillRect(Clay_SfmlRenderData *renderData,
                                      const sfFloatRect rect,
                                      const Clay_Color _color)
 {
@@ -64,8 +97,10 @@ static void Clay_Sfml_RenderFillRect(Clay_SfmlRenderData *rendererData,
           color },
     };
 
-    sfRenderWindow_drawPrimitives(rendererData->window, vertices, 4,
-                                  sfTriangleStrip, NULL);
+    sfRenderStates renderStates = sfRenderStates_default;
+    renderStates.transform = getUiScaleTransform();
+    sfRenderWindow_drawPrimitives(renderData->window, vertices, 4,
+                                  sfTriangleStrip, &renderStates);
 }
 
 /// Helper function for `Clay_Sfml_RenderFillRoundedRect` which computes a
@@ -88,12 +123,10 @@ static sfVertex rectVertex(const sfVector2f positionRelative,
 
 // All rendering is performed by a single SDL call, avoiding multiple RenderRect + plumbing choice for circles.
 static void Clay_Sfml_RenderFillRoundedRect(
-    Clay_SfmlRenderData *rendererData, const sfFloatRect rect,
+    Clay_SfmlRenderData *renderData, const sfFloatRect rect,
     const Clay_CornerRadius cornerRadius, const sfColor color,
     /// If not null, draws rect using the provided texture, scaled and stretched
     /// to cover the rect, overriding `_color`.
-    // TODO: Figure out if it actually overrides `_color` or if it's multiplied
-    //   with it.
     const sfTexture *texture)
 {
     const float minRadius = MIN(rect.size.x, rect.size.y) / 2.0f;
@@ -168,9 +201,8 @@ static void Clay_Sfml_RenderFillRoundedRect(
                 centerXRelative = clampedRadius;
                 centerYRelative = rect.size.y - clampedRadius;
             } break;
-            default: {
-                err(101, "unreachable");
-            }
+            default:
+                ASSERT_UNREACHABLE();
             }
 
             for (size_t i = 0; i < numCircleSegments[corner]; i++) {
@@ -216,7 +248,8 @@ static void Clay_Sfml_RenderFillRoundedRect(
     sfRenderStates renderStates = sfRenderStates_default;
     renderStates.coordinateType = sfCoordinateTypeNormalized;
     renderStates.texture = texture;
-    sfRenderWindow_drawPrimitives(rendererData->window, vertices, totalVertices,
+    renderStates.transform = getUiScaleTransform();
+    sfRenderWindow_drawPrimitives(renderData->window, vertices, totalVertices,
                                   sfTriangleFan, &renderStates);
 }
 
@@ -225,52 +258,34 @@ static void Clay_Sfml_RenderFillRoundedRect(
 // relative to the box's top left corner.
 static sfVector2f cornerArcGetNthVertex(size_t index, Corner corner,
                                         size_t numCircleSegments,
-                                        Clay_CornerRadius cornerRadii,
-                                        Clay_BoundingBox rect,
+                                        sfVector2f centerOffset,
                                         sfVector2f radius)
 {
     assert(index <= numCircleSegments);
 
-    float offsetX = 0.0;
-    float offsetY = 0.0;
-    switch (corner) {
-    case CORNER_TOP_LEFT: {
-        const float cornerRadius = cornerRadii.topLeft;
-        offsetX = cornerRadius;
-        offsetY = cornerRadius;
-    } break;
-    case CORNER_TOP_RIGHT: {
-        const float cornerRadius = cornerRadii.topRight;
-        offsetX = rect.width - cornerRadius;
-        offsetY = cornerRadius;
-    } break;
-    case CORNER_BOTTOM_RIGHT: {
-        const float cornerRadius = cornerRadii.bottomRight;
-        offsetX = rect.width - cornerRadius;
-        offsetY = rect.height - cornerRadius;
-    } break;
-    case CORNER_BOTTOM_LEFT: {
-        const float cornerRadius = cornerRadii.bottomLeft;
-        offsetX = cornerRadius;
-        offsetY = rect.height - cornerRadius;
-    } break;
-    default: {
-        err(101, "Unreachable");
-    }
-    }
+    const float offsetX = centerOffset.x;
+    const float offsetY = centerOffset.y;
 
-    const float stepRadians = (M_PIf / 2) / (float)numCircleSegments;
     const float startAngle = M_PIf + M_PIf * (float)corner / 2.0;
 
-    const float x = cosf(startAngle + stepRadians * index) * radius.x;
-    const float y = sinf(startAngle + stepRadians * index) * radius.y;
+    float x;
+    float y;
+    if (numCircleSegments == 0) {
+        x = cosf(startAngle) * radius.x;
+        y = sinf(startAngle) * radius.y;
+    } else {
+        const float stepRadians = (M_PIf / 2) / (float)numCircleSegments;
+        x = cosf(startAngle + stepRadians * index) * radius.x;
+        y = sinf(startAngle + stepRadians * index) * radius.y;
+    }
 
     return (sfVector2f){ x + offsetX, y + offsetY };
 }
 
 static void configureText(const Clay_SfmlRenderData *const renderData,
                           sfText *const text,
-                          const Clay_TextRenderData *const config)
+                          const Clay_TextRenderData *const config,
+                          float scaleFactor)
 {
     char *string = calloc(config->stringContents.length + 1, sizeof(char));
     if (string == NULL) {
@@ -282,19 +297,22 @@ static void configureText(const Clay_SfmlRenderData *const renderData,
 
     sfFont *font = renderData->fonts[config->fontId];
 
-    sfText_setCharacterSize(text, config->fontSize);
+    int fontSize = (int)((float)config->fontSize * scaleFactor);
+    float letterSpacing = ((float)config->letterSpacing * scaleFactor);
+
+    sfText_setCharacterSize(text, fontSize);
 
     // We don't need to update the line height property, since clay won't tell
     // us to render more than one line at a time.
+    sfText_setLineSpacing(text, 1.0);
 
     // SFML computes letter spacing as:
     // spaceWidth / 3 * (letterSpacingFactor - 1)
     // This letter spacing value is added to each character's advance. We
     // want the Clay letter spacing property to be measured in pixels.
     const float spaceWidth =
-        sfFont_getGlyph(font, U' ', config->fontSize, false, 0.0).advance;
-    const float letterSpacingFactor =
-        (float)config->letterSpacing * (3.0f / spaceWidth) + 1.0;
+        sfFont_getGlyph(font, U' ', fontSize, false, 0.0).advance;
+    const float letterSpacingFactor = letterSpacing * (3.0f / spaceWidth) + 1.0;
     sfText_setLetterSpacing(text, letterSpacingFactor);
 
     sfText_setFillColor(text, clayColorToSfColor(config->textColor));
@@ -320,19 +338,20 @@ Clay_Dimensions Clay_Sfml_MeasureText(Clay_StringSlice string,
                       .fontSize = config->fontSize,
                       .letterSpacing = config->letterSpacing,
                       .lineHeight = config->lineHeight,
-                  });
+                  },
+                  1.0);
 
     sfFloatRect bounds = sfText_getLocalBounds(text);
 
     return (Clay_Dimensions){
-        .width = bounds.size.x + bounds.position.x,
+        .width = (bounds.size.x + bounds.position.x),
         .height = config->lineHeight == 0 ?
                       sfFont_getLineSpacing(font, config->fontSize) :
                       (float)config->lineHeight,
     };
 }
 
-void Clay_Sfml_RenderClayCommands(Clay_SfmlRenderData *rendererData,
+void Clay_Sfml_RenderClayCommands(Clay_SfmlRenderData *renderData,
                                   Clay_RenderCommandArray *rcommands)
 {
     for (size_t i = 0; i < rcommands->length; i++) {
@@ -350,25 +369,30 @@ void Clay_Sfml_RenderClayCommands(Clay_SfmlRenderData *rendererData,
                 config->cornerRadius.bottomRight > 0.0 ||
                 config->cornerRadius.bottomLeft > 0.0) {
                 Clay_Sfml_RenderFillRoundedRect(
-                    rendererData, rect, config->cornerRadius,
+                    renderData, rect, config->cornerRadius,
                     clayColorToSfColor(config->backgroundColor), NULL);
             } else {
-                Clay_Sfml_RenderFillRect(rendererData, rect,
+                Clay_Sfml_RenderFillRect(renderData, rect,
                                          config->backgroundColor);
             }
         } break;
         case CLAY_RENDER_COMMAND_TYPE_TEXT: {
+            // In contrast to other render command types, we don't apply the UI
+            // scaling using a render state transform, instead applying it
+            // manually. This way the correct high resolution font glyph
+            // textures are used, avoiding blurry text.
+
             Clay_TextRenderData *config = &rcmd->renderData.text;
-            const sfFont *font = rendererData->fonts[config->fontId];
+            const sfFont *font = renderData->fonts[config->fontId];
             sfText *text = sfText_create(font);
             if (text == NULL) {
                 err(1, "render command text allocation failed");
             }
-            configureText(rendererData, text, config);
+            configureText(renderData, text, config, uiScale);
 
-            sfText_setPosition(text, rect.position);
-
-            sfRenderWindow_drawText(rendererData->window, text, NULL);
+            sfText_setPosition(text, (sfVector2f){ rect.position.x * uiScale,
+                                                   rect.position.y * uiScale });
+            sfRenderWindow_drawText(renderData->window, text, NULL);
             sfText_destroy(text);
         } break;
         case CLAY_RENDER_COMMAND_TYPE_BORDER: {
@@ -439,51 +463,88 @@ void Clay_Sfml_RenderClayCommands(Clay_SfmlRenderData *rendererData,
                 for (size_t i = 0; i < numArcSegments[corner] + 1; i++) {
                     float cornerRadius;
                     sfVector2f cornerRadiusInner;
+                    sfVector2f outerCenterOffset;
+                    sfVector2f innerCenterOffset;
                     switch (corner) {
                     case CORNER_TOP_LEFT: {
                         cornerRadius = clampedRadii.topLeft;
                         cornerRadiusInner = (sfVector2f){
-                            cornerRadius - config->width.left,
-                            cornerRadius - config->width.top,
+                            MAX(0.0f, cornerRadius - config->width.left),
+                            MAX(0.0f, cornerRadius - config->width.top),
+                        };
+                        outerCenterOffset = (sfVector2f){
+                            cornerRadius,
+                            cornerRadius,
+                        };
+                        innerCenterOffset = (sfVector2f){
+                            config->width.left + cornerRadiusInner.x,
+                            config->width.top + cornerRadiusInner.y,
                         };
                     } break;
                     case CORNER_TOP_RIGHT: {
                         cornerRadius = clampedRadii.topRight;
                         cornerRadiusInner = (sfVector2f){
-                            cornerRadius - config->width.right,
-                            cornerRadius - config->width.top,
+                            MAX(0.0f, cornerRadius - config->width.right),
+                            MAX(0.0f, cornerRadius - config->width.top),
+                        };
+                        outerCenterOffset = (sfVector2f){
+                            boundingBox.width - cornerRadius,
+                            cornerRadius,
+                        };
+                        innerCenterOffset = (sfVector2f){
+                            boundingBox.width - config->width.right -
+                                cornerRadiusInner.x,
+                            config->width.top + cornerRadiusInner.y,
                         };
                     } break;
                     case CORNER_BOTTOM_RIGHT: {
                         cornerRadius = clampedRadii.bottomRight;
                         cornerRadiusInner = (sfVector2f){
-                            cornerRadius - config->width.right,
-                            cornerRadius - config->width.bottom,
+                            MAX(0.0f, cornerRadius - config->width.right),
+                            MAX(0.0f, cornerRadius - config->width.bottom),
+                        };
+                        outerCenterOffset = (sfVector2f){
+                            boundingBox.width - cornerRadius,
+                            boundingBox.height - cornerRadius,
+                        };
+                        innerCenterOffset = (sfVector2f){
+                            boundingBox.width - config->width.right -
+                                cornerRadiusInner.x,
+                            boundingBox.height - config->width.bottom -
+                                cornerRadiusInner.y,
                         };
                     } break;
                     case CORNER_BOTTOM_LEFT: {
                         cornerRadius = clampedRadii.bottomLeft;
                         cornerRadiusInner = (sfVector2f){
-                            cornerRadius - config->width.left,
-                            cornerRadius - config->width.bottom,
+                            MAX(0.0f, cornerRadius - config->width.left),
+                            MAX(0.0f, cornerRadius - config->width.bottom),
+                        };
+                        outerCenterOffset = (sfVector2f){
+                            cornerRadius,
+                            boundingBox.height - cornerRadius,
+                        };
+                        innerCenterOffset = (sfVector2f){
+                            config->width.left + cornerRadiusInner.x,
+                            boundingBox.height - config->width.bottom -
+                                cornerRadiusInner.y,
                         };
                     } break;
-                    default: {
-                        err(101, "unreachable");
-                    }
+                    default:
+                        ASSERT_UNREACHABLE();
                     }
 
                     // Add the outer arc point.
                     vertices[vertexIndex++] = rectVertex(
                         cornerArcGetNthVertex(i, corner, numArcSegments[corner],
-                                              clampedRadii, boundingBox,
+                                              outerCenterOffset,
                                               (sfVector2f){ cornerRadius,
                                                             cornerRadius }),
                         color, rect);
                     // Add the inner arc point.
                     vertices[vertexIndex++] = rectVertex(
                         cornerArcGetNthVertex(i, corner, numArcSegments[corner],
-                                              clampedRadii, boundingBox,
+                                              innerCenterOffset,
                                               cornerRadiusInner),
                         color, rect);
                 }
@@ -493,10 +554,14 @@ void Clay_Sfml_RenderClayCommands(Clay_SfmlRenderData *rendererData,
             // the triangle strip.
             // Add the outer arc point.
             {
+                const sfVector2f outerCenterOffset = (sfVector2f){
+                    clampedRadii.topLeft,
+                    clampedRadii.topLeft,
+                };
                 vertices[vertexIndex++] = rectVertex(
                     cornerArcGetNthVertex(0, CORNER_TOP_LEFT,
                                           numArcSegments[CORNER_TOP_LEFT],
-                                          clampedRadii, boundingBox,
+                                          outerCenterOffset,
                                           (sfVector2f){ clampedRadii.topLeft,
                                                         clampedRadii.topLeft }),
                     color, rect);
@@ -505,65 +570,73 @@ void Clay_Sfml_RenderClayCommands(Clay_SfmlRenderData *rendererData,
             {
                 const float cornerRadius = clampedRadii.topLeft;
                 const sfVector2f cornerRadiusInner = (sfVector2f){
-                    cornerRadius - config->width.left,
-                    cornerRadius - config->width.top,
+                    MAX(0.0f, cornerRadius - config->width.left),
+                    MAX(0.0f, cornerRadius - config->width.top),
+                };
+                const sfVector2f innerCenterOffset = (sfVector2f){
+                    config->width.left + cornerRadiusInner.x,
+                    config->width.top + cornerRadiusInner.y,
                 };
                 vertices[vertexIndex++] = rectVertex(
-                    cornerArcGetNthVertex(
-                        0, CORNER_TOP_LEFT, numArcSegments[CORNER_TOP_LEFT],
-                        clampedRadii, boundingBox, cornerRadiusInner),
+                    cornerArcGetNthVertex(0, CORNER_TOP_LEFT,
+                                          numArcSegments[CORNER_TOP_LEFT],
+                                          innerCenterOffset, cornerRadiusInner),
                     color, rect);
             }
 
             assert(vertexIndex == verticesLen);
 
-            sfRenderWindow_drawPrimitives(rendererData->window, vertices,
-                                          verticesLen, sfTriangleStrip, NULL);
+            sfRenderStates renderStates = sfRenderStates_default;
+            renderStates.transform = getUiScaleTransform();
+            sfRenderWindow_drawPrimitives(renderData->window, vertices,
+                                          verticesLen, sfTriangleStrip,
+                                          &renderStates);
         } break;
         case CLAY_RENDER_COMMAND_TYPE_SCISSOR_START: {
-            sfVector2u size = sfRenderWindow_getSize(rendererData->window);
+            sfVector2u size = sfRenderWindow_getSize(renderData->window);
             // Is expressed as factors of the window viewport's size.
             sfFloatRect scissor = {
-                .position = { boundingBox.x / (float)size.x,
-                              boundingBox.y / (float)size.y },
-                .size = { boundingBox.width / (float)size.x,
-                          boundingBox.height / (float)size.y },
+                .position = { boundingBox.x / (float)size.x * uiScale,
+                              boundingBox.y / (float)size.y * uiScale },
+                .size = { boundingBox.width / (float)size.x * uiScale,
+                          boundingBox.height / (float)size.y * uiScale },
             };
             sfView *view =
-                sfView_copy(sfRenderWindow_getView(rendererData->window));
+                sfView_copy(sfRenderWindow_getView(renderData->window));
             if (!view) {
                 err(1, "Failed allocating view\n");
             }
             sfView_setScissor(view, scissor);
-            sfRenderWindow_setView(rendererData->window, view);
+            sfRenderWindow_setView(renderData->window, view);
             sfView_destroy(view);
             break;
         }
         case CLAY_RENDER_COMMAND_TYPE_SCISSOR_END: {
             sfView *view =
-                sfView_copy(sfRenderWindow_getView(rendererData->window));
+                sfView_copy(sfRenderWindow_getView(renderData->window));
             if (!view) {
                 err(1, "Failed allocating view\n");
             }
             sfView_setScissor(view, (sfFloatRect){ .position = { 0.0, 0.0 },
                                                    .size = { 1.0, 1.0 } });
-            sfRenderWindow_setView(rendererData->window, view);
+            sfRenderWindow_setView(renderData->window, view);
             sfView_destroy(view);
             break;
         }
         case CLAY_RENDER_COMMAND_TYPE_IMAGE: {
             Clay_ImageRenderData *config = &rcmd->renderData.image;
-            sfTexture *texture = (sfTexture *)config->imageData;
+            Clay_SfmlImageData *image = (Clay_SfmlImageData *)config->imageData;
 
             // TODO: Change to white/black when I've figured the behavior of texture vertex colors
-            sfColor color = (sfColor){ 0xd8, 0x48, 0x1c, 0xff };
+            sfColor color = clayColorToSfColor(image->color);
 
             if (config->cornerRadius.topLeft > 0.0 ||
                 config->cornerRadius.topRight > 0.0 ||
                 config->cornerRadius.bottomRight > 0.0 ||
                 config->cornerRadius.bottomLeft > 0.0) {
-                Clay_Sfml_RenderFillRoundedRect(
-                    rendererData, rect, config->cornerRadius, color, texture);
+                Clay_Sfml_RenderFillRoundedRect(renderData, rect,
+                                                config->cornerRadius, color,
+                                                image->texture);
             } else {
                 sfVertex vertices[4] = {
                     { rect.position, color, (sfVector2f){ 0.0, 0.0 } },
@@ -580,15 +653,16 @@ void Clay_Sfml_RenderClayCommands(Clay_SfmlRenderData *rendererData,
 
                 sfRenderStates renderStates = sfRenderStates_default;
                 renderStates.coordinateType = sfCoordinateTypeNormalized;
-                renderStates.texture = texture;
-                sfRenderWindow_drawPrimitives(rendererData->window, vertices, 4,
-                                              sfTriangleFan, &renderStates);
+                renderStates.texture = image->texture;
+                renderStates.transform = getUiScaleTransform();
+                sfRenderWindow_drawPrimitives(renderData->window, vertices, 4,
+                                              sfTriangleStrip, &renderStates);
             }
 
             break;
         }
         default:
-            fprintf(stderr, "Unknown render command type: %d",
+            fprintf(stderr, "Unknown render command type: %d\n",
                     rcmd->commandType);
         }
     }

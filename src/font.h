@@ -7,6 +7,7 @@
 typedef enum {
     // The names should be prefixed by `FONT_`.
     FONT_ARIAL,
+    FONT_KARRIK,
 } FontId;
 
 /// The list of loaded garment assets. Is indexed using `GarmentId`.

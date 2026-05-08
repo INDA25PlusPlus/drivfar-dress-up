@@ -2,6 +2,7 @@
 #include <CSFML/Graphics.h>
 #include <CSFML/Audio.h>
 #include <stdbool.h>
+
 #include "font.h"
 #include "garment.h"
 #include "ui/ui.h"
@@ -21,9 +22,14 @@ int main(void)
     if (!loadTextures()) {
         return 1;
     }
-    sfVideoMode mode = { { 800, 600 }, 32 };
-    sfRenderWindow *window = sfRenderWindow_create(
-        mode, "Dress Up Skeleton", sfResize | sfClose, sfWindowed, NULL);
+
+    sfVideoMode mode = { { 1200, 1080 }, 32 };
+    sfContextSettings contextSettings = (sfContextSettings){
+        .minorVersion = 1, .majorVersion = 1, .antiAliasingLevel = 4
+    };
+    sfRenderWindow *window =
+        sfRenderWindow_create(mode, "Dress Up Skeleton", sfResize | sfClose,
+                              sfWindowed, &contextSettings);
     if (!window)
         return 1;
 

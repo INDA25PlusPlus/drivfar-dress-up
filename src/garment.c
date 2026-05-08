@@ -1,5 +1,6 @@
 #include <CSFML/Graphics.h>
 #include "garment.h"
+#include "error_utilities.h"
 
 sfColor colorToSfColor(PaletteColor color)
 {
@@ -48,7 +49,7 @@ sfColor colorToSfColor(PaletteColor color)
         return (sfColor){ 0xec, 0xdf, 0xf4, 0xff };
     }
 
-    return sfWhite;
+    ASSERT_UNREACHABLE();
 }
 
 // Version defining a garment asset used for the hard-coded
@@ -99,12 +100,15 @@ static GarmentDefinition garmentDefinitions[] = {
         },
 };
 
-#define GARMENT_COUNT (sizeof(garmentDefinitions) / sizeof(GarmentDefinition))
+#define GARMENT_DEFINITIONS_COUNT \
+    (sizeof(garmentDefinitions) / sizeof(GarmentDefinition))
 
 GarmentAsset garments[GARMENT_COUNT];
 
 bool loadGarments()
 {
+    static_assert(GARMENT_DEFINITIONS_COUNT == GARMENT_COUNT,
+                  "Number of garment IDs must match number of garments");
     for (size_t i = 0; i < GARMENT_COUNT; i++) {
         GarmentDefinition definition = garmentDefinitions[i];
 
@@ -118,6 +122,8 @@ bool loadGarments()
             }
             return false;
         }
+        sfTexture_generateMipmap(coloredTexture);
+        sfTexture_setSmooth(coloredTexture, true);
 
         sfTexture *detailsTexture =
             sfTexture_createFromFile(definition.detailsPath, NULL);
@@ -130,6 +136,8 @@ bool loadGarments()
             }
             return false;
         }
+        sfTexture_generateMipmap(detailsTexture);
+        sfTexture_setSmooth(coloredTexture, true);
 
         garments[i] = (GarmentAsset){
             .id = definition.id,

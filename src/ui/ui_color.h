@@ -1,0 +1,27 @@
+#ifndef UI_COLOR_H
+#define UI_COLOR_H
+
+/// Color palette used in the UI. The identifiers are prefixed with `UI_COLOR_`.
+
+#include "clay.h"
+
+#define UI_COLOR_BASE (Clay_Color){ 0x47, 0x47, 0x47, 0xff }
+#define UI_COLOR_BASE_HOVERED (Clay_Color){ 0x40, 0x40, 0x40, 0xff }
+#define UI_COLOR_BASE_HOVERED (Clay_Color){ 0x40, 0x40, 0x40, 0xff }
+#define UI_COLOR_BORDER (Clay_Color){ 0x20, 0x20, 0x20, 0xff }
+#define UI_COLOR_BLACK (Clay_Color){ 0x0, 0x0, 0x0, 0xff }
+
+#define UI_COLOR_WHITE (Clay_Color){ 0xff, 0xff, 0xff, 0xff }
+#define UI_COLOR_TRANSPARENT (Clay_Color){ 0x0, 0x0, 0x0, 0x0 }
+
+#define UI_COLOR_GARMENT_PREVIEW_FILL (Clay_Color){ 0xe1, 0xe4, 0xdf, 0xff }
+#define UI_COLOR_ICON_ACCENT_FILL (Clay_Color){ 0xf3, 0xa5, 0xb0, 0xff }
+#define UI_COLOR_ICON_ACCENT_SELECTED (Clay_Color){ 0xdf, 0x34, 0x59, 0xff }
+#define UI_COLOR_ICON_ACCENT_UNSELECTED (Clay_Color){ 0xf6, 0xd3, 0xd8, 0xff }
+#define UI_COLOR_ICON_SELECTED_FILL (Clay_Color){ 0xce, 0xd5, 0xc9, 0xff }
+#define UI_COLOR_ICON_UNSELECTED (Clay_Color){ 0x66, 0x6B, 0x62, 0xff }
+#define UI_COLOR_MAIN_FILL (Clay_Color){ 0xf7, 0xfa, 0xf6, 0xff }
+#define UI_COLOR_MAIN_BORDER (Clay_Color){ 0xcd, 0xd0, 0xcb, 0xff }
+#define UI_COLOR_TEXT (Clay_Color){ 0x57, 0x66, 0x52, 0xff }
+
+#endif

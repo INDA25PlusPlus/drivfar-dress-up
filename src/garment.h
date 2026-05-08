@@ -4,7 +4,7 @@
 #include <stdint.h>
 #include <CSFML/Graphics.h>
 
-typedef enum {
+typedef enum GarmentType {
     // Piece of clothing on the upper body, e.g. a shirt.
     GARMENT_TYPE_TOP,
     // Piece of clothing on the lower body, e.g. a pair of pants.
@@ -15,15 +15,17 @@ typedef enum {
 
 // Hard coded list of garments, the order decides which order they are rendered
 // in, with later items placed on top of earlier ones.
-typedef enum {
+typedef enum GarmentId {
     // The names should be prefixed by `GARMENT_`.
     GARMENT_TEST_A,
     GARMENT_PANTS_A,
     GARMENT_SKIRT_A,
+    /// Is equal to the number of garments
+    GARMENT_COUNT,
 } GarmentId;
 
 // Represents a piece of clothing or accessory.
-typedef struct {
+typedef struct GarmentAsset {
     GarmentId id;
     GarmentType type;
     // The user-facing name of the garment.
