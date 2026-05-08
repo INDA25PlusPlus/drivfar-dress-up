@@ -14,27 +14,27 @@ static int32_t colorWheelPosition(PaletteColor color)
     case COLOR_ORANGE_STRONG:
     case COLOR_ORANGE_MEDIUM:
     case COLOR_ORANGE_LIGHT:
-        return 2;
+        return 1;
 
     case COLOR_GREEN_STRONG:
     case COLOR_GREEN_MEDIUM:
     case COLOR_GREEN_LIGHT:
-        return 6;
+        return 2;
 
     case COLOR_CYAN_STRONG:
     case COLOR_CYAN_MEDIUM:
     case COLOR_CYAN_LIGHT:
-        return 7;
+        return 3;
 
     case COLOR_BLUE_STRONG:
     case COLOR_BLUE_MEDIUM:
     case COLOR_BLUE_LIGHT:
-        return 8;
+        return 4;
 
     case COLOR_PURPLE_STRONG:
     case COLOR_PURPLE_MEDIUM:
     case COLOR_PURPLE_LIGHT:
-        return 10;
+        return 5;
 
     case COLOR_WHITE:
     case COLOR_GRAY:
@@ -94,7 +94,7 @@ static bool hasComplementaryScheme(const PaletteColor colors[],
             continue;
         }
 
-        int32_t oppositePosition = wrappedPosition(position + 6);
+        int32_t oppositePosition = wrappedPosition(position + 3);
 
         if (hasColorPosition(colors, colorCount, oppositePosition)) {
             return true;
@@ -134,8 +134,8 @@ static bool hasTriadicScheme(const PaletteColor colors[], size_t colorCount)
             continue;
         }
 
-        int32_t secondPosition = wrappedPosition(position + 4);
-        int32_t thirdPosition = wrappedPosition(position + 8);
+        int32_t secondPosition = wrappedPosition(position + 2);
+        int32_t thirdPosition = wrappedPosition(position + 4);
 
         if (hasColorPosition(colors, colorCount, secondPosition) &&
             hasColorPosition(colors, colorCount, thirdPosition)) {
@@ -156,7 +156,7 @@ static bool hasSplitComplementaryScheme(const PaletteColor colors[],
             continue;
         }
 
-        int32_t oppositePosition = wrappedPosition(position + 6);
+        int32_t oppositePosition = wrappedPosition(position + 3);
         int32_t leftSplitPosition = wrappedPosition(oppositePosition - 1);
         int32_t rightSplitPosition = wrappedPosition(oppositePosition + 1);
 
