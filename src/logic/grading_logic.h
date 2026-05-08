@@ -15,6 +15,7 @@ typedef enum {
 } Grade;
 
 typedef struct {
+    ColorScheme colorScheme;
     uint8_t colorSchemePoints;
     uint8_t totalPoints;
     Grade grade;

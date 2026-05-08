@@ -71,7 +71,7 @@ void start_ui(sfRenderWindow *window)
 
     sfClock *clock = sfClock_create();
 
-    UiState *state = calloc(1, sizeof(UiState));
+    UiState *state = uiStateCreate();
 
     while (sfRenderWindow_isOpen(window)) {
         sfTime elapsed = sfClock_restart(clock);
@@ -106,9 +106,9 @@ void start_ui(sfRenderWindow *window)
                 } break;
                 }
             } else if (event.type == sfEvtKeyPressed) {
-                handleKeyPress(state, event.key);
+                handleKeyPress(&state, event.key);
             } else if (event.type == sfEvtKeyReleased) {
-                handleKeyRelease(state, event.key);
+                handleKeyRelease(&state, event.key);
             }
         }
 
@@ -137,13 +137,17 @@ void start_ui(sfRenderWindow *window)
                         .lineHeight = (uint16_t)(52 * 1.2),
                         .textColor = UI_COLOR_TEXT });
 
-            CLAY_AUTO_ID({ .layout = { .sizing = { CLAY_SIZING_GROW(0),
-                                                   CLAY_SIZING_GROW(0) },
-                                       .childGap = 25 },
-                           .backgroundColor = UI_COLOR_MAIN_FILL })
+            CLAY_AUTO_ID(
+                { .layout.sizing = { CLAY_SIZING_GROW(0), CLAY_SIZING_GROW(0) },
+                  .layout.childGap = 25,
+                  .layout.childAlignment.x = CLAY_ALIGN_X_CENTER,
+                  .backgroundColor = UI_COLOR_MAIN_FILL })
             {
-                // Side bar
-                CLAY_AUTO_ID(
+                if (state->focusState == UI_FOCUS_REGION_GRADE) {
+                    GradeView(state);
+                } else {
+                    // Side bar
+                    CLAY_AUTO_ID(
                          { .layout = { .layoutDirection = CLAY_TOP_TO_BOTTOM,
                                        .sizing = { .width = CLAY_SIZING_FIT(),
                                                    .height = CLAY_SIZING_GROW() },
@@ -152,12 +156,13 @@ void start_ui(sfRenderWindow *window)
                             .clip = { .vertical = true,
                                  .childOffset = Clay_GetScrollOffset() }
                          })
-                {
-                    GarmentSelector(state);
-                    ColorSelector(state);
-                }
+                    {
+                        GarmentSelector(state);
+                        ColorSelector(state);
+                    }
 
-                DollView();
+                    DollView();
+                }
             }
         }
 
@@ -176,7 +181,7 @@ void start_ui(sfRenderWindow *window)
         frameArena.nextAllocation = 0;
     }
 
-    free(state);
+    uiStateDestroy(state);
 
     sfClock_destroy(clock);
 }

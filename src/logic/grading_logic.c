@@ -73,6 +73,7 @@ GradeResult judgeGradeFromColorScheme(ColorScheme colorScheme)
     uint8_t totalPoints = colorSchemePoints;
 
     return (GradeResult){
+        .colorScheme = colorScheme,
         .colorSchemePoints = colorSchemePoints,
         .totalPoints = totalPoints,
         .grade = gradeFromPoints(totalPoints),
