@@ -4,7 +4,7 @@
 #include <stdint.h>
 #include <CSFML/Graphics.h>
 
-typedef enum {
+typedef enum GarmentType {
     // Piece of clothing on the upper body, e.g. a shirt.
     GARMENT_TYPE_TOP,
     // Piece of clothing on the lower body, e.g. a pair of pants.
@@ -15,15 +15,17 @@ typedef enum {
 
 // Hard coded list of garments, the order decides which order they are rendered
 // in, with later items placed on top of earlier ones.
-typedef enum {
+typedef enum GarmentId {
     // The names should be prefixed by `GARMENT_`.
     GARMENT_TEST_A,
     GARMENT_PANTS_A,
     GARMENT_SKIRT_A,
+    /// Is equal to the number of garments
+    GARMENT_COUNT,
 } GarmentId;
 
 // Represents a piece of clothing or accessory.
-typedef struct {
+typedef struct GarmentAsset {
     GarmentId id;
     GarmentType type;
     // The user-facing name of the garment.
@@ -41,19 +43,27 @@ typedef struct {
 
 // The palette colors which the user can select for a garment.
 typedef enum {
-    COLOR_RED,
-    COLOR_RED_ORANGE,
-    COLOR_ORANGE,
-    COLOR_YELLOW_ORANGE,
-    COLOR_YELLOW,
-    COLOR_YELLOW_GREEN,
-    COLOR_GREEN,
-    COLOR_BLUE_GREEN,
-    COLOR_BLUE,
-    COLOR_BLUE_VIOLET,
-    COLOR_VIOLET,
-    COLOR_RED_VIOLET,
-    COLOR_CERISE,
+    COLOR_WHITE,
+    COLOR_GRAY,
+    COLOR_BLACK,
+    COLOR_CERISE_STRONG,
+    COLOR_CERISE_MEDIUM,
+    COLOR_CERISE_LIGHT,
+    COLOR_ORANGE_STRONG,
+    COLOR_ORANGE_MEDIUM,
+    COLOR_ORANGE_LIGHT,
+    COLOR_GREEN_STRONG,
+    COLOR_GREEN_MEDIUM,
+    COLOR_GREEN_LIGHT,
+    COLOR_CYAN_STRONG,
+    COLOR_CYAN_MEDIUM,
+    COLOR_CYAN_LIGHT,
+    COLOR_BLUE_STRONG,
+    COLOR_BLUE_MEDIUM,
+    COLOR_BLUE_LIGHT,
+    COLOR_PURPLE_STRONG,
+    COLOR_PURPLE_MEDIUM,
+    COLOR_PURPLE_LIGHT,
 } PaletteColor;
 
 // Returns the color of one of the palette colors.

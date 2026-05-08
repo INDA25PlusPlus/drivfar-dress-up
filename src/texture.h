@@ -9,6 +9,16 @@ extern sfTexture *textures[];
 typedef enum {
     // The names should be prefixed by `TEXTURE_`.
     TEXTURE_DOLL,
+    TEXTURE_ICON_GARMENT_HAT,
+    TEXTURE_ICON_GARMENT_TOP,
+    TEXTURE_ICON_GARMENT_BOTTOM,
+    TEXTURE_ICON_GARMENT_SHOES,
+    TEXTURE_ICON_STICK,
+    TEXTURE_ICON_STICK_HORIZONTAL,
+    TEXTURE_ICON_STICK_VERTICAL,
+    TEXTURE_ICON_BUTTON_A,
+    TEXTURE_ICON_BUTTON_B,
+    TEXTURE_ICON_BUTTON_START,
 } TextureId;
 
 /// Load texture assets. Returns false if error is encountered.
