@@ -3,7 +3,9 @@
 #include "font.h"
 
 /// Array of font files, relative to the project root.
-static const char *const fontPaths[] = { "assets/font/arial.ttf" };
+static const char *const fontPaths[] = {
+    "assets/font/arial.ttf", "assets/font/karrik/Karrik-Regular.ttf"
+};
 
 #define FONT_COUNT (sizeof(fontPaths) / sizeof(*fontPaths))
 

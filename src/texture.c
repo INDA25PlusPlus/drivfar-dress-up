@@ -1,9 +1,14 @@
-
-
 #include "texture.h"
 
 /// Array of texture files (doll, background etc.), relative to the project root.
-static const char *const texturePaths[] = { "assets/texture/doll.png" };
+static const char *const texturePaths[] = {
+    "assets/texture/doll.png",          "assets/icon/garment_hat.png",
+    "assets/icon/garment_top.png",      "assets/icon/garment_bottom.png",
+    "assets/icon/garment_shoes.png",    "assets/icon/stick.png",
+    "assets/icon/stick_horizontal.png", "assets/icon/stick_vertical.png",
+    "assets/icon/button_a.png",         "assets/icon/button_b.png",
+    "assets/icon/button_start.png",
+};
 
 #define TEXTURE_COUNT (sizeof(texturePaths) / sizeof(*texturePaths))
 
@@ -23,6 +28,7 @@ bool loadTextures()
 
             return false;
         }
+        sfTexture_generateMipmap(texture);
 
         textures[i] = texture;
     }
