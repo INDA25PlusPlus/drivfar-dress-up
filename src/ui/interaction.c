@@ -203,6 +203,9 @@ void handleKeyPress(UiState *state, sfKeyEvent event)
         case sfKeyH: {
             moveGarmentTypeSelectionX(state, RIGHT);
         } break;
+        case sfKeyEnter: {
+            state->focusState = UI_FOCUS_REGION_GRADE_CONFIRMATION;
+        } break;
         default:
             break;
         }
@@ -233,11 +236,36 @@ void handleKeyPress(UiState *state, sfKeyEvent event)
             PaletteColor *color = &state->garmentsColor[state->selectedGarment];
             *color = colorGridGetAdjacentColor(*color, GRID_DIRECTION_RIGHT);
         } break;
+        case sfKeyEnter: {
+            state->focusState = UI_FOCUS_REGION_GRADE_CONFIRMATION;
+        } break;
         default:
             break;
         }
     } break;
     default:
-        ASSERT_UNREACHABLE();
+        break;
+    }
+}
+
+void handleKeyRelease(UiState *state, sfKeyEvent event)
+{
+    switch (state->focusState) {
+    case UI_FOCUS_REGION_GRADE_CONFIRMATION: {
+        switch (event.code) {
+        case sfKeyA:
+        case sfKeyNum1: {
+            state->focusState = UI_FOCUS_REGION_GARMENTS;
+        } break;
+        case sfKeyB:
+        case sfKeyNum2: {
+            state->focusState = UI_FOCUS_REGION_GARMENTS;
+        } break;
+        default:
+            break;
+        }
+    } break;
+    default:
+        break;
     }
 }

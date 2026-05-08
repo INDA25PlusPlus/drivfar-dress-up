@@ -8,6 +8,7 @@
 typedef enum UiFocusRegion {
     UI_FOCUS_REGION_GARMENTS = 0,
     UI_FOCUS_REGION_COLORS,
+    UI_FOCUS_REGION_GRADE_CONFIRMATION,
 } UiFocusRegion;
 
 typedef struct UiState {

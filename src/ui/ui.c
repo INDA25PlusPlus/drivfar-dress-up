@@ -17,6 +17,7 @@
 #include "components/color.h"
 #include "components/doll.h"
 #include "components/garment.h"
+#include "components/grade.h"
 #include "dpi_scale.h"
 #include "font.h"
 #include "interaction.h"
@@ -106,6 +107,8 @@ void start_ui(sfRenderWindow *window)
                 }
             } else if (event.type == sfEvtKeyPressed) {
                 handleKeyPress(state, event.key);
+            } else if (event.type == sfEvtKeyReleased) {
+                handleKeyRelease(state, event.key);
             }
         }
 
@@ -156,6 +159,10 @@ void start_ui(sfRenderWindow *window)
 
                 DollView();
             }
+        }
+
+        if (state->focusState == UI_FOCUS_REGION_GRADE_CONFIRMATION) {
+            GradeConfirmationModal();
         }
 
         Clay_RenderCommandArray renderCommands = Clay_EndLayout(delta_secs);
