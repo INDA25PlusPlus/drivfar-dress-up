@@ -181,19 +181,21 @@ void GarmentSelector(const UiState *const state)
               .cornerRadius = { .bottomLeft = 10, .bottomRight = 10 },
               .backgroundColor = UI_COLOR_MAIN_BORDER })
         {
-            if (state->focusState == UI_FOCUS_REGION_GARMENTS) {
-                KeyHint(textures[TEXTURE_ICON_STICK_VERTICAL],
-                        CLAY_STRING("Select Type"), UI_COLOR_TEXT);
-                KeyHint(textures[TEXTURE_ICON_STICK_HORIZONTAL],
-                        CLAY_STRING("Select Garment"), UI_COLOR_TEXT);
-                KeyHint(textures[TEXTURE_ICON_BUTTON_A],
-                        CLAY_STRING("Add/Remove"), UI_COLOR_TEXT);
-                KeyHint(textures[TEXTURE_ICON_BUTTON_B],
-                        CLAY_STRING("Edit Color"),
-                        state->garmentsActive[state->selectedGarment] ?
-                            UI_COLOR_TEXT :
-                            UI_COLOR_TRANSPARENT);
-            }
+            Clay_Color textColor = state->focusState ==
+                                           UI_FOCUS_REGION_GARMENTS ?
+                                       UI_COLOR_TEXT :
+                                       UI_COLOR_TRANSPARENT;
+
+            KeyHint(textures[TEXTURE_ICON_STICK_VERTICAL],
+                    CLAY_STRING("Select Type"), textColor);
+            KeyHint(textures[TEXTURE_ICON_STICK_HORIZONTAL],
+                    CLAY_STRING("Select Garment"), textColor);
+            KeyHint(textures[TEXTURE_ICON_BUTTON_A], CLAY_STRING("Add/Remove"),
+                    textColor);
+            KeyHint(textures[TEXTURE_ICON_BUTTON_B], CLAY_STRING("Edit Color"),
+                    state->garmentsActive[state->selectedGarment] ?
+                        textColor :
+                        UI_COLOR_TRANSPARENT);
         }
     }
 }

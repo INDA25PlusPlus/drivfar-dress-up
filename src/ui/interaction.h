@@ -6,6 +6,10 @@
 
 /// Centralized function which handles ui state transitions based on key press
 /// events.
-void handleKeyPress(UiState *state, sfKeyEvent event);
+void handleKeyPress(UiState **state, sfKeyEvent event);
+
+/// Centralized function which handles ui state transitions based on key
+/// release events.
+void handleKeyRelease(UiState **state, sfKeyEvent event);
 
 #endif

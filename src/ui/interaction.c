@@ -158,7 +158,33 @@ static void moveGarmentTypeSelectionX(UiState *state, XDirection direction)
     }
 }
 
-void handleKeyPress(UiState *state, sfKeyEvent event)
+static void gradeResult(UiState *state)
+{
+    size_t garmentCount = 0;
+    for (GarmentId id = 0; id < GARMENT_COUNT; id++) {
+        if (state->garmentsActive[id]) {
+            garmentCount += 1;
+        }
+    }
+    PaletteColor *garmentColors = calloc(garmentCount, sizeof(PaletteColor));
+    if (garmentColors == NULL) {
+        err(1, "Garment color array allocation failed");
+    }
+    size_t garmentColorIndex = 0;
+    for (GarmentId id = 0; id < GARMENT_COUNT; id++) {
+        if (state->garmentsActive[id]) {
+            garmentColors[garmentColorIndex++] = state->garmentsColor[id];
+        }
+    }
+    state->gradeResult = judgeGradeFromColorScheme(
+        judgeColorScheme(garmentColors, garmentCount));
+    free(garmentColors);
+
+    sfClock_restart(state->gradeScreenSwitchClock);
+    state->focusState = UI_FOCUS_REGION_GRADE;
+}
+
+void handleKeyPress(UiState **state, sfKeyEvent event)
 {
     switch (event.code) {
     case sfKeyO: {
@@ -172,36 +198,39 @@ void handleKeyPress(UiState *state, sfKeyEvent event)
     default:
         break;
     }
-    switch (state->focusState) {
+    switch ((*state)->focusState) {
     case UI_FOCUS_REGION_GARMENTS: {
         switch (event.code) {
         case sfKeyA:
         case sfKeyNum1: {
-            state->garmentsActive[state->selectedGarment] =
-                !state->garmentsActive[state->selectedGarment];
+            (*state)->garmentsActive[(*state)->selectedGarment] =
+                !(*state)->garmentsActive[(*state)->selectedGarment];
         } break;
         case sfKeyB:
         case sfKeyNum2: {
             // We only allow editing the color of garments placed on the doll.
-            if (state->garmentsActive[state->selectedGarment]) {
-                state->focusState = UI_FOCUS_REGION_COLORS;
+            if ((*state)->garmentsActive[(*state)->selectedGarment]) {
+                (*state)->focusState = UI_FOCUS_REGION_COLORS;
             }
         } break;
         case sfKeyUp:
         case sfKeyT: {
-            moveGarmentTypeSelectionY(state, ABOVE);
+            moveGarmentTypeSelectionY((*state), ABOVE);
         } break;
         case sfKeyDown:
         case sfKeyG: {
-            moveGarmentTypeSelectionY(state, BELOW);
+            moveGarmentTypeSelectionY((*state), BELOW);
         } break;
         case sfKeyLeft:
         case sfKeyF: {
-            moveGarmentTypeSelectionX(state, LEFT);
+            moveGarmentTypeSelectionX((*state), LEFT);
         } break;
         case sfKeyRight:
         case sfKeyH: {
-            moveGarmentTypeSelectionX(state, RIGHT);
+            moveGarmentTypeSelectionX((*state), RIGHT);
+        } break;
+        case sfKeyEnter: {
+            (*state)->focusState = UI_FOCUS_REGION_GRADE_CONFIRMATION;
         } break;
         default:
             break;
@@ -211,33 +240,73 @@ void handleKeyPress(UiState *state, sfKeyEvent event)
         switch (event.code) {
         case sfKeyB:
         case sfKeyNum2: {
-            state->focusState = UI_FOCUS_REGION_GARMENTS;
+            (*state)->focusState = UI_FOCUS_REGION_GARMENTS;
         } break;
         case sfKeyUp:
         case sfKeyT: {
-            PaletteColor *color = &state->garmentsColor[state->selectedGarment];
+            PaletteColor *color =
+                &(*state)->garmentsColor[(*state)->selectedGarment];
             *color = colorGridGetAdjacentColor(*color, GRID_DIRECTION_ABOVE);
         } break;
         case sfKeyDown:
         case sfKeyG: {
-            PaletteColor *color = &state->garmentsColor[state->selectedGarment];
+            PaletteColor *color =
+                &(*state)->garmentsColor[(*state)->selectedGarment];
             *color = colorGridGetAdjacentColor(*color, GRID_DIRECTION_BELOW);
         } break;
         case sfKeyLeft:
         case sfKeyF: {
-            PaletteColor *color = &state->garmentsColor[state->selectedGarment];
+            PaletteColor *color =
+                &(*state)->garmentsColor[(*state)->selectedGarment];
             *color = colorGridGetAdjacentColor(*color, GRID_DIRECTION_LEFT);
         } break;
         case sfKeyRight:
         case sfKeyH: {
-            PaletteColor *color = &state->garmentsColor[state->selectedGarment];
+            PaletteColor *color =
+                &(*state)->garmentsColor[(*state)->selectedGarment];
             *color = colorGridGetAdjacentColor(*color, GRID_DIRECTION_RIGHT);
+        } break;
+        case sfKeyEnter: {
+            (*state)->focusState = UI_FOCUS_REGION_GRADE_CONFIRMATION;
+        } break;
+        default:
+            break;
+        }
+    } break;
+    case UI_FOCUS_REGION_GRADE: {
+        switch (event.code) {
+        case sfKeyEnter: {
+            uiStateDestroy(*state);
+            *state = uiStateCreate();
+            (*state)->focusState = UI_FOCUS_REGION_COLORS;
         } break;
         default:
             break;
         }
     } break;
     default:
-        ASSERT_UNREACHABLE();
+        break;
+    }
+}
+
+void handleKeyRelease(UiState **state, sfKeyEvent event)
+{
+    switch ((*state)->focusState) {
+    case UI_FOCUS_REGION_GRADE_CONFIRMATION: {
+        switch (event.code) {
+        case sfKeyA:
+        case sfKeyNum1: {
+            (*state)->focusState = UI_FOCUS_REGION_GARMENTS;
+        } break;
+        case sfKeyB:
+        case sfKeyNum2: {
+            gradeResult((*state));
+        } break;
+        default:
+            break;
+        }
+    } break;
+    default:
+        break;
     }
 }
