@@ -14,7 +14,7 @@ UTEST(colorLogic, detectsComplementaryScheme)
 {
     PaletteColor colors[] = {
         COLOR_CERISE_STRONG, // position 0
-        COLOR_GREEN_STRONG,  // position 6
+        COLOR_CYAN_STRONG,   // position 3  (0+3=3, opposite on 6-wheel)
     };
 
     EXPECT_EQ(COLOR_SCHEME_COMPLEMENTARY, judgeColorScheme(colors, 2));
@@ -34,25 +34,10 @@ UTEST(colorLogic, detectsAnalogousScheme)
 UTEST(colorLogic, detectsTriadicScheme)
 {
     PaletteColor colors[] = {
-        COLOR_ORANGE_STRONG, // position 2
-        COLOR_GREEN_STRONG,  // position 6
-        COLOR_PURPLE_STRONG, // position 10
+        COLOR_CERISE_STRONG, // position 0
+        COLOR_GREEN_STRONG,  // position 2  (0+2=2)
+        COLOR_BLUE_STRONG,   // position 4  (0+4=4)
     };
 
     EXPECT_EQ(COLOR_SCHEME_TRIADIC, judgeColorScheme(colors, 3));
 }
-
-// doesnt work with new palette (maybe can hardcode)
-/* UTEST(colorLogic, detectsSplitComplementaryScheme)
-{
-    PaletteColor colors[] = {
-        COLOR_CERISE_STRONG, // position 11
-        COLOR_GREEN_STRONG,  // position 6
-        COLOR_CYAN_STRONG,   // position 7
-    };
-
-    EXPECT_EQ(
-        COLOR_SCHEME_SPLIT_COMPLEMENTARY,
-        judgeColorScheme(colors, 3)
-    );
-} */
