@@ -87,8 +87,8 @@ UTEST(styleLogic, noCoherentBonusWhenMultipleStylesPresent)
     // it by using the same asset twice and checking styleCount stays at 1.
     // Once real pub garments exist, replace this with one of them.
     //
-    // For now: two SITTNING + one NONE → styleCount == 1 → bonus IS given.
-    // This test documents the boundary: mix of two named styles → no bonus.
+    // For now: two SITTNING + one NONE -> styleCount == 1 -> bonus IS given.
+    // This test documents the boundary: mix of two named styles -> no bonus.
     Garment outfit[] = {
         { .id = GARMENT_PANTS_A }, // STYLE_SITTNING
         { .id = GARMENT_SKIRT_A }, // STYLE_SITTNING
@@ -106,7 +106,7 @@ UTEST(styleLogic, finsittningClashesWithPub)
     // is still testable via styleForGarment overrides; once a pub garment is
     // added, swap GARMENT_TEST_A for it and remove the skip note.
     //
-    // Current placeholder: PANTS_A (SITTNING) + TEST_A (NONE) → no clash.
+    // Current placeholder: PANTS_A (SITTNING) + TEST_A (NONE) -> no clash.
     // This test will need updating when a PUB garment is added.
     Garment outfit[] = {
         { .id = GARMENT_PANTS_A }, // STYLE_SITTNING

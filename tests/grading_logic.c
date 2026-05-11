@@ -94,7 +94,7 @@ UTEST(gradingLogic, positiveStylePointsAddToTotal)
         .stylePoints   = 4, // pair (2) + coherent bonus (2)
     };
 
-    // COLOR_SCHEME_ANALOGOUS = 3 points + 4 style points = 7 → GRADE_A
+    // COLOR_SCHEME_ANALOGOUS = 3 points + 4 style points = 7 -> GRADE_A
     GradeResult result = judgeGrade(COLOR_SCHEME_ANALOGOUS, style);
 
     EXPECT_EQ(3,       result.colorSchemePoints);
@@ -113,7 +113,7 @@ UTEST(gradingLogic, negativeStylePointsReduceTotal)
         .stylePoints   = -3, // one clash penalty
     };
 
-    // COLOR_SCHEME_COMPLEMENTARY = 4 points - 3 style points = 1 → GRADE_E
+    // COLOR_SCHEME_COMPLEMENTARY = 4 points - 3 style points = 1 -> GRADE_E
     GradeResult result = judgeGrade(COLOR_SCHEME_COMPLEMENTARY, style);
 
     EXPECT_EQ(4,       result.colorSchemePoints);
@@ -132,7 +132,7 @@ UTEST(gradingLogic, totalPointsClampToZero)
         .stylePoints   = -10, // heavy clash penalty
     };
 
-    // COLOR_SCHEME_NONE = 0 points - 10 style points → clamped to 0 → GRADE_F
+    // COLOR_SCHEME_NONE = 0 points - 10 style points -> clamped to 0 -> GRADE_F
     GradeResult result = judgeGrade(COLOR_SCHEME_NONE, style);
 
     EXPECT_EQ(0,       result.colorSchemePoints);
