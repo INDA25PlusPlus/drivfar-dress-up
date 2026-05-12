@@ -114,7 +114,7 @@ static GarmentDefinition garmentDefinitions[] = {
             .name = "Hat Schmeck",
             .coloredPath = "assets/garment/hat_schmeck/colored.png",
             .detailsPath = "assets/garment/hat_schmeck/details.png",
-            .position = { 750, -380 },
+            .position = { 950, 50 },
             .scale = { 1.0f, 1.0f },
         },
 
@@ -125,7 +125,7 @@ static GarmentDefinition garmentDefinitions[] = {
             .name = "Pants Ovve",
             .coloredPath = "assets/garment/pants_ovve/colored.png",
             .detailsPath = "assets/garment/pants_ovve/details.png",
-            .position = { 450, 150 },
+            .position = { 880, 1450 },
             .scale = { 1.0f, 1.0f },
         }
 

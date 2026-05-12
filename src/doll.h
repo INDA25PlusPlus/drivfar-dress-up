@@ -16,7 +16,8 @@ typedef struct {
 } Doll;
 
 // renders the doll and its garmets
-void renderDoll(sfRenderWindow *window, Doll *doll);
+void renderDoll(sfRenderWindow *window, Doll *doll, sfVector2f position,
+                float height);
 void dollDestroy(Doll *doll);
 
 Doll *dollCreate();

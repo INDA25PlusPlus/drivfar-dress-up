@@ -38,22 +38,21 @@ void dollDestroy(Doll *doll)
     free(doll);
 }
 
-void renderDoll(sfRenderWindow *window, Doll *doll)
+void renderDoll(sfRenderWindow *window, Doll *doll, sfVector2f position,
+                float height)
 {
     sfVector2u windowSize = sfRenderWindow_getSize(window);
 
     // doll position with offset
     sfVector2f dollOffset = calcOffset(doll->sprite);
     sfVector2f dollPos = {
-        windowSize.x * 2.5f + dollOffset.x, windowSize.y * 0.9f
+        position.x + dollOffset.x, position.y
     }; // no offset for y since we want feet on ground for standing doll ??
 
     sfFloatRect bounds = sfSprite_getLocalBounds(doll->sprite);
 
     float currentHeight = bounds.size.y;
-    float desiredHeight = windowSize.y * 0.8;
-
-    float s = desiredHeight / currentHeight;
+    float s = height / currentHeight;
 
     sfTransform transform = sfTransform_Identity;
 
@@ -79,12 +78,7 @@ void renderDoll(sfRenderWindow *window, Doll *doll)
         sfSprite *coloredSprite = sfSprite_create(asset->coloredTexture);
         sfSprite_setColor(coloredSprite, colorToSfColor(g->color));
 
-        sfFloatRect b = sfSprite_getLocalBounds(coloredSprite);
-
-        sfVector2f colorCenteredPos = { asset->position.x + b.size.x / 2.f,
-                                        asset->position.y + b.size.y / 2.f };
-
-        sfSprite_setPosition(coloredSprite, colorCenteredPos);
+        sfSprite_setPosition(coloredSprite, asset->position);
         sfSprite_setScale(coloredSprite, asset->scale);
 
         sfRenderWindow_drawSprite(window, coloredSprite, &states);
@@ -93,12 +87,7 @@ void renderDoll(sfRenderWindow *window, Doll *doll)
         // details layer
         sfSprite *detailsSprite = sfSprite_create(asset->detailsTexture);
 
-        b = sfSprite_getLocalBounds(coloredSprite);
-
-        sfVector2f detailCenteredPos = { asset->position.x + b.size.x / 2.f,
-                                         asset->position.y + b.size.y / 2.f };
-
-        sfSprite_setPosition(detailsSprite, detailCenteredPos);
+        sfSprite_setPosition(detailsSprite, asset->position);
         sfSprite_setScale(detailsSprite, asset->scale);
 
         sfRenderWindow_drawSprite(window, detailsSprite, &states);
