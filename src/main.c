@@ -35,11 +35,11 @@ int main(void)
 
     g_doll = dollCreate();
     // Test adding garments
-    garmentListPush(g_doll->garments,
-                    (Garment){ .id = GARMENT_TEST_A, .color = COLOR_RED });
+    garmentListPush(g_doll->garments, (Garment){ .id = GARMENT_PANTS_OVVE,
+                                                 .color = COLOR_CERISE_LIGHT });
 
-    garmentListPush(g_doll->garments,
-                    (Garment){ .id = GARMENT_PANTS_A, .color = COLOR_CERISE });
+    garmentListPush(g_doll->garments, (Garment){ .id = GARMENT_HAT_SCHMECK,
+                                                 .color = COLOR_GRAY });
     start_ui(window);
 
     sfRenderWindow_destroy(window);

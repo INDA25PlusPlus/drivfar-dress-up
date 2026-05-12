@@ -106,6 +106,29 @@ static GarmentDefinition garmentDefinitions[] = {
             .position = { 100, 100 },
             .scale = { 0.5f, 0.5f },
         },
+
+    [GARMENT_HAT_SCHMECK] =
+        (GarmentDefinition){
+            .id = GARMENT_HAT_SCHMECK,
+            .type = GARMENT_TYPE_HAT,
+            .name = "Hat Schmeck",
+            .coloredPath = "assets/garment/hat_schmeck/colored.png",
+            .detailsPath = "assets/garment/hat_schmeck/details.png",
+            .position = { 750, -380 },
+            .scale = { 1.0f, 1.0f },
+        },
+
+    [GARMENT_PANTS_OVVE] =
+        (GarmentDefinition){
+            .id = GARMENT_PANTS_OVVE,
+            .type = GARMENT_TYPE_BOTTOM,
+            .name = "Pants Ovve",
+            .coloredPath = "assets/garment/pants_ovve/colored.png",
+            .detailsPath = "assets/garment/pants_ovve/details.png",
+            .position = { 450, 150 },
+            .scale = { 1.0f, 1.0f },
+        }
+
 };
 
 #define GARMENT_DEFINITIONS_COUNT \

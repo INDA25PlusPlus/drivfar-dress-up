@@ -20,6 +20,9 @@ typedef enum GarmentId {
     GARMENT_TEST_A,
     GARMENT_PANTS_A,
     GARMENT_SKIRT_A,
+
+    GARMENT_HAT_SCHMECK,
+    GARMENT_PANTS_OVVE,
     /// Is equal to the number of garments
     GARMENT_COUNT,
 } GarmentId;

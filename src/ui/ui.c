@@ -176,6 +176,9 @@ void start_ui(sfRenderWindow *window)
 
         Clay_Sfml_RenderClayCommands(&renderData, &renderCommands);
 
+        // added this to render the doll here, dont know where else to do it
+        renderDoll(window, g_doll);
+
         sfRenderWindow_display(window);
 
         frameArena.nextAllocation = 0;
