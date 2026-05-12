@@ -8,20 +8,15 @@
 
 #include <CSFML/Graphics.h>
 
-Doll *dollCreate(sfVector2f position)
+Doll *dollCreate()
 {
     Doll *doll = calloc(1, sizeof(Doll));
     assert(doll);
-
-    doll->position = position;
 
     // create sprite from texture
     doll->texture = textures[TEXTURE_DOLL];
     doll->sprite = sfSprite_create(doll->texture);
     assert(doll->sprite);
-
-    // scale image of doll
-    sfSprite_setScale(doll->sprite, (sfVector2f){ 0.8f, 0.8f });
 
     // create garment list
     doll->garments = garmentListCreate();
@@ -45,9 +40,31 @@ void dollDestroy(Doll *doll)
 
 void renderDoll(sfRenderWindow *window, Doll *doll)
 {
+    sfVector2u windowSize = sfRenderWindow_getSize(window);
+
+    sfVector2f dollPos = { windowSize.x * 3.0f, windowSize.y * 0.5f };
+
+    sfFloatRect bounds = sfSprite_getGlobalBounds(doll->sprite);
+
+    float currentHeight = bounds.size.y;
+    float desiredHeight = 800;
+
+    float s = desiredHeight / currentHeight;
+
+    sfTransform transform = sfTransform_Identity;
+
+    sfTransform_scale(&transform, (sfVector2f){ s, s });
+    sfTransform_translate(&transform, dollPos);
+
+    // define states so that doll and garment use same transform
+
+    sfRenderStates states = { .blendMode = sfBlendAlpha,
+                              .transform = transform,
+                              .texture = NULL,
+                              .shader = NULL };
+
     // draw base doll
-    sfSprite_setPosition(doll->sprite, doll->position);
-    sfRenderWindow_drawSprite(window, doll->sprite, NULL);
+    sfRenderWindow_drawSprite(window, doll->sprite, &states);
 
     // Draw garments on top
     // TODO: Draw in correct order (first bottoms, then tops etc??)
@@ -55,25 +72,19 @@ void renderDoll(sfRenderWindow *window, Doll *doll)
         Garment *g = &doll->garments->items[i];
         GarmentAsset *asset = &garments[g->id];
 
-        // position relative to doll
-        sfVector2f pos = { doll->position.x + asset->position.x,
-                           doll->position.y + asset->position.y };
-
         // colored layer
         sfSprite *coloredSprite = sfSprite_create(asset->coloredTexture);
-        sfSprite_setPosition(coloredSprite, pos);
-        sfSprite_setScale(coloredSprite, asset->scale);
         sfSprite_setColor(coloredSprite, colorToSfColor(g->color));
+        sfSprite_setScale(coloredSprite, asset->scale);
 
-        sfRenderWindow_drawSprite(window, coloredSprite, NULL);
+        sfRenderWindow_drawSprite(window, coloredSprite, &states);
         sfSprite_destroy(coloredSprite);
 
         // details layer
         sfSprite *detailsSprite = sfSprite_create(asset->detailsTexture);
-        sfSprite_setPosition(detailsSprite, pos);
         sfSprite_setScale(detailsSprite, asset->scale);
 
-        sfRenderWindow_drawSprite(window, detailsSprite, NULL);
+        sfRenderWindow_drawSprite(window, detailsSprite, &states);
         sfSprite_destroy(detailsSprite);
     }
 }

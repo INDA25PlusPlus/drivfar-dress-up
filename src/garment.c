@@ -83,7 +83,7 @@ static GarmentDefinition garmentDefinitions[] = {
             .name = "Test A",
             .coloredPath = "assets/garment/test_a/colored.png",
             .detailsPath = "assets/garment/test_a/details.png",
-            .position = { 100, 100 },
+            .position = { 0, 0 },
             .scale = { 0.5f, 0.5f },
         },
     [GARMENT_PANTS_A] =
@@ -93,8 +93,8 @@ static GarmentDefinition garmentDefinitions[] = {
             .name = "Pants A",
             .coloredPath = "assets/garment/pants_a/colored.png",
             .detailsPath = "assets/garment/pants_a/details.png",
-            .position = { 100, 100 },
-            .scale = { 0.5f, 0.5f },
+            .position = { 0, 0 },
+            .scale = { 0.8f, 0.8f },
         },
     [GARMENT_SKIRT_A] =
         (GarmentDefinition){

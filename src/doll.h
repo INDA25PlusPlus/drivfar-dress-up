@@ -11,8 +11,6 @@ typedef struct {
     sfSprite *sprite;
     sfTexture *texture;
 
-    sfVector2f position;
-
     GarmentList *garments;
 
 } Doll;
@@ -21,6 +19,6 @@ typedef struct {
 void renderDoll(sfRenderWindow *window, Doll *doll);
 void dollDestroy(Doll *doll);
 
-Doll *dollCreate(sfVector2f position);
+Doll *dollCreate();
 
 #endif
