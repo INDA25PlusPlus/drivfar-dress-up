@@ -6,6 +6,9 @@
 #include "ui/clay.h"
 #include "ui/state.h"
 
+/// List of all custom Clay elements. Currently only contains the doll
+/// component. Each type should have a corresponding rendering function, which
+/// is called in 'clay_render_sfml.c'.
 typedef enum CustomElementType {
     /// Renders the
     CUSTOM_ELEMENT_DOLL,
