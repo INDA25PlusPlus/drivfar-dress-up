@@ -1,4 +1,6 @@
 #include "style_logic.h"
+#include "error_utilities.h"
+
 #include <stdbool.h>
 
 // TODO: Balance this with color scheme
@@ -16,9 +18,10 @@ const char *styleToString(GarmentStyle style)
         return "Pub";
     case STYLE_OVERALL:
         return "Overall";
+    default:
+        ASSERT_UNKNOWN_GARMENT_STYLE();
+        return "Unknown"; // unreachable, silences compiler warning
     }
-    ASSERT_UNKNOWN_STYLE();
-    return STYLE_NONE; // unreachable, silences compiler warning
 }
 
 // Garment -> style mapping
@@ -33,9 +36,10 @@ GarmentStyle styleForGarment(GarmentId id)
         return STYLE_SITTNING;
     case GARMENT_SKIRT_A:
         return STYLE_SITTNING;
+    default:
+        ASSERT_UNKNOWN_GARMENT_ID();
+        return STYLE_NONE; // unreachable
     }
-    ASSERT_UNKNOWN_STYLE();
-    return STYLE_NONE; // unreachable
 }
 
 // Number of named styles (excluding STYLE_NONE).
