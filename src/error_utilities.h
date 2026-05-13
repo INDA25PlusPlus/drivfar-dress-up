@@ -11,4 +11,7 @@
 #define ASSERT_UNREACHABLE_MSG(msgString) \
     (fprintf(stderr, "Assertion failed: %s\n", msgString), exit(101))
 
+#define ASSERT_UNKNOWN_STYLE() \
+    assert(!"Unrecognized garment ID in styleForGarment")
+
 #endif

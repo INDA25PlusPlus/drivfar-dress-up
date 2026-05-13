@@ -62,13 +62,14 @@ GradeResult judgeGrade(ColorScheme colorScheme, StyleResult styleResult)
 {
     uint8_t colorSchemePoints = pointsForColorScheme(colorScheme);
     int16_t total = (int16_t)colorSchemePoints + styleResult.stylePoints;
-    if (total < 0) total = 0;
+    if (total < 0)
+        total = 0;
 
     return (GradeResult){
         .colorScheme = colorScheme,
         .colorSchemePoints = colorSchemePoints,
-        .stylePoints       = styleResult.stylePoints,
-        .totalPoints       = (uint8_t)total,
-        .grade             = gradeFromPoints((uint8_t)total),
+        .stylePoints = styleResult.stylePoints,
+        .totalPoints = (uint8_t)total,
+        .grade = gradeFromPoints((uint8_t)total),
     };
 }

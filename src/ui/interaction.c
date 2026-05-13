@@ -177,15 +177,15 @@ static void gradeResult(UiState *state)
     for (GarmentId id = 0; id < GARMENT_COUNT; id++) {
         if (state->garmentsActive[id]) {
             garmentColors[garmentIndex] = state->garmentsColor[id];
-            garmentStyles[garmentIndex] = (Garment){ .id = id, .color = state->garmentsColor[id] };
+            garmentStyles[garmentIndex] =
+                (Garment){ .id = id, .color = state->garmentsColor[id] };
             garmentIndex++;
         }
     }
 
     StyleResult styleResult = judgeStyle(garmentStyles, garmentCount);
-    state->gradeResult = judgeGrade(
-        judgeColorScheme(garmentColors, garmentCount),
-        styleResult);
+    state->gradeResult =
+        judgeGrade(judgeColorScheme(garmentColors, garmentCount), styleResult);
 
     free(garmentColors);
     free(garmentStyles);
