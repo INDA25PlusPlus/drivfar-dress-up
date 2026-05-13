@@ -4,6 +4,7 @@
 #include <stdint.h>
 
 #include "color_logic.h"
+#include "style_logic.h"
 
 typedef enum {
     GRADE_F,
@@ -18,6 +19,7 @@ typedef struct {
     ColorScheme colorScheme;
     uint8_t colorSchemePoints;
     uint8_t totalPoints;
+    int8_t stylePoints;
     Grade grade;
 } GradeResult;
 
@@ -25,6 +27,6 @@ uint8_t pointsForColorScheme(ColorScheme colorScheme);
 
 Grade gradeFromPoints(uint8_t points);
 
-GradeResult judgeGradeFromColorScheme(ColorScheme colorScheme);
+GradeResult judgeGrade(ColorScheme colorScheme, StyleResult styleResult);
 
 #endif

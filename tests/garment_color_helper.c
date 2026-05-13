@@ -33,14 +33,8 @@ UTEST(garmentColorHelper, extractsColorsFromGarments)
 UTEST(garmentColorHelper, passesExtractedColorsToJudgeColorScheme)
 {
     Garment garments[] = {
-        {
-            .id = GARMENT_TEST_A,
-            .color = COLOR_CERISE_STRONG,
-        },
-        {
-            .id = GARMENT_PANTS_A,
-            .color = COLOR_GREEN_STRONG,
-        },
+        { .id = GARMENT_TEST_A,  .color = COLOR_CERISE_STRONG },
+        { .id = GARMENT_PANTS_A, .color = COLOR_CYAN_STRONG   },
     };
 
     PaletteColor colors[2];

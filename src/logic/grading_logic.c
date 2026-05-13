@@ -15,15 +15,6 @@
 // visually strong outfit, but is also easier fuck up. Because of
 // that, triadic schemes currently receive the highest score.
 
-// TODO:
-// - Judge how much of each color is used, since a small accent color should not
-//   count the same as a main clothing item.
-// - Give different scores depending on garment type, for example shirt color
-//   should matter more than hat color.
-// - Consider theme matching, for example formal, sporty, punk or KTH.
-// - Penalize too many highly saturated colors.
-// - Reward neutral colors if they help balance a strong color scheme.
-// - Let different themes prefer different color schemes.
 uint8_t pointsForColorScheme(ColorScheme colorScheme)
 {
     switch (colorScheme) {
@@ -67,15 +58,18 @@ Grade gradeFromPoints(uint8_t points)
     return GRADE_F;
 }
 
-GradeResult judgeGradeFromColorScheme(ColorScheme colorScheme)
+GradeResult judgeGrade(ColorScheme colorScheme, StyleResult styleResult)
 {
     uint8_t colorSchemePoints = pointsForColorScheme(colorScheme);
-    uint8_t totalPoints = colorSchemePoints;
+    int16_t total = (int16_t)colorSchemePoints + styleResult.stylePoints;
+    if (total < 0)
+        total = 0;
 
     return (GradeResult){
         .colorScheme = colorScheme,
         .colorSchemePoints = colorSchemePoints,
-        .totalPoints = totalPoints,
-        .grade = gradeFromPoints(totalPoints),
+        .stylePoints = styleResult.stylePoints,
+        .totalPoints = (uint8_t)total,
+        .grade = gradeFromPoints((uint8_t)total),
     };
 }

@@ -166,19 +166,29 @@ static void gradeResult(UiState *state)
             garmentCount += 1;
         }
     }
+
     PaletteColor *garmentColors = calloc(garmentCount, sizeof(PaletteColor));
-    if (garmentColors == NULL) {
-        err(1, "Garment color array allocation failed");
+    Garment *garmentStyles = calloc(garmentCount, sizeof(Garment));
+    if (garmentColors == NULL || garmentStyles == NULL) {
+        err(1, "Garment array allocation failed");
     }
-    size_t garmentColorIndex = 0;
+
+    size_t garmentIndex = 0;
     for (GarmentId id = 0; id < GARMENT_COUNT; id++) {
         if (state->garmentsActive[id]) {
-            garmentColors[garmentColorIndex++] = state->garmentsColor[id];
+            garmentColors[garmentIndex] = state->garmentsColor[id];
+            garmentStyles[garmentIndex] =
+                (Garment){ .id = id, .color = state->garmentsColor[id] };
+            garmentIndex++;
         }
     }
-    state->gradeResult = judgeGradeFromColorScheme(
-        judgeColorScheme(garmentColors, garmentCount));
+
+    StyleResult styleResult = judgeStyle(garmentStyles, garmentCount);
+    state->gradeResult =
+        judgeGrade(judgeColorScheme(garmentColors, garmentCount), styleResult);
+
     free(garmentColors);
+    free(garmentStyles);
 
     sfClock_restart(state->gradeScreenSwitchClock);
     state->focusState = UI_FOCUS_REGION_GRADE;

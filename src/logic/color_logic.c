@@ -1,6 +1,6 @@
 #include "color_logic.h"
 
-#define COLOR_WHEEL_SIZE 12
+#define COLOR_WHEEL_SIZE 6
 #define INVALID_COLOR_POSITION -1
 
 static int32_t colorWheelPosition(PaletteColor color)
@@ -146,29 +146,6 @@ static bool hasTriadicScheme(const PaletteColor colors[], size_t colorCount)
     return false;
 }
 
-static bool hasSplitComplementaryScheme(const PaletteColor colors[],
-                                        size_t colorCount)
-{
-    for (size_t i = 0; i < colorCount; i++) {
-        int32_t position;
-
-        if (!getValidPosition(colors[i], &position)) {
-            continue;
-        }
-
-        int32_t oppositePosition = wrappedPosition(position + 3);
-        int32_t leftSplitPosition = wrappedPosition(oppositePosition - 1);
-        int32_t rightSplitPosition = wrappedPosition(oppositePosition + 1);
-
-        if (hasColorPosition(colors, colorCount, leftSplitPosition) &&
-            hasColorPosition(colors, colorCount, rightSplitPosition)) {
-            return true;
-        }
-    }
-
-    return false;
-}
-
 ColorScheme judgeColorScheme(const PaletteColor colors[], size_t colorCount)
 {
     if (colorCount < 2) {
@@ -177,10 +154,6 @@ ColorScheme judgeColorScheme(const PaletteColor colors[], size_t colorCount)
 
     if (hasTriadicScheme(colors, colorCount)) {
         return COLOR_SCHEME_TRIADIC;
-    }
-
-    if (hasSplitComplementaryScheme(colors, colorCount)) {
-        return COLOR_SCHEME_SPLIT_COMPLEMENTARY;
     }
 
     if (hasComplementaryScheme(colors, colorCount)) {
