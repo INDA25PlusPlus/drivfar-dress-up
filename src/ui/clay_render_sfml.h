@@ -3,11 +3,13 @@
 
 #include "clay.h"
 #include "texture.h"
+#include "ui/state.h"
 #include <CSFML/Graphics.h>
 
 typedef struct Clay_SfmlRenderData {
     sfRenderWindow *window;
     sfFont *const *fonts;
+    const UiState *uiState;
 } Clay_SfmlRenderData;
 
 typedef struct Clay_SfmlImageData {

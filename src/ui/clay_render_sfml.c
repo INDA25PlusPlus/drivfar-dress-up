@@ -7,6 +7,7 @@
 #include <string.h>
 
 #include "clay_render_sfml.h"
+#include "custom_element.h"
 #include "dpi_scale.h"
 #include "error_utilities.h"
 
@@ -661,6 +662,20 @@ void Clay_Sfml_RenderClayCommands(Clay_SfmlRenderData *renderData,
 
             break;
         }
+        case CLAY_RENDER_COMMAND_TYPE_CUSTOM: {
+            // Currently no actual data is used for any of the custom element
+            // types. Once that changes this type will need to change to a
+            // struct.
+            CustomElementType *type = rcmd->renderData.custom.customData;
+            switch (*type) {
+            case CUSTOM_ELEMENT_DOLL: {
+                renderCustomElementDoll(renderData->window, renderData->uiState,
+                                        boundingBox);
+            } break;
+            default:
+                ASSERT_UNREACHABLE();
+            }
+        } break;
         default:
             fprintf(stderr, "Unknown render command type: %d\n",
                     rcmd->commandType);

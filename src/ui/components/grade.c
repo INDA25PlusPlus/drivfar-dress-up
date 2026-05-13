@@ -6,6 +6,7 @@
 #include "ui/clay.h"
 #include "ui/clay_render_sfml.h"
 #include "ui/components/grade.h"
+#include "ui/custom_element.h"
 #include "ui/ui_color.h"
 #include "ui/ui.h"
 #include "texture.h"
@@ -170,13 +171,23 @@ void GradeView(UiState *state)
         {
             // Doll display
             CLAY_AUTO_ID({
-                .layout.sizing = { CLAY_SIZING_FIXED(200),
+                .layout.sizing = { CLAY_SIZING_FIXED(300),
                                    CLAY_SIZING_GROW(500) },
                 .cornerRadius = CLAY_CORNER_RADIUS(10),
                 .backgroundColor = UI_COLOR_MAIN_FILL,
                 .border.width = CLAY_BORDER_OUTSIDE(5),
                 .border.color = UI_COLOR_MAIN_BORDER,
-            });
+            })
+            {
+                CustomElementType *type = clayArenaAllocate(
+                    &frameArena, 1, sizeof(CustomElementType));
+                *type = CUSTOM_ELEMENT_DOLL;
+
+                CLAY_AUTO_ID({
+                    .layout.sizing = { CLAY_SIZING_GROW(), CLAY_SIZING_GROW() },
+                    .custom.customData = type,
+                });
+            }
 
             // Results
             CLAY_AUTO_ID({ .layout.layoutDirection = CLAY_TOP_TO_BOTTOM,

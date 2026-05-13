@@ -63,15 +63,16 @@ void start_ui(sfRenderWindow *window)
                                        windowSize.y / uiScale },
                     (Clay_ErrorHandler){ handle_clay_errors });
 
+    UiState *state = uiStateCreate();
+
     Clay_SfmlRenderData renderData = {
         .window = window,
         .fonts = fonts,
+        .uiState = state,
     };
     Clay_SetMeasureTextFunction(Clay_Sfml_MeasureText, &renderData);
 
     sfClock *clock = sfClock_create();
-
-    UiState *state = uiStateCreate();
 
     while (sfRenderWindow_isOpen(window)) {
         sfTime elapsed = sfClock_restart(clock);
