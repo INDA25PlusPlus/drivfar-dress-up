@@ -42,22 +42,18 @@ void dollDestroy(Doll *doll)
 void renderDoll(sfRenderWindow *window, Doll *doll, sfVector2f position,
                 float height)
 {
-    // doll position with offset
-    sfVector2f dollOffset = calcOffset(doll->sprite);
-    sfVector2f dollPos = {
-        position.x + dollOffset.x, position.y
-    }; // no offset for y since we want feet on ground for standing doll ??
-
     sfFloatRect bounds = sfSprite_getLocalBounds(doll->sprite);
 
     float currentHeight = bounds.size.y;
-    float s = height / currentHeight;
+    float scale = height / currentHeight;
+
+    sfVector2f centeredPosition = { position.x - bounds.size.x * scale / 2,
+                                    position.y - bounds.size.y * scale / 2 };
 
     sfTransform transform = sfTransform_Identity;
-
     sfTransform_scale(&transform, (sfVector2f){ uiScale, uiScale });
-    sfTransform_scale(&transform, (sfVector2f){ s, s });
-    sfTransform_translate(&transform, dollPos);
+    sfTransform_translate(&transform, centeredPosition);
+    sfTransform_scale(&transform, (sfVector2f){ scale, scale });
 
     // define states so that doll and garment use same transform
 
@@ -93,11 +89,4 @@ void renderDoll(sfRenderWindow *window, Doll *doll, sfVector2f position,
         sfRenderWindow_drawSprite(window, detailsSprite, &states);
         sfSprite_destroy(detailsSprite);
     }
-}
-
-sfVector2f calcOffset(sfSprite *sprite)
-{
-    sfFloatRect bounds = sfSprite_getLocalBounds(sprite);
-
-    return (sfVector2f){ bounds.size.x / 2, bounds.size.y / 2 };
 }

@@ -22,6 +22,4 @@ void dollDestroy(Doll *doll);
 
 Doll *dollCreate();
 
-sfVector2f calcOffset(sfSprite *sprite);
-
 #endif
