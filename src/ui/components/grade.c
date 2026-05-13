@@ -99,6 +99,58 @@ void GradeConfirmationModal()
     }
 }
 
+static Clay_String defaultGradeDescription(Grade grade)
+{
+    switch (grade) {
+    case GRADE_A:
+        return CLAY_STRING("Perfect!");
+    case GRADE_B:
+        return CLAY_STRING("Superb");
+    case GRADE_C:
+        return CLAY_STRING("OK");
+    case GRADE_D:
+        return CLAY_STRING("Passable");
+    case GRADE_E:
+        return CLAY_STRING("Try again");
+    case GRADE_F:
+        return CLAY_STRING("What are you doing?");
+    }
+
+    ASSERT_UNREACHABLE();
+    return CLAY_STRING("");
+}
+
+// TODO: Improve these descriptions.
+static Clay_String gradeBasisDescription(GradeResult gradeResult)
+{
+    switch (gradeResult.basis) {
+    case GRADE_BASIS_COLOR_COMPLEMENTARY:
+        return CLAY_STRING("That color really complements you!");
+    case GRADE_BASIS_COLOR_ANALOGOUS:
+        return CLAY_STRING("Those colors flow nicely together.");
+    case GRADE_BASIS_COLOR_TRIADIC:
+        return CLAY_STRING("Bold, but balanced.");
+    case GRADE_BASIS_COLOR_SPLIT_COMPLEMENTARY:
+        return CLAY_STRING("Perfect contrast.");
+    case GRADE_BASIS_STYLE_COHERENT_GASQUE:
+        return CLAY_STRING("I wanna be where you're going!");
+    case GRADE_BASIS_STYLE_COHERENT_SITTNING:
+        return CLAY_STRING(
+            "Elegant. Don't forget the correct order for cheering your drinks!");
+    case GRADE_BASIS_STYLE_COHERENT_PUB:
+        return CLAY_STRING("That outfit knows where the evening is going."); //idk
+    case GRADE_BASIS_STYLE_COHERENT_OVERALL:
+        return CLAY_STRING("Är det redan fredag?"); // Visst är det fredag man "ska" bära ovve?
+    case GRADE_BASIS_STYLE_CLASH:
+        return CLAY_STRING("You're gonna wear THOSE together?");
+    case GRADE_BASIS_NONE:
+        return defaultGradeDescription(gradeResult.grade);
+    }
+
+    ASSERT_UNREACHABLE();
+    return CLAY_STRING("");
+}
+
 void GradeView(UiState *state)
 {
     CLAY_AUTO_ID(
@@ -183,32 +235,29 @@ void GradeView(UiState *state)
                 CLAY_AUTO_ID({ .layout.sizing.height = CLAY_SIZING_GROW() });
 
                 Clay_String gradeString;
-                Clay_String gradeDescriptionString;
+                Clay_String gradeDescriptionString =
+                    gradeBasisDescription(state->gradeResult);
                 switch (state->gradeResult.grade) {
                 case GRADE_A: {
                     gradeString = CLAY_STRING("A");
-                    gradeDescriptionString = CLAY_STRING("Perfect!");
                 } break;
                 case GRADE_B: {
                     gradeString = CLAY_STRING("B");
-                    gradeDescriptionString = CLAY_STRING("Superb");
                 } break;
                 case GRADE_C: {
                     gradeString = CLAY_STRING("C");
-                    gradeDescriptionString = CLAY_STRING("OK");
                 } break;
                 case GRADE_D: {
                     gradeString = CLAY_STRING("D");
-                    gradeDescriptionString = CLAY_STRING("Passable");
                 } break;
                 case GRADE_E: {
                     gradeString = CLAY_STRING("E");
-                    gradeDescriptionString = CLAY_STRING("Try again");
                 } break;
                 case GRADE_F: {
                     gradeString = CLAY_STRING("F");
-                    gradeDescriptionString = CLAY_STRING("What are you doing?");
                 } break;
+                default:
+                    ASSERT_UNREACHABLE();
                 }
 
                 CLAY_AUTO_ID({
