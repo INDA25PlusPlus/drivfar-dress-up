@@ -41,8 +41,6 @@ void dollDestroy(Doll *doll)
 void renderDoll(sfRenderWindow *window, Doll *doll, sfVector2f position,
                 float height)
 {
-    sfVector2u windowSize = sfRenderWindow_getSize(window);
-
     // doll position with offset
     sfVector2f dollOffset = calcOffset(doll->sprite);
     sfVector2f dollPos = {
