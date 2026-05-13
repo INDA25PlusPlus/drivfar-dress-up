@@ -82,6 +82,7 @@ UTEST(gradingLogic, neutralStyleDoesNotChangeColorPoints)
     EXPECT_EQ(0,       result.stylePoints);
     EXPECT_EQ(5,       result.totalPoints);
     EXPECT_EQ(GRADE_A, result.grade);
+    EXPECT_EQ(GRADE_BASIS_COLOR_TRIADIC, result.basis);
 }
 
 UTEST(gradingLogic, positiveStylePointsAddToTotal)
@@ -101,6 +102,7 @@ UTEST(gradingLogic, positiveStylePointsAddToTotal)
     EXPECT_EQ(4,       result.stylePoints);
     EXPECT_EQ(7,       result.totalPoints);
     EXPECT_EQ(GRADE_A, result.grade);
+    EXPECT_EQ(GRADE_BASIS_STYLE_COHERENT_SITTNING, result.basis);
 }
 
 UTEST(gradingLogic, negativeStylePointsReduceTotal)
@@ -120,6 +122,7 @@ UTEST(gradingLogic, negativeStylePointsReduceTotal)
     EXPECT_EQ(-3,      result.stylePoints);
     EXPECT_EQ(1,       result.totalPoints);
     EXPECT_EQ(GRADE_E, result.grade);
+    EXPECT_EQ(GRADE_BASIS_STYLE_CLASH, result.basis);
 }
 
 UTEST(gradingLogic, totalPointsClampToZero)
@@ -139,4 +142,12 @@ UTEST(gradingLogic, totalPointsClampToZero)
     EXPECT_EQ(-10,     result.stylePoints);
     EXPECT_EQ(0,       result.totalPoints);
     EXPECT_EQ(GRADE_F, result.grade);
+    EXPECT_EQ(GRADE_BASIS_STYLE_CLASH, result.basis);
+}
+
+UTEST(gradingLogic, noBasisFallsBackToDefaultGradeMessage)
+{
+    GradeResult result = judgeGrade(COLOR_SCHEME_NONE, neutralStyle());
+
+    EXPECT_EQ(GRADE_BASIS_NONE, result.basis);
 }

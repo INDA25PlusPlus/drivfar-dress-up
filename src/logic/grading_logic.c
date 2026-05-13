@@ -1,5 +1,9 @@
 #include "grading_logic.h"
 
+#include <stdbool.h>
+
+#include "error_utilities.h"
+
 // The choice for points is currently arbitrary (ish) and will likely have to remain arbitrary (ish)
 //
 // Color scheme scoring is based on how visually deliberate and "difficult" the
@@ -28,9 +32,10 @@ uint8_t pointsForColorScheme(ColorScheme colorScheme)
         return 4;
     case COLOR_SCHEME_TRIADIC:
         return 5;
+    default:
+        ASSERT_UNKNOWN_COLOR_SCHEME_GRADING();
+        return 0;
     }
-
-    return 0;
 }
 
 Grade gradeFromPoints(uint8_t points)
@@ -58,6 +63,61 @@ Grade gradeFromPoints(uint8_t points)
     return GRADE_F;
 }
 
+static bool hasCoherentStyleBonus(StyleResult styleResult)
+{
+    return styleResult.styleCount == 1 && styleResult.dominantCount >= 2;
+}
+
+static GradeBasis basisForCoherentStyle(GarmentStyle style)
+{
+    switch (style) {
+    case STYLE_GASQUE:
+        return GRADE_BASIS_STYLE_COHERENT_GASQUE;
+    case STYLE_SITTNING:
+        return GRADE_BASIS_STYLE_COHERENT_SITTNING;
+    case STYLE_PUB:
+        return GRADE_BASIS_STYLE_COHERENT_PUB;
+    case STYLE_OVERALL:
+        return GRADE_BASIS_STYLE_COHERENT_OVERALL;
+    case STYLE_NONE:
+        return GRADE_BASIS_NONE;
+    default:
+        ASSERT_UNKNOWN_GARMENT_STYLE_GRADING();
+        return GRADE_BASIS_NONE;
+    }
+}
+
+static GradeBasis basisForColorScheme(ColorScheme colorScheme)
+{
+    switch (colorScheme) {
+    case COLOR_SCHEME_COMPLEMENTARY:
+        return GRADE_BASIS_COLOR_COMPLEMENTARY;
+    case COLOR_SCHEME_ANALOGOUS:
+        return GRADE_BASIS_COLOR_ANALOGOUS;
+    case COLOR_SCHEME_TRIADIC:
+        return GRADE_BASIS_COLOR_TRIADIC;
+    case COLOR_SCHEME_SPLIT_COMPLEMENTARY:
+        return GRADE_BASIS_COLOR_SPLIT_COMPLEMENTARY;
+    case COLOR_SCHEME_NONE:
+        return GRADE_BASIS_NONE;
+    default:
+        ASSERT_UNKNOWN_COLOR_SCHEME_GRADING();
+        return GRADE_BASIS_NONE;
+    }
+}
+
+static GradeBasis basisForGrade(ColorScheme colorScheme,
+                                StyleResult styleResult)
+{
+    if (styleResult.hasClash)
+        return GRADE_BASIS_STYLE_CLASH;
+
+    if (hasCoherentStyleBonus(styleResult))
+        return basisForCoherentStyle(styleResult.dominantStyle);
+
+    return basisForColorScheme(colorScheme);
+}
+
 GradeResult judgeGrade(ColorScheme colorScheme, StyleResult styleResult)
 {
     uint8_t colorSchemePoints = pointsForColorScheme(colorScheme);
@@ -71,5 +131,6 @@ GradeResult judgeGrade(ColorScheme colorScheme, StyleResult styleResult)
         .stylePoints = styleResult.stylePoints,
         .totalPoints = (uint8_t)total,
         .grade = gradeFromPoints((uint8_t)total),
+        .basis = basisForGrade(colorScheme, styleResult),
     };
 }
