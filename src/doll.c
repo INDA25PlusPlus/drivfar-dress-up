@@ -5,6 +5,7 @@
 #include "doll.h"
 #include "texture.h"
 #include "garment_list.h"
+#include "ui/dpi_scale.h"
 
 #include <CSFML/Graphics.h>
 
@@ -54,6 +55,7 @@ void renderDoll(sfRenderWindow *window, Doll *doll, sfVector2f position,
 
     sfTransform transform = sfTransform_Identity;
 
+    sfTransform_scale(&transform, (sfVector2f){ uiScale, uiScale });
     sfTransform_scale(&transform, (sfVector2f){ s, s });
     sfTransform_translate(&transform, dollPos);
 
