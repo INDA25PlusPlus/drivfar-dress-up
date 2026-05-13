@@ -16,7 +16,7 @@
     assert(!"Unrecognized garment style in styleToString")
 #define ASSERT_UNKNOWN_GARMENT_ID_STYLE() \
     assert(!"Unrecognized garment ID in styleForGarment")
-    
+
 #define ASSERT_UNKNOWN_COLOR_SCHEME_GRADING() \
     assert(!"Unrecognized color scheme in grading logic")
 #define ASSERT_UNKNOWN_GARMENT_STYLE_GRADING() \

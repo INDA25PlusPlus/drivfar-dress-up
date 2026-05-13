@@ -138,9 +138,11 @@ static Clay_String gradeBasisDescription(GradeResult gradeResult)
         return CLAY_STRING(
             "Elegant. Don't forget the correct order for cheering your drinks!");
     case GRADE_BASIS_STYLE_COHERENT_PUB:
-        return CLAY_STRING("That outfit knows where the evening is going."); //idk
+        return CLAY_STRING(
+            "That outfit knows where the evening is going."); //idk
     case GRADE_BASIS_STYLE_COHERENT_OVERALL:
-        return CLAY_STRING("Är det redan fredag?"); // Visst är det fredag man "ska" bära ovve?
+        return CLAY_STRING(
+            "Är det redan fredag?"); // Visst är det fredag man "ska" bära ovve?
     case GRADE_BASIS_STYLE_CLASH:
         return CLAY_STRING("You're gonna wear THOSE together?");
     case GRADE_BASIS_NONE:
