@@ -179,6 +179,13 @@ void start_ui(sfRenderWindow *window)
         sfRenderWindow_display(window);
 
         frameArena.nextAllocation = 0;
+
+        // Sleep if frame rate above 60.
+        float elapsedSecondsEnd =
+            sfTime_asSeconds(sfClock_getElapsedTime(clock));
+        if (elapsedSecondsEnd < 1.0 / 60.0) {
+            sfSleep(sfSeconds(1.0 / 60.0 - elapsedSecondsEnd));
+        }
     }
 
     uiStateDestroy(state);
