@@ -3,6 +3,7 @@
 
 /// Contains utilities for handling errors or unreachable code paths.
 
+#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -11,7 +12,9 @@
 #define ASSERT_UNREACHABLE_MSG(msgString) \
     (fprintf(stderr, "Assertion failed: %s\n", msgString), exit(101))
 
-#define ASSERT_UNKNOWN_STYLE() \
+#define ASSERT_UNKNOWN_GARMENT_STYLE() \
+    assert(!"Unrecognized garment style in styleToString")
+#define ASSERT_UNKNOWN_GARMENT_ID_STYLE() \
     assert(!"Unrecognized garment ID in styleForGarment")
 
 #endif
