@@ -11,16 +11,15 @@ typedef struct {
     sfSprite *sprite;
     sfTexture *texture;
 
-    sfVector2f position;
-
     GarmentList *garments;
 
 } Doll;
 
 // renders the doll and its garmets
-void renderDoll(sfRenderWindow *window, Doll *doll);
+void renderDoll(sfRenderWindow *window, Doll *doll, sfVector2f position,
+                float height);
 void dollDestroy(Doll *doll);
 
-Doll *dollCreate(sfVector2f position);
+Doll *dollCreate();
 
 #endif

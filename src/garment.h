@@ -20,6 +20,9 @@ typedef enum GarmentId {
     GARMENT_TEST_A,
     GARMENT_PANTS_A,
     GARMENT_SKIRT_A,
+
+    GARMENT_HAT_SCHMECK,
+    GARMENT_PANTS_OVVE,
     /// Is equal to the number of garments
     GARMENT_COUNT,
 } GarmentId;
@@ -37,8 +40,10 @@ typedef struct GarmentAsset {
     // be affected by the selected color. Is never destroyed. Is drawn on
     // top of the colored layer.
     const sfTexture *detailsTexture;
-    // TODO: We will probably need more members to control where the asset
-    //   is placed.
+    // Position relative to doll
+    sfVector2f position;
+    // Scale the garment image
+    sfVector2f scale;
 } GarmentAsset;
 
 // The palette colors which the user can select for a garment.

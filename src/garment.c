@@ -67,8 +67,10 @@ typedef struct {
     // Path to the image file containing any details which shouldn't be
     // affected by the selected color (e.g. outlines).
     const char *detailsPath;
-    // TODO: We will probably need more members to control where the asset
-    //   is placed.
+    // Position relative to doll
+    sfVector2f position;
+    // Scale the garmet image
+    sfVector2f scale;
 } GarmentDefinition;
 
 // If you want to add a new garment asset: create a new enum member in
@@ -81,6 +83,8 @@ static GarmentDefinition garmentDefinitions[] = {
             .name = "Test A",
             .coloredPath = "assets/garment/test_a/colored.png",
             .detailsPath = "assets/garment/test_a/details.png",
+            .position = { 0, 0 },
+            .scale = { 0.5f, 0.5f },
         },
     [GARMENT_PANTS_A] =
         (GarmentDefinition){
@@ -89,6 +93,8 @@ static GarmentDefinition garmentDefinitions[] = {
             .name = "Pants A",
             .coloredPath = "assets/garment/pants_a/colored.png",
             .detailsPath = "assets/garment/pants_a/details.png",
+            .position = { 0, 0 },
+            .scale = { 0.8f, 0.8f },
         },
     [GARMENT_SKIRT_A] =
         (GarmentDefinition){
@@ -97,7 +103,32 @@ static GarmentDefinition garmentDefinitions[] = {
             .name = "Skirt A",
             .coloredPath = "assets/garment/skirt_a/colored.png",
             .detailsPath = "assets/garment/skirt_a/details.png",
+            .position = { 100, 100 },
+            .scale = { 0.5f, 0.5f },
         },
+
+    [GARMENT_HAT_SCHMECK] =
+        (GarmentDefinition){
+            .id = GARMENT_HAT_SCHMECK,
+            .type = GARMENT_TYPE_HAT,
+            .name = "Hat Schmeck",
+            .coloredPath = "assets/garment/hat_schmeck/colored.png",
+            .detailsPath = "assets/garment/hat_schmeck/details.png",
+            .position = { 950, 50 },
+            .scale = { 1.0f, 1.0f },
+        },
+
+    [GARMENT_PANTS_OVVE] =
+        (GarmentDefinition){
+            .id = GARMENT_PANTS_OVVE,
+            .type = GARMENT_TYPE_BOTTOM,
+            .name = "Pants Ovve",
+            .coloredPath = "assets/garment/pants_ovve/colored.png",
+            .detailsPath = "assets/garment/pants_ovve/details.png",
+            .position = { 880, 1450 },
+            .scale = { 1.0f, 1.0f },
+        }
+
 };
 
 #define GARMENT_DEFINITIONS_COUNT \
@@ -145,6 +176,8 @@ bool loadGarments()
             .name = definition.name,
             .coloredTexture = coloredTexture,
             .detailsTexture = detailsTexture,
+            .position = definition.position,
+            .scale = definition.scale,
         };
     }
     return true;
