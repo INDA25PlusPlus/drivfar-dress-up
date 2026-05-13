@@ -63,15 +63,16 @@ void start_ui(sfRenderWindow *window)
                                        windowSize.y / uiScale },
                     (Clay_ErrorHandler){ handle_clay_errors });
 
+    UiState *state = uiStateCreate();
+
     Clay_SfmlRenderData renderData = {
         .window = window,
         .fonts = fonts,
+        .uiState = state,
     };
     Clay_SetMeasureTextFunction(Clay_Sfml_MeasureText, &renderData);
 
     sfClock *clock = sfClock_create();
-
-    UiState *state = uiStateCreate();
 
     while (sfRenderWindow_isOpen(window)) {
         sfTime elapsed = sfClock_restart(clock);
@@ -179,6 +180,13 @@ void start_ui(sfRenderWindow *window)
         sfRenderWindow_display(window);
 
         frameArena.nextAllocation = 0;
+
+        // Sleep if frame rate above 60.
+        float elapsedSecondsEnd =
+            sfTime_asSeconds(sfClock_getElapsedTime(clock));
+        if (elapsedSecondsEnd < 1.0 / 60.0) {
+            sfSleep(sfSeconds(1.0 / 60.0 - elapsedSecondsEnd));
+        }
     }
 
     uiStateDestroy(state);

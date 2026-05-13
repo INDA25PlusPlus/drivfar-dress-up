@@ -4,6 +4,7 @@
 #include "ui/clay.h"
 #include "ui/clay_render_sfml.h"
 #include "ui/components/key_hint.h"
+#include "ui/custom_element.h"
 #include "ui/ui.h"
 #include "ui/ui_color.h"
 
@@ -25,14 +26,14 @@ void DollView()
               .clip = { .vertical = true,
                         .childOffset = Clay_GetScrollOffset() } })
         {
-            CLAY_TEXT(
-                CLAY_STRING(
-                    "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."),
-                { .fontId = FONT_ARIAL,
-                  .fontSize = 24,
-                  .letterSpacing = 2,
-                  .lineHeight = 50,
-                  .textColor = UI_COLOR_TEXT });
+            CustomElementType *type =
+                clayArenaAllocate(&frameArena, 1, sizeof(CustomElementType));
+            *type = CUSTOM_ELEMENT_DOLL;
+
+            CLAY_AUTO_ID({
+                .layout.sizing = { CLAY_SIZING_GROW(), CLAY_SIZING_GROW() },
+                .custom.customData = type,
+            });
         }
 
         // Key hints container
