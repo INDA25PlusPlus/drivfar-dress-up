@@ -66,7 +66,7 @@ static bool getClosestGarmentAmongType(size_t index, GarmentType type,
 /// Searches all garment IDs for the first garment at or after the specified ID
 /// which matches the specified type. A bool is returned specifying if a match
 /// was found, in which case `result` is updated with the result.
-bool getNextGarment(GarmentId start, GarmentType type, GarmentId *result)
+static bool getNextGarment(GarmentId start, GarmentType type, GarmentId *result)
 {
     for (GarmentId id = start; id < GARMENT_COUNT; id++) {
         if (garments[id].type == type) {
@@ -81,7 +81,8 @@ bool getNextGarment(GarmentId start, GarmentType type, GarmentId *result)
 /// Searches all garment IDs for the first garment at or before the specified ID
 /// which matches the specified type. A bool is returned specifying if a match
 /// was found, in which case `result` is updated with the result.
-bool getPreviousGarment(GarmentId start, GarmentType type, GarmentId *result)
+static bool getPreviousGarment(GarmentId start, GarmentType type,
+                               GarmentId *result)
 {
     for (GarmentId id = start + 1; id--;) {
         if (garments[id].type == type) {
@@ -288,7 +289,7 @@ void handleKeyPress(UiState **state, sfKeyEvent event)
         case sfKeyEnter: {
             uiStateDestroy(*state);
             *state = uiStateCreate();
-            (*state)->focusState = UI_FOCUS_REGION_COLORS;
+            (*state)->focusState = UI_FOCUS_REGION_GARMENTS;
         } break;
         default:
             break;

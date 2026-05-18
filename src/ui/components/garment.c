@@ -7,6 +7,17 @@
 #include "ui/ui.h"
 #include "ui/ui_color.h"
 
+/// Calculates the width and height of an image so that it's scaled to fit
+/// inside a given box, `maxSize`, while preserving its aspect ratio.
+static sfVector2f sizeOfContainedImage(sfVector2u imageSize, sfVector2f maxSize)
+{
+    float scaleX = (float)maxSize.x / imageSize.x;
+    float scaleY = (float)maxSize.y / imageSize.y;
+    float scale = scaleX < scaleY ? scaleX : scaleY;
+
+    return (sfVector2f){ imageSize.x * scale, imageSize.y * scale };
+}
+
 /// Draws a square representing a garment in the garment selector list widget.
 static void GarmentIcon(const UiState *const state, const Garment garment)
 {
@@ -43,17 +54,6 @@ static void GarmentIcon(const UiState *const state, const Garment garment)
         backgroundColor = UI_COLOR_ICON_ACCENT_FILL;
     }
 
-    Clay_SfmlImageData *coloredImage =
-        clayArenaAllocate(&frameArena, 1, sizeof(Clay_SfmlImageData));
-    *coloredImage =
-        (Clay_SfmlImageData){ .texture = garmentAsset->coloredTexture,
-                              .color = garmentColor };
-    Clay_SfmlImageData *detailsImage =
-        clayArenaAllocate(&frameArena, 1, sizeof(Clay_SfmlImageData));
-    *detailsImage =
-        (Clay_SfmlImageData){ .texture = garmentAsset->detailsTexture,
-                              .color = UI_COLOR_WHITE };
-
     CLAY_AUTO_ID(
         { .layout.sizing = { CLAY_SIZING_FIXED(80), CLAY_SIZING_FIXED(80) },
           .layout.childAlignment = { CLAY_ALIGN_X_CENTER, CLAY_ALIGN_Y_CENTER },
@@ -61,24 +61,48 @@ static void GarmentIcon(const UiState *const state, const Garment garment)
           .border = border,
           .cornerRadius = CLAY_CORNER_RADIUS(10) })
     {
-        // Colored image
-        CLAY_AUTO_ID(
-            { .layout.sizing = { CLAY_SIZING_FIXED(60), CLAY_SIZING_FIXED(60) },
-              .floating.attachTo = CLAY_ATTACH_TO_PARENT,
-              .floating.attachPoints.element = CLAY_ATTACH_POINT_CENTER_CENTER,
-              .floating.attachPoints.parent = CLAY_ATTACH_POINT_CENTER_CENTER,
-              .image.imageData = coloredImage })
-        {
+        if (garmentAsset->coloredTexture != NULL) {
+            // Colored image
+            Clay_SfmlImageData *coloredImage =
+                clayArenaAllocate(&frameArena, 1, sizeof(Clay_SfmlImageData));
+            *coloredImage =
+                (Clay_SfmlImageData){ .texture = garmentAsset->coloredTexture,
+                                      .color = garmentColor };
+            sfVector2f size =
+                sizeOfContainedImage(sfTexture_getSize(coloredImage->texture),
+                                     (sfVector2f){ 60, 60 });
+            CLAY_AUTO_ID({ .layout.sizing = { CLAY_SIZING_FIXED(size.x),
+                                              CLAY_SIZING_FIXED(size.y) },
+                           .floating.attachTo = CLAY_ATTACH_TO_PARENT,
+                           .floating.attachPoints.element =
+                               CLAY_ATTACH_POINT_CENTER_CENTER,
+                           .floating.attachPoints.parent =
+                               CLAY_ATTACH_POINT_CENTER_CENTER,
+                           .image.imageData = coloredImage })
+            {
+            }
         }
 
-        // Details image
-        CLAY_AUTO_ID(
-            { .layout.sizing = { CLAY_SIZING_FIXED(60), CLAY_SIZING_FIXED(60) },
-              .floating.attachTo = CLAY_ATTACH_TO_PARENT,
-              .floating.attachPoints.element = CLAY_ATTACH_POINT_CENTER_CENTER,
-              .floating.attachPoints.parent = CLAY_ATTACH_POINT_CENTER_CENTER,
-              .image.imageData = detailsImage })
-        {
+        if (garmentAsset->detailsTexture != NULL) {
+            // Details image
+            Clay_SfmlImageData *detailsImage =
+                clayArenaAllocate(&frameArena, 1, sizeof(Clay_SfmlImageData));
+            *detailsImage =
+                (Clay_SfmlImageData){ .texture = garmentAsset->detailsTexture,
+                                      .color = UI_COLOR_WHITE };
+            sfVector2f size =
+                sizeOfContainedImage(sfTexture_getSize(detailsImage->texture),
+                                     (sfVector2f){ 60, 60 });
+            CLAY_AUTO_ID({ .layout.sizing = { CLAY_SIZING_FIXED(size.x),
+                                              CLAY_SIZING_FIXED(size.y) },
+                           .floating.attachTo = CLAY_ATTACH_TO_PARENT,
+                           .floating.attachPoints.element =
+                               CLAY_ATTACH_POINT_CENTER_CENTER,
+                           .floating.attachPoints.parent =
+                               CLAY_ATTACH_POINT_CENTER_CENTER,
+                           .image.imageData = detailsImage })
+            {
+            }
         }
     }
 }

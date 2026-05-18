@@ -29,15 +29,28 @@ const char *styleToString(GarmentStyle style)
 GarmentStyle styleForGarment(GarmentId id)
 {
     switch (id) {
-    case GARMENT_TEST_A:
+    case GARMENT_LOAFERS:
+        return STYLE_SITTNING;
+    case GARMENT_SNEAKERS:
+        return STYLE_PUB;
+    case GARMENT_SHIRT:
         return STYLE_NONE;
-    case GARMENT_PANTS_A:
+    case GARMENT_OVVE:
+        return STYLE_OVERALL;
+    case GARMENT_FRACK:
         return STYLE_SITTNING;
-    case GARMENT_SKIRT_A:
+    case GARMENT_FRACK_PANTS:
         return STYLE_SITTNING;
+    case GARMENT_DETAILS_FRACK:
+        return STYLE_SITTNING;
+    case GARMENT_SCHLEMFILTER:
+        return STYLE_NONE;
+    case GARMENT_SCHMECK:
+        return STYLE_SITTNING;
+    case GARMENT_RAT:
+        return STYLE_NONE;
     default:
         ASSERT_UNKNOWN_GARMENT_ID_STYLE();
-        return STYLE_NONE; // unreachable
     }
 }
 

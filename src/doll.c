@@ -71,22 +71,26 @@ void renderDoll(sfRenderWindow *window, Doll *doll, sfVector2f position,
         GarmentAsset *asset = &garments[g->id];
 
         // colored layer
-        sfSprite *coloredSprite = sfSprite_create(asset->coloredTexture);
-        sfSprite_setColor(coloredSprite, colorToSfColor(g->color));
+        if (asset->coloredTexture != NULL) {
+            sfSprite *coloredSprite = sfSprite_create(asset->coloredTexture);
+            sfSprite_setColor(coloredSprite, colorToSfColor(g->color));
 
-        sfSprite_setPosition(coloredSprite, asset->position);
-        sfSprite_setScale(coloredSprite, asset->scale);
+            sfSprite_setPosition(coloredSprite, asset->position);
+            sfSprite_setScale(coloredSprite, asset->scale);
 
-        sfRenderWindow_drawSprite(window, coloredSprite, &states);
-        sfSprite_destroy(coloredSprite);
+            sfRenderWindow_drawSprite(window, coloredSprite, &states);
+            sfSprite_destroy(coloredSprite);
+        }
 
         // details layer
-        sfSprite *detailsSprite = sfSprite_create(asset->detailsTexture);
+        if (asset->detailsTexture != NULL) {
+            sfSprite *detailsSprite = sfSprite_create(asset->detailsTexture);
 
-        sfSprite_setPosition(detailsSprite, asset->position);
-        sfSprite_setScale(detailsSprite, asset->scale);
+            sfSprite_setPosition(detailsSprite, asset->position);
+            sfSprite_setScale(detailsSprite, asset->scale);
 
-        sfRenderWindow_drawSprite(window, detailsSprite, &states);
-        sfSprite_destroy(detailsSprite);
+            sfRenderWindow_drawSprite(window, detailsSprite, &states);
+            sfSprite_destroy(detailsSprite);
+        }
     }
 }

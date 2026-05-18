@@ -17,12 +17,17 @@ typedef enum GarmentType {
 // in, with later items placed on top of earlier ones.
 typedef enum GarmentId {
     // The names should be prefixed by `GARMENT_`.
-    GARMENT_TEST_A,
-    GARMENT_PANTS_A,
-    GARMENT_SKIRT_A,
 
-    GARMENT_HAT_SCHMECK,
-    GARMENT_PANTS_OVVE,
+    GARMENT_LOAFERS,
+    GARMENT_SNEAKERS,
+    GARMENT_FRACK_PANTS,
+    GARMENT_OVVE,
+    GARMENT_FRACK,
+    GARMENT_SHIRT,
+    GARMENT_DETAILS_FRACK,
+    GARMENT_SCHLEMFILTER,
+    GARMENT_SCHMECK,
+    GARMENT_RAT,
     /// Is equal to the number of garments
     GARMENT_COUNT,
 } GarmentId;
@@ -34,11 +39,11 @@ typedef struct GarmentAsset {
     // The user-facing name of the garment.
     const char *name;
     // Texture containing the colored layer of the garment, which should be
-    // tinted by the selected color. Is never destroyed.
+    // tinted by the selected color. Is never destroyed. May be NULL.
     const sfTexture *coloredTexture;
     // Texture containing the details layer of the garment, which shouldn't
     // be affected by the selected color. Is never destroyed. Is drawn on
-    // top of the colored layer.
+    // top of the colored layer. May be NULL.
     const sfTexture *detailsTexture;
     // Position relative to doll
     sfVector2f position;

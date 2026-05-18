@@ -62,10 +62,11 @@ typedef struct {
     const char *name;
     // Path to the image file containing the parts of the garment which
     // should be tinted by the selected color. This image's base color
-    // should be white.
+    // should be white. May be NULL, in which case no color texture is rendered.
     const char *coloredPath;
     // Path to the image file containing any details which shouldn't be
-    // affected by the selected color (e.g. outlines).
+    // affected by the selected color (e.g. outlines). May be NULL, in which
+    // case no color texture is rendered.
     const char *detailsPath;
     // Position relative to doll
     sfVector2f position;
@@ -76,59 +77,103 @@ typedef struct {
 // If you want to add a new garment asset: create a new enum member in
 // `GarmentId`, and add a new entry in this array with that ID.
 static GarmentDefinition garmentDefinitions[] = {
-    [GARMENT_TEST_A] =
+    [GARMENT_DETAILS_FRACK] =
         (GarmentDefinition){
-            .id = GARMENT_TEST_A,
+            .id = GARMENT_DETAILS_FRACK,
             .type = GARMENT_TYPE_TOP,
-            .name = "Test A",
-            .coloredPath = "assets/garment/test_a/colored.png",
-            .detailsPath = "assets/garment/test_a/details.png",
-            .position = { 0, 0 },
-            .scale = { 0.5f, 0.5f },
+            .name = "Frackband",
+            .detailsPath = "assets/garment/details_frack/details.png",
+            .position = { 1104.0, 914.0 },
+            .scale = { 1.0, 1.0 },
         },
-    [GARMENT_PANTS_A] =
+    [GARMENT_FRACK] =
         (GarmentDefinition){
-            .id = GARMENT_PANTS_A,
+            .id = GARMENT_FRACK,
+            .type = GARMENT_TYPE_TOP,
+            .name = "Frack",
+            .coloredPath = "assets/garment/frack/colored.png",
+            .detailsPath = "assets/garment/frack/details.png",
+            .position = { 468.0, 660.0 },
+            .scale = { 1.0, 1.0 },
+        },
+    [GARMENT_FRACK_PANTS] =
+        (GarmentDefinition){
+            .id = GARMENT_FRACK_PANTS,
             .type = GARMENT_TYPE_BOTTOM,
-            .name = "Pants A",
-            .coloredPath = "assets/garment/pants_a/colored.png",
-            .detailsPath = "assets/garment/pants_a/details.png",
-            .position = { 0, 0 },
-            .scale = { 0.8f, 0.8f },
+            .name = "Frack pants",
+            .coloredPath = "assets/garment/frack_pants/colored.png",
+            .detailsPath = "assets/garment/frack_pants/details.png",
+            .position = { 893.0, 1570.0 },
+            .scale = { 1.0, 1.0 },
         },
-    [GARMENT_SKIRT_A] =
+    [GARMENT_LOAFERS] =
         (GarmentDefinition){
-            .id = GARMENT_SKIRT_A,
-            .type = GARMENT_TYPE_BOTTOM,
-            .name = "Skirt A",
-            .coloredPath = "assets/garment/skirt_a/colored.png",
-            .detailsPath = "assets/garment/skirt_a/details.png",
-            .position = { 100, 100 },
-            .scale = { 0.5f, 0.5f },
+            .id = GARMENT_LOAFERS,
+            .type = GARMENT_TYPE_SHOES,
+            .name = "Loafers",
+            .coloredPath = "assets/garment/loafers/colored.png",
+            .detailsPath = "assets/garment/loafers/details.png",
+            .position = { 1004.0, 3801.0 },
+            .scale = { 1.0, 1.0 },
         },
-
-    [GARMENT_HAT_SCHMECK] =
+    [GARMENT_OVVE] =
         (GarmentDefinition){
-            .id = GARMENT_HAT_SCHMECK,
-            .type = GARMENT_TYPE_HAT,
-            .name = "Hat Schmeck",
-            .coloredPath = "assets/garment/hat_schmeck/colored.png",
-            .detailsPath = "assets/garment/hat_schmeck/details.png",
-            .position = { 950, 50 },
-            .scale = { 1.0f, 1.0f },
-        },
-
-    [GARMENT_PANTS_OVVE] =
-        (GarmentDefinition){
-            .id = GARMENT_PANTS_OVVE,
+            .id = GARMENT_OVVE,
             .type = GARMENT_TYPE_BOTTOM,
             .name = "Pants Ovve",
-            .coloredPath = "assets/garment/pants_ovve/colored.png",
-            .detailsPath = "assets/garment/pants_ovve/details.png",
-            .position = { 880, 1450 },
+            .coloredPath = "assets/garment/ovve/colored.png",
+            .detailsPath = "assets/garment/ovve/details.png",
+            .position = { 880.0, 1426.0 },
             .scale = { 1.0f, 1.0f },
-        }
-
+        },
+    [GARMENT_RAT] =
+        (GarmentDefinition){
+            .id = GARMENT_RAT,
+            .type = GARMENT_TYPE_HAT,
+            .name = "Rat <3",
+            .detailsPath = "assets/garment/rat/details.png",
+            .position = { 1349.0, 598.0 },
+            .scale = { 1.0f, 1.0f },
+        },
+    [GARMENT_SCHMECK] =
+        (GarmentDefinition){
+            .id = GARMENT_SCHMECK,
+            .type = GARMENT_TYPE_HAT,
+            .name = "Schmeck",
+            .coloredPath = "assets/garment/schmeck/colored.png",
+            .detailsPath = "assets/garment/schmeck/details.png",
+            .position = { 950.0, 50.0 },
+            .scale = { 1.0f, 1.0f },
+        },
+    [GARMENT_SHIRT] =
+        (GarmentDefinition){
+            .id = GARMENT_SHIRT,
+            .type = GARMENT_TYPE_TOP,
+            .name = "Shirt",
+            .coloredPath = "assets/garment/shirt/colored.png",
+            .detailsPath = "assets/garment/shirt/details.png",
+            .position = { 771.0, 723.0 },
+            .scale = { 1.0f, 1.0f },
+        },
+    [GARMENT_SNEAKERS] =
+        (GarmentDefinition){
+            .id = GARMENT_SNEAKERS,
+            .type = GARMENT_TYPE_SHOES,
+            .name = "Sneakers",
+            .coloredPath = "assets/garment/sneakers/colored.png",
+            .detailsPath = "assets/garment/sneakers/details.png",
+            .position = { 1000.0, 3795.0 },
+            .scale = { 1.0f, 1.0f },
+        },
+    [GARMENT_SCHLEMFILTER] =
+        (GarmentDefinition){
+            .id = GARMENT_SCHLEMFILTER,
+            .type = GARMENT_TYPE_HAT,
+            .name = "Schlemfilter",
+            .detailsPath = "assets/garment/schlemfilter/details.png",
+            .position = { 1008.0, 377.0 },
+            .scale = { 1.0f, 1.0f },
+        },
 };
 
 #define GARMENT_DEFINITIONS_COUNT \
@@ -143,32 +188,38 @@ bool loadGarments()
     for (size_t i = 0; i < GARMENT_COUNT; i++) {
         GarmentDefinition definition = garmentDefinitions[i];
 
-        sfTexture *coloredTexture =
-            sfTexture_createFromFile(definition.coloredPath, NULL);
-        if (coloredTexture == NULL) {
-            // Destroy the previously created textures.
-            for (size_t j = 0; j < i; j++) {
-                sfTexture_destroy(garments[j].coloredTexture);
-                sfTexture_destroy(garments[j].detailsTexture);
+        sfTexture *coloredTexture = NULL;
+        if (definition.coloredPath != NULL) {
+            coloredTexture =
+                sfTexture_createFromFile(definition.coloredPath, NULL);
+            if (coloredTexture == NULL) {
+                // Destroy the previously created textures.
+                for (size_t j = 0; j < i; j++) {
+                    sfTexture_destroy(garments[j].coloredTexture);
+                    sfTexture_destroy(garments[j].detailsTexture);
+                }
+                return false;
             }
-            return false;
+            sfTexture_generateMipmap(coloredTexture);
+            sfTexture_setSmooth(coloredTexture, true);
         }
-        sfTexture_generateMipmap(coloredTexture);
-        sfTexture_setSmooth(coloredTexture, true);
 
-        sfTexture *detailsTexture =
-            sfTexture_createFromFile(definition.detailsPath, NULL);
-        if (detailsTexture == NULL) {
-            sfTexture_destroy(coloredTexture);
-            // Destroy the previously created textures.
-            for (size_t j = 0; j < i; j++) {
-                sfTexture_destroy(garments[j].coloredTexture);
-                sfTexture_destroy(garments[j].detailsTexture);
+        sfTexture *detailsTexture = NULL;
+        if (definition.detailsPath != NULL) {
+            detailsTexture =
+                sfTexture_createFromFile(definition.detailsPath, NULL);
+            if (detailsTexture == NULL) {
+                sfTexture_destroy(coloredTexture);
+                // Destroy the previously created textures.
+                for (size_t j = 0; j < i; j++) {
+                    sfTexture_destroy(garments[j].coloredTexture);
+                    sfTexture_destroy(garments[j].detailsTexture);
+                }
+                return false;
             }
-            return false;
+            sfTexture_generateMipmap(detailsTexture);
+            sfTexture_setSmooth(detailsTexture, true);
         }
-        sfTexture_generateMipmap(detailsTexture);
-        sfTexture_setSmooth(coloredTexture, true);
 
         garments[i] = (GarmentAsset){
             .id = definition.id,
