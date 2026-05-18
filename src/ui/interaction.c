@@ -289,7 +289,7 @@ void handleKeyPress(UiState **state, sfKeyEvent event)
         case sfKeyEnter: {
             uiStateDestroy(*state);
             *state = uiStateCreate();
-            (*state)->focusState = UI_FOCUS_REGION_COLORS;
+            (*state)->focusState = UI_FOCUS_REGION_GARMENTS;
         } break;
         default:
             break;
