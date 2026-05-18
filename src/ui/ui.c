@@ -130,7 +130,7 @@ void start_ui(sfRenderWindow *window)
               .layout.childGap = 25,
               .backgroundColor = UI_COLOR_MAIN_FILL })
         {
-            CLAY_TEXT(CLAY_STRING("DRIFVARDRESSING"),
+            CLAY_TEXT(CLAY_STRING(u8"DRIFVARDRESSING"),
                       { .fontId = FONT_KARRIK,
                         .fontSize = 52,
                         .lineHeight = (uint16_t)(52 * 1.2),

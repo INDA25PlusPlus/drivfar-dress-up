@@ -211,12 +211,13 @@ void GarmentSelector(const UiState *const state)
                                        UI_COLOR_TRANSPARENT;
 
             KeyHint(textures[TEXTURE_ICON_STICK_VERTICAL],
-                    CLAY_STRING("Select Type"), textColor);
+                    CLAY_STRING(u8"Select Type"), textColor);
             KeyHint(textures[TEXTURE_ICON_STICK_HORIZONTAL],
-                    CLAY_STRING("Select Garment"), textColor);
-            KeyHint(textures[TEXTURE_ICON_BUTTON_A], CLAY_STRING("Add/Remove"),
-                    textColor);
-            KeyHint(textures[TEXTURE_ICON_BUTTON_B], CLAY_STRING("Edit Color"),
+                    CLAY_STRING(u8"Select Garment"), textColor);
+            KeyHint(textures[TEXTURE_ICON_BUTTON_A],
+                    CLAY_STRING(u8"Add/Remove"), textColor);
+            KeyHint(textures[TEXTURE_ICON_BUTTON_B],
+                    CLAY_STRING(u8"Edit Color"),
                     state->garmentsActive[state->selectedGarment] ?
                         textColor :
                         UI_COLOR_TRANSPARENT);

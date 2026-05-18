@@ -10,6 +10,7 @@
 #include "custom_element.h"
 #include "dpi_scale.h"
 #include "error_utilities.h"
+#include "libcstr.h"
 
 sfColor clayColorToSfColor(Clay_Color color)
 {
@@ -288,13 +289,15 @@ static void configureText(const Clay_SfmlRenderData *const renderData,
                           const Clay_TextRenderData *const config,
                           float scaleFactor)
 {
-    char *string = calloc(config->stringContents.length + 1, sizeof(char));
-    if (string == NULL) {
-        err(1, "render command string allocation failed");
-    }
-    memcpy(string, config->stringContents.chars, config->stringContents.length);
-    sfText_setString(text, string);
-    free(string);
+    // Convert UTF-8 string to UTF-32.
+    // Surely this will be enough characters. :)
+    static uint32_t utf32Buffer[500];
+    size_t resulting_byte_len = 0;
+    utf8_to_utf32(utf32Buffer, sizeof(utf32Buffer), &resulting_byte_len,
+                  config->stringContents.chars, config->stringContents.length,
+                  NULL, 0);
+
+    sfText_setUnicodeString(text, utf32Buffer);
 
     sfFont *font = renderData->fonts[config->fontId];
 
