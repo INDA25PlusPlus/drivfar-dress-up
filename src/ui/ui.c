@@ -63,12 +63,10 @@ void start_ui(sfRenderWindow *window)
                                        windowSize.y / uiScale },
                     (Clay_ErrorHandler){ handle_clay_errors });
 
-    UiState *state = uiStateCreate();
-
     Clay_SfmlRenderData renderData = {
         .window = window,
         .fonts = fonts,
-        .uiState = state,
+        .uiState = uiStateCreate(),
     };
     Clay_SetMeasureTextFunction(Clay_Sfml_MeasureText, &renderData);
 
@@ -107,9 +105,9 @@ void start_ui(sfRenderWindow *window)
                 } break;
                 }
             } else if (event.type == sfEvtKeyPressed) {
-                handleKeyPress(&state, event.key);
+                handleKeyPress(&renderData.uiState, event.key);
             } else if (event.type == sfEvtKeyReleased) {
-                handleKeyRelease(&state, event.key);
+                handleKeyRelease(&renderData.uiState, event.key);
             }
         }
 
@@ -144,8 +142,8 @@ void start_ui(sfRenderWindow *window)
                   .layout.childAlignment.x = CLAY_ALIGN_X_CENTER,
                   .backgroundColor = UI_COLOR_MAIN_FILL })
             {
-                if (state->focusState == UI_FOCUS_REGION_GRADE) {
-                    GradeView(state);
+                if (renderData.uiState->focusState == UI_FOCUS_REGION_GRADE) {
+                    GradeView(renderData.uiState);
                 } else {
                     // Side bar
                     CLAY_AUTO_ID(
@@ -158,8 +156,8 @@ void start_ui(sfRenderWindow *window)
                                  .childOffset = Clay_GetScrollOffset() }
                          })
                     {
-                        GarmentSelector(state);
-                        ColorSelector(state);
+                        GarmentSelector(renderData.uiState);
+                        ColorSelector(renderData.uiState);
                     }
 
                     DollView();
@@ -167,7 +165,8 @@ void start_ui(sfRenderWindow *window)
             }
         }
 
-        if (state->focusState == UI_FOCUS_REGION_GRADE_CONFIRMATION) {
+        if (renderData.uiState->focusState ==
+            UI_FOCUS_REGION_GRADE_CONFIRMATION) {
             GradeConfirmationModal();
         }
 
@@ -189,7 +188,7 @@ void start_ui(sfRenderWindow *window)
         }
     }
 
-    uiStateDestroy(state);
+    uiStateDestroy(renderData.uiState);
 
     sfClock_destroy(clock);
 }

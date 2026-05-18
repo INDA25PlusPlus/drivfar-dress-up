@@ -9,7 +9,7 @@
 typedef struct Clay_SfmlRenderData {
     sfRenderWindow *window;
     sfFont *const *fonts;
-    const UiState *uiState;
+    UiState *uiState;
 } Clay_SfmlRenderData;
 
 typedef struct Clay_SfmlImageData {
