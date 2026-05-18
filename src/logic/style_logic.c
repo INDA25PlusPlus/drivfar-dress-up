@@ -9,12 +9,8 @@ const char *styleToString(GarmentStyle style)
     switch (style) {
     case STYLE_NONE:
         return "Neutral";
-    case STYLE_GASQUE:
-        return "Gasque";
     case STYLE_SITTNING:
         return "Finsittning";
-    case STYLE_PUB:
-        return "Pub";
     case STYLE_OVERALL:
         return "Overall";
     default:
@@ -32,7 +28,7 @@ GarmentStyle styleForGarment(GarmentId id)
     case GARMENT_LOAFERS:
         return STYLE_SITTNING;
     case GARMENT_SNEAKERS:
-        return STYLE_PUB;
+        return STYLE_OVERALL;
     case GARMENT_SHIRT:
         return STYLE_NONE;
     case GARMENT_OVVE:
@@ -55,7 +51,7 @@ GarmentStyle styleForGarment(GarmentId id)
 }
 
 // Number of named styles (excluding STYLE_NONE).
-#define STYLE_COUNT 4
+#define STYLE_COUNT 2
 
 // Clash table
 //
@@ -65,11 +61,9 @@ GarmentStyle styleForGarment(GarmentId id)
 // Flat symmetric clash matrix indexed by (GarmentStyle - 1).
 // 1 = clashes, 0 = compatible.
 static const uint8_t clashMatrix[STYLE_COUNT][STYLE_COUNT] = {
-    //         GAS SIT PUB OVR
-    /* GAS */ { 0, 1, 0, 0 },
-    /* SIT */ { 1, 0, 1, 1 },
-    /* PUB */ { 0, 1, 0, 0 },
-    /* OVR */ { 0, 1, 0, 0 },
+    //         SIT OVR
+    /* SIT */ { 0, 1 },
+    /* OVR */ { 1, 0 },
 };
 
 static bool stylesClash(GarmentStyle a, GarmentStyle b)

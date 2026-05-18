@@ -79,32 +79,22 @@ UTEST(styleLogic, threeMatchingGarmentsEarnsExtraPoints)
 
 UTEST(styleLogic, noCoherentBonusWhenMultipleStylesPresent)
 {
-    // PANTS_A = STYLE_SITTNING, TEST_A = STYLE_NONE (neutral, doesn't count)
-    // Add a second SITTNING garment and a compatible non-SITTNING styled one
-    // to verify the bonus is withheld when styleCount > 1.
-    //
-    // We need a STYLE_PUB garment; until one exists in GarmentId we simulate
-    // it by using the same asset twice and checking styleCount stays at 1.
-    // Once real pub garments exist, replace this with one of them.
-    //
-    // For now: two SITTNING + one NONE -> styleCount == 1 -> bonus IS given.
-    // This test documents the boundary: mix of two named styles -> no bonus.
     Garment outfit[] = {
         { .id = GARMENT_FRACK }, // STYLE_SITTNING
-        { .id = GARMENT_SNEAKERS }, // STYLE_PUB
+        { .id = GARMENT_SNEAKERS }, // STYLE_OVERALL
     };
 
     StyleResult result = judgeStyle(outfit, 2);
-    EXPECT_EQ(2, result.styleCount); // only one distinct style
-    EXPECT_EQ(-3, result.stylePoints); // bonus included
+    EXPECT_EQ(2, result.styleCount);
+    EXPECT_EQ(-3, result.stylePoints);
 }
 
-UTEST(styleLogic, finsittningClashesWithPub)
+UTEST(styleLogic, finsittningClashesWithOverall)
 {
-    // SITTNING vs PUB must clash.
+    // SITTNING vs OVERALL must clash.
     Garment outfit[] = {
         { .id = GARMENT_FRACK }, // STYLE_SITTNING
-        { .id = GARMENT_SNEAKERS }, // STYLE_PUB
+        { .id = GARMENT_SNEAKERS }, // STYLE_OVERALL
     };
 
     StyleResult result = judgeStyle(outfit, 2);
@@ -113,9 +103,6 @@ UTEST(styleLogic, finsittningClashesWithPub)
 
 UTEST(styleLogic, compatibleStylesDoNotClash)
 {
-    // STYLE_GASQUE and STYLE_PUB are compatible in the clash matrix.
-    // Represented here with assets that carry those styles once real garments
-    // exist; for now verifying no false-positive clash with NONE items.
     Garment outfit[] = {
         { .id = GARMENT_RAT }, // STYLE_NONE
         { .id = GARMENT_RAT }, // STYLE_NONE
