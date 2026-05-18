@@ -133,14 +133,9 @@ static Clay_String gradeBasisDescription(GradeResult gradeResult)
         return CLAY_STRING("Perfect balance.");
     case GRADE_BASIS_COLOR_SPLIT_COMPLEMENTARY:
         return CLAY_STRING("Perfect contrast.");
-    case GRADE_BASIS_STYLE_COHERENT_GASQUE:
-        return CLAY_STRING("I wanna go to the gasque you're going to!");
     case GRADE_BASIS_STYLE_COHERENT_SITTNING:
         return CLAY_STRING(
             "Elegant. Don't forget the correct order for cheering your drinks!");
-    case GRADE_BASIS_STYLE_COHERENT_PUB:
-        return CLAY_STRING(
-            "That outfit knows where the evening is going."); //idk
     case GRADE_BASIS_STYLE_COHERENT_OVERALL:
         return CLAY_STRING(
             "Is it ovve-friday already?"); // Visst är det fredag man "ska" bära ovve?

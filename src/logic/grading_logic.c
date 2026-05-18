@@ -71,12 +71,8 @@ static bool hasCoherentStyleBonus(StyleResult styleResult)
 static GradeBasis basisForCoherentStyle(GarmentStyle style)
 {
     switch (style) {
-    case STYLE_GASQUE:
-        return GRADE_BASIS_STYLE_COHERENT_GASQUE;
     case STYLE_SITTNING:
         return GRADE_BASIS_STYLE_COHERENT_SITTNING;
-    case STYLE_PUB:
-        return GRADE_BASIS_STYLE_COHERENT_PUB;
     case STYLE_OVERALL:
         return GRADE_BASIS_STYLE_COHERENT_OVERALL;
     case STYLE_NONE:

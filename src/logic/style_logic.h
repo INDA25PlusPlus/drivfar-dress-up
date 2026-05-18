@@ -13,17 +13,13 @@
 typedef enum {
     // The garment carries no particular style signal.
     STYLE_NONE,
-    // Fulsittning (casual etc)
-    STYLE_GASQUE,
     // Finsittning. (formal, tuxedo)
     STYLE_SITTNING,
-    // Pub night: streetwear, statement pieces
-    STYLE_PUB,
-    // Stuff that goes well with an overall
+    // Casual garments and stuff that goes well with an overall.
     STYLE_OVERALL,
 } GarmentStyle;
 
-// Returns a human-readable Swedish name for a style (e.g. "Gasque").
+// Returns a human-readable Swedish name for a style.
 const char *styleToString(GarmentStyle style);
 
 // Returns the style associated with a garment, or STYLE_NONE if the garment
