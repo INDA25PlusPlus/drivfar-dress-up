@@ -1,3 +1,4 @@
+#include "err.h"
 #include "stdlib.h"
 #include "string.h"
 #include "assert.h"
@@ -11,9 +12,12 @@ GarmentList *garmentListCreate()
 
 void garmentListDestroy(GarmentList *list)
 {
-    if (!list)
+    if (list == NULL) {
         return;
-    free(list->items);
+    }
+    if (list->items != NULL) {
+        free(list->items);
+    }
     free(list);
 }
 
@@ -23,7 +27,12 @@ void garmentListPush(GarmentList *list, Garment garment)
     if (list->capacity < list->len + 1) {
         size_t newCapacity = (list->capacity + 1) * 2;
 
-        list->items = (Garment *)realloc(list->items, newCapacity);
+        list->items =
+            (Garment *)realloc(list->items, newCapacity * sizeof(Garment));
+        if (list->items == NULL) {
+            err(1, "Allocating garment list items failed");
+        }
+        list->capacity = newCapacity;
     }
 
     list->items[list->len++] = garment;
