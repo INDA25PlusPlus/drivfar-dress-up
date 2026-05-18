@@ -142,7 +142,7 @@ static GarmentDefinition garmentDefinitions[] = {
             .name = "Schmeck",
             .coloredPath = "assets/garment/schmeck/colored.png",
             .detailsPath = "assets/garment/schmeck/details.png",
-            .position = { 950.0, 50.0 },
+            .position = { 950.0, 130.0 },
             .scale = { 1.0f, 1.0f },
         },
     [GARMENT_SHIRT] =
