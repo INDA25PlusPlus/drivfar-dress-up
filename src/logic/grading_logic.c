@@ -102,9 +102,46 @@ static GradeBasis basisForColorScheme(ColorScheme colorScheme)
     }
 }
 
-static GradeBasis basisForGrade(ColorScheme colorScheme,
-                                StyleResult styleResult)
+static bool outfitHasGarment(const Garment outfit[], size_t outfitCount,
+                             GarmentId id)
 {
+    for (size_t i = 0; i < outfitCount; i++) {
+        if (outfit[i].id == id) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+static bool hasDrifvareFinBasis(const Garment outfit[], size_t outfitCount)
+{
+    return outfitHasGarment(outfit, outfitCount, GARMENT_FRACK) &&
+           outfitHasGarment(outfit, outfitCount, GARMENT_FRACK_PANTS) &&
+           outfitHasGarment(outfit, outfitCount, GARMENT_LOAFERS) &&
+           outfitHasGarment(outfit, outfitCount, GARMENT_SCHMECK) &&
+           outfitHasGarment(outfit, outfitCount, GARMENT_SCHLEMFILTER);
+}
+
+static GradeBasis basisForSpecialOutfit(const Garment outfit[],
+                                        size_t outfitCount)
+{
+    if (hasDrifvareFinBasis(outfit, outfitCount)) {
+        return GRADE_BASIS_DRIFVARE_FIN;
+    }
+
+    return GRADE_BASIS_NONE;
+}
+
+static GradeBasis basisForGrade(ColorScheme colorScheme,
+                                StyleResult styleResult,
+                                const Garment outfit[], size_t outfitCount)
+{
+    GradeBasis specialBasis = basisForSpecialOutfit(outfit, outfitCount);
+    if (specialBasis != GRADE_BASIS_NONE) {
+        return specialBasis;
+    }
+
     if (styleResult.hasClash)
         return GRADE_BASIS_STYLE_CLASH;
 
@@ -114,7 +151,9 @@ static GradeBasis basisForGrade(ColorScheme colorScheme,
     return basisForColorScheme(colorScheme);
 }
 
-GradeResult judgeGrade(ColorScheme colorScheme, StyleResult styleResult)
+GradeResult judgeGradeForOutfit(ColorScheme colorScheme,
+                                StyleResult styleResult,
+                                const Garment outfit[], size_t outfitCount)
 {
     uint8_t colorSchemePoints = pointsForColorScheme(colorScheme);
     int16_t total = (int16_t)colorSchemePoints + styleResult.stylePoints;
@@ -127,6 +166,11 @@ GradeResult judgeGrade(ColorScheme colorScheme, StyleResult styleResult)
         .stylePoints = styleResult.stylePoints,
         .totalPoints = (uint8_t)total,
         .grade = gradeFromPoints((uint8_t)total),
-        .basis = basisForGrade(colorScheme, styleResult),
+        .basis = basisForGrade(colorScheme, styleResult, outfit, outfitCount),
     };
+}
+
+GradeResult judgeGrade(ColorScheme colorScheme, StyleResult styleResult)
+{
+    return judgeGradeForOutfit(colorScheme, styleResult, NULL, 0);
 }

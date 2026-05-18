@@ -1,6 +1,7 @@
 #ifndef GRADING_LOGIC_H
 #define GRADING_LOGIC_H
 
+#include <stddef.h>
 #include <stdint.h>
 
 #include "color_logic.h"
@@ -24,6 +25,7 @@ typedef enum {
     GRADE_BASIS_STYLE_COHERENT_SITTNING,
     GRADE_BASIS_STYLE_COHERENT_OVERALL,
     GRADE_BASIS_STYLE_CLASH,
+    GRADE_BASIS_DRIFVARE_FIN,
 } GradeBasis;
 
 typedef struct {
@@ -40,5 +42,9 @@ uint8_t pointsForColorScheme(ColorScheme colorScheme);
 Grade gradeFromPoints(uint8_t points);
 
 GradeResult judgeGrade(ColorScheme colorScheme, StyleResult styleResult);
+
+GradeResult judgeGradeForOutfit(ColorScheme colorScheme,
+                                StyleResult styleResult,
+                                const Garment outfit[], size_t outfitCount);
 
 #endif

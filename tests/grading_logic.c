@@ -151,3 +151,36 @@ UTEST(gradingLogic, noBasisFallsBackToDefaultGradeMessage)
 
     EXPECT_EQ(GRADE_BASIS_NONE, result.basis);
 }
+
+UTEST(gradingLogic, drifvareFinOutfitGetsSpecialBasis)
+{
+    Garment outfit[] = {
+        { .id = GARMENT_FRACK },
+        { .id = GARMENT_FRACK_PANTS },
+        { .id = GARMENT_LOAFERS },
+        { .id = GARMENT_SCHMECK },
+        { .id = GARMENT_SCHLEMFILTER },
+    };
+    StyleResult style = judgeStyle(outfit, 5);
+
+    GradeResult result =
+        judgeGradeForOutfit(COLOR_SCHEME_NONE, style, outfit, 5);
+
+    EXPECT_EQ(GRADE_BASIS_DRIFVARE_FIN, result.basis);
+}
+
+UTEST(gradingLogic, drifvareFinRequiresSchlemfilter)
+{
+    Garment outfit[] = {
+        { .id = GARMENT_FRACK },
+        { .id = GARMENT_FRACK_PANTS },
+        { .id = GARMENT_LOAFERS },
+        { .id = GARMENT_SCHMECK },
+    };
+    StyleResult style = judgeStyle(outfit, 4);
+
+    GradeResult result =
+        judgeGradeForOutfit(COLOR_SCHEME_NONE, style, outfit, 4);
+
+    EXPECT_NE(GRADE_BASIS_DRIFVARE_FIN, result.basis);
+}

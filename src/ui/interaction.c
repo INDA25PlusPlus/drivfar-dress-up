@@ -185,8 +185,9 @@ static void gradeResult(UiState *state)
     }
 
     StyleResult styleResult = judgeStyle(garmentStyles, garmentCount);
-    state->gradeResult =
-        judgeGrade(judgeColorScheme(garmentColors, garmentCount), styleResult);
+    state->gradeResult = judgeGradeForOutfit(
+        judgeColorScheme(garmentColors, garmentCount), styleResult,
+        garmentStyles, garmentCount);
 
     free(garmentColors);
     free(garmentStyles);

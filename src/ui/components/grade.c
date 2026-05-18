@@ -141,6 +141,8 @@ static Clay_String gradeBasisDescription(GradeResult gradeResult)
             "Is it ovve-friday already?"); // Visst är det fredag man "ska" bära ovve?
     case GRADE_BASIS_STYLE_CLASH:
         return CLAY_STRING("You're gonna wear THOSE together?");
+    case GRADE_BASIS_DRIFVARE_FIN:
+        return CLAY_STRING("Cheers, nollan!");
     case GRADE_BASIS_NONE:
         return defaultGradeDescription(gradeResult.grade);
     }
