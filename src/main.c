@@ -23,6 +23,11 @@ int main(void)
         return 1;
     }
 
+    sfMusic *music = sfMusic_createFromFile("assets/music/Kevin MacLeod_ Local Forecast - Elevator.mp3");
+    sfMusic_setLooping(music, true);
+    sfMusic_setVolume(music, 10);
+    sfMusic_play(music);
+
     sfVideoMode mode = { { 1200, 1080 }, 32 };
     sfContextSettings contextSettings = (sfContextSettings){
         .minorVersion = 1, .majorVersion = 1, .antiAliasingLevel = 4

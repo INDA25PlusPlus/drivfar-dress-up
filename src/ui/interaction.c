@@ -1,5 +1,6 @@
 #include <CSFML/Window/Event.h>
 #include <err.h>
+#include <CSFML/Audio.h>
 
 #include "color_grid.h"
 #include "error_utilities.h"
@@ -16,6 +17,13 @@ typedef enum YDirection {
     ABOVE,
     BELOW,
 } YDirection;
+
+typedef enum Sounds {
+    MOVE,
+    SELECT,
+    CONFIRM,
+    BACK,
+} Sounds;
 
 /// Get the index of a garment among the garments which share it's type. So if
 /// there are only two top garments, regardless of their ID's the second top
@@ -92,6 +100,41 @@ static bool getPreviousGarment(GarmentId start, GarmentType type,
     }
 
     return false;
+}
+
+
+/// Plays sound 
+static void playSound(Sounds sound)
+{
+    switch (sound)
+    {
+    case MOVE: {
+        sfSound *buffer = sfSoundBuffer_createFromFile("assets/sounds/select_007.ogg");
+        sfSound *sound = sfSound_create(buffer);
+        sfSound_setVolume(sound, 10.0);
+        sfSound_play(sound);
+    } break;
+    case SELECT: {
+        sfSound *buffer = sfSoundBuffer_createFromFile("assets/sounds/select_004.ogg");
+        sfSound *sound = sfSound_create(buffer);
+        sfSound_setVolume(sound, 10.0);
+        sfSound_play(sound);
+    } break;
+    case CONFIRM: {
+        sfSound *buffer = sfSoundBuffer_createFromFile("assets/sounds/confirmation_001.ogg");
+        sfSound *sound = sfSound_create(buffer);
+        sfSound_setVolume(sound, 10.0);
+        sfSound_play(sound);
+    } break;
+    case BACK: {
+        sfSound *buffer = sfSoundBuffer_createFromFile("assets/sounds/back_001.ogg");
+        sfSound *sound = sfSound_create(buffer);
+        sfSound_setVolume(sound, 10.0);
+        sfSound_play(sound);
+    } break;
+    default:
+        break;
+    }
 }
 
 /// Selects the garment type for editing which is above or below the currently
@@ -214,12 +257,14 @@ void handleKeyPress(UiState **state, sfKeyEvent event)
         switch (event.code) {
         case sfKeyA:
         case sfKeyNum1: {
+            playSound(SELECT);
             (*state)->garmentsActive[(*state)->selectedGarment] =
                 !(*state)->garmentsActive[(*state)->selectedGarment];
         } break;
         case sfKeyB:
         case sfKeyNum2: {
             // We only allow editing the color of garments placed on the doll.
+            playSound(SELECT);
             if ((*state)->garmentsActive[(*state)->selectedGarment]) {
                 (*state)->focusState = UI_FOCUS_REGION_COLORS;
             }
@@ -227,20 +272,25 @@ void handleKeyPress(UiState **state, sfKeyEvent event)
         case sfKeyUp:
         case sfKeyT: {
             moveGarmentTypeSelectionY((*state), ABOVE);
+            playSound(MOVE);
         } break;
         case sfKeyDown:
         case sfKeyG: {
             moveGarmentTypeSelectionY((*state), BELOW);
+            playSound(MOVE);
         } break;
         case sfKeyLeft:
         case sfKeyF: {
             moveGarmentTypeSelectionX((*state), LEFT);
+            playSound(MOVE);
         } break;
         case sfKeyRight:
         case sfKeyH: {
             moveGarmentTypeSelectionX((*state), RIGHT);
+            playSound(MOVE);
         } break;
         case sfKeyEnter: {
+            playSound(CONFIRM);
             (*state)->focusState = UI_FOCUS_REGION_GRADE_CONFIRMATION;
         } break;
         default:
@@ -251,33 +301,39 @@ void handleKeyPress(UiState **state, sfKeyEvent event)
         switch (event.code) {
         case sfKeyB:
         case sfKeyNum2: {
+            playSound(SELECT);
             (*state)->focusState = UI_FOCUS_REGION_GARMENTS;
         } break;
         case sfKeyUp:
         case sfKeyT: {
+            playSound(MOVE);
             PaletteColor *color =
                 &(*state)->garmentsColor[(*state)->selectedGarment];
             *color = colorGridGetAdjacentColor(*color, GRID_DIRECTION_ABOVE);
         } break;
         case sfKeyDown:
         case sfKeyG: {
+            playSound(MOVE);
             PaletteColor *color =
                 &(*state)->garmentsColor[(*state)->selectedGarment];
             *color = colorGridGetAdjacentColor(*color, GRID_DIRECTION_BELOW);
         } break;
         case sfKeyLeft:
         case sfKeyF: {
+            playSound(MOVE);
             PaletteColor *color =
                 &(*state)->garmentsColor[(*state)->selectedGarment];
             *color = colorGridGetAdjacentColor(*color, GRID_DIRECTION_LEFT);
         } break;
         case sfKeyRight:
         case sfKeyH: {
+            playSound(MOVE);
             PaletteColor *color =
                 &(*state)->garmentsColor[(*state)->selectedGarment];
             *color = colorGridGetAdjacentColor(*color, GRID_DIRECTION_RIGHT);
         } break;
         case sfKeyEnter: {
+            playSound(CONFIRM);
             (*state)->focusState = UI_FOCUS_REGION_GRADE_CONFIRMATION;
         } break;
         default:
@@ -287,6 +343,7 @@ void handleKeyPress(UiState **state, sfKeyEvent event)
     case UI_FOCUS_REGION_GRADE: {
         switch (event.code) {
         case sfKeyEnter: {
+            playSound(BACK);
             uiStateDestroy(*state);
             *state = uiStateCreate();
             (*state)->focusState = UI_FOCUS_REGION_GARMENTS;
@@ -307,10 +364,12 @@ void handleKeyRelease(UiState **state, sfKeyEvent event)
         switch (event.code) {
         case sfKeyA:
         case sfKeyNum1: {
+            playSound(BACK);
             (*state)->focusState = UI_FOCUS_REGION_GARMENTS;
         } break;
         case sfKeyB:
         case sfKeyNum2: {
+            playSound(CONFIRM);
             gradeResult((*state));
         } break;
         default:
