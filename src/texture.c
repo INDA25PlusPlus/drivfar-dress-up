@@ -7,7 +7,7 @@ static const char *const texturePaths[] = {
     "assets/icon/garment_shoes.png",    "assets/icon/stick.png",
     "assets/icon/stick_horizontal.png", "assets/icon/stick_vertical.png",
     "assets/icon/button_a.png",         "assets/icon/button_b.png",
-    "assets/icon/button_start.png",
+    "assets/icon/button_start.png",     "assets/icon/button_select.png",
 };
 
 #define TEXTURE_COUNT (sizeof(texturePaths) / sizeof(*texturePaths))

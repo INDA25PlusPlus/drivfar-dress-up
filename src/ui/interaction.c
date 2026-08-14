@@ -1,4 +1,8 @@
+#include <CSFML/Graphics/RenderWindow.h>
+#include <CSFML/Graphics/Types.h>
 #include <CSFML/Window/Event.h>
+#include <CSFML/Window/Keyboard.h>
+#include <CSFML/Window/Window.h>
 #include <err.h>
 
 #include "color_grid.h"
@@ -195,7 +199,7 @@ static void gradeResult(UiState *state)
     state->focusState = UI_FOCUS_REGION_GRADE;
 }
 
-void handleKeyPress(UiState **state, sfKeyEvent event)
+void handleKeyPress(UiState **state, sfRenderWindow *window, sfKeyEvent event)
 {
     switch (event.code) {
     case sfKeyO: {
@@ -205,6 +209,11 @@ void handleKeyPress(UiState **state, sfKeyEvent event)
     case sfKeyI: {
         uiScale += 0.1;
         printf("uiScale: %f\n", uiScale);
+    } break;
+    case sfKeyEscape:
+    case sfKeyS:
+    case sfKeyN: {
+        sfRenderWindow_close(window);
     } break;
     default:
         break;
@@ -240,7 +249,8 @@ void handleKeyPress(UiState **state, sfKeyEvent event)
         case sfKeyH: {
             moveGarmentTypeSelectionX((*state), RIGHT);
         } break;
-        case sfKeyEnter: {
+        case sfKeyEnter:
+        case sfKeyM: {
             (*state)->focusState = UI_FOCUS_REGION_GRADE_CONFIRMATION;
         } break;
         default:

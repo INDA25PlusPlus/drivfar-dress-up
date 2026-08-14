@@ -19,6 +19,7 @@ typedef enum {
     TEXTURE_ICON_BUTTON_A,
     TEXTURE_ICON_BUTTON_B,
     TEXTURE_ICON_BUTTON_START,
+    TEXTURE_ICON_BUTTON_SELECT,
 } TextureId;
 
 /// Load texture assets. Returns false if error is encountered.

@@ -46,6 +46,8 @@ void DollView()
         {
             KeyHint(textures[TEXTURE_ICON_BUTTON_START],
                     CLAY_STRING("Submit for Grading"), UI_COLOR_TEXT);
+            KeyHint(textures[TEXTURE_ICON_BUTTON_SELECT], CLAY_STRING("Exit"),
+                    UI_COLOR_TEXT);
         }
     }
 }

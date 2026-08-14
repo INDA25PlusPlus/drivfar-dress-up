@@ -105,7 +105,7 @@ void start_ui(sfRenderWindow *window)
                 } break;
                 }
             } else if (event.type == sfEvtKeyPressed) {
-                handleKeyPress(&renderData.uiState, event.key);
+                handleKeyPress(&renderData.uiState, window, event.key);
             } else if (event.type == sfEvtKeyReleased) {
                 handleKeyRelease(&renderData.uiState, event.key);
             }
