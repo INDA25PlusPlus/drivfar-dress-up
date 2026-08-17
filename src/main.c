@@ -1,3 +1,4 @@
+#include <CSFML/Window/WindowBase.h>
 #include <stdio.h>
 #include <CSFML/Graphics.h>
 #include <CSFML/Audio.h>
@@ -11,6 +12,12 @@
 
 typedef enum { PAGE_DRESS_UP, PAGE_GRADING } Page;
 
+static bool env_is_bool_variable_set(const char *name)
+{
+    const char *value = getenv(name);
+    return value != NULL && value[0] != '\0';
+}
+
 int main(void)
 {
     if (!loadGarments()) {
@@ -23,13 +30,16 @@ int main(void)
         return 1;
     }
 
+    bool windowed = env_is_bool_variable_set("DRIFVARDRESSING_WINDOWED") ||
+                    !env_is_bool_variable_set("DRIFVARDRESSING_FULLSCREEN");
+
     sfVideoMode mode = { { 1200, 1080 }, 32 };
     sfContextSettings contextSettings = (sfContextSettings){
         .minorVersion = 1, .majorVersion = 1, .antiAliasingLevel = 4
     };
-    sfRenderWindow *window =
-        sfRenderWindow_create(mode, "Dress Up Skeleton", sfResize | sfClose,
-                              sfWindowed, &contextSettings);
+    sfRenderWindow *window = sfRenderWindow_create(
+        mode, "Dress Up Skeleton", sfResize | sfClose,
+        windowed ? sfWindowed : sfFullscreen, &contextSettings);
     if (!window)
         return 1;
 
