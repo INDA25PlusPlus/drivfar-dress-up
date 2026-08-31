@@ -83,10 +83,10 @@ void ColorSelector(const UiState *state)
               .backgroundColor = UI_COLOR_MAIN_BORDER })
         {
             if (state->focusState == UI_FOCUS_REGION_COLORS) {
-                KeyHint(textures[TEXTURE_ICON_STICK], CLAY_STRING("Select"),
+                KeyHint(textures[TEXTURE_ICON_STICK], CLAY_STRING(u8"Select"),
                         UI_COLOR_TEXT);
-                KeyHint(textures[TEXTURE_ICON_BUTTON_B], CLAY_STRING("Confirm"),
-                        UI_COLOR_TEXT);
+                KeyHint(textures[TEXTURE_ICON_BUTTON_B],
+                        CLAY_STRING(u8"Confirm"), UI_COLOR_TEXT);
             }
         }
     }

@@ -6,6 +6,14 @@
 #include "ui/state.h"
 #include <CSFML/Graphics.h>
 
+/// Creates a Clay_String from a UTF-8 string literal. `string` is expected to
+/// be a `u8"..."` string literal.
+#define CLAY_STRING_UTF8(string)                                            \
+    ((Clay_String){                                                         \
+        .isStaticallyAllocated = true,                                      \
+        .length = CLAY__STRING_LENGTH(CLAY__ENSURE_STRING_LITERAL(string)), \
+        .chars = (const char *)(string) })
+
 typedef struct Clay_SfmlRenderData {
     sfRenderWindow *window;
     sfFont *const *fonts;
